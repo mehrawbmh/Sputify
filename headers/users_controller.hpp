@@ -15,7 +15,7 @@ private:
 public:
     UsersController(Database* db);
 
-    void signUp(string userName, string passWord, string mode);
+    void signUp(const string &userName, const string &passWord, const string &mode);
 };
 
 #endif

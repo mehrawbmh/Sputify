@@ -1,7 +1,12 @@
 #include "../headers/command_manager.hpp"
 #include "../headers/client_exception.hpp"
 
-HttpMethod CommandManager::getRequestMode(string methodInput) {
+#include <istream>
+#include <iostream>
+#include <sstream>
+
+
+HttpMethod CommandManager::getRequestMode(const string &methodInput) {
     if (methodInput == "POST") {
         return HttpMethod::POST;
     } else if (methodInput == "GET") {
@@ -15,44 +20,83 @@ HttpMethod CommandManager::getRequestMode(string methodInput) {
     }
 }
 
-void CommandManager::handle(int argc, char* argv[], Database* db) {
-    string questionMark = argv[3];
-    if ((argc < 4) || (questionMark != "?")) {
+string CommandManager::findArgValue(vector<string> args, const string &target) {
+    for (int i = 0; i < args.size() - 1; i++) {
+        if (args[i] == target) {
+            return args[i+1];
+        }
+    }
+    return "";
+}
+
+void CommandManager::validate(const vector<string> &args) {
+    if (args.size() < 3 || args[2] != QUERY_PARAMS_SEPERATOR) {
         throw ClientException(STATUS_400_BAD_REQUEST, "format of request is not valid");
     }
+}
 
-    HttpMethod method = getRequestMode(argv[1]);
-    
-    if (method == HttpMethod::POST && argv[2] == SIGNUP_COMMAND) {
-        if (argc < 9) {
-            throw ClientException(STATUS_400_BAD_REQUEST);
-        }
-
-        UsersController controller = UsersController(db);
-        string userName, passWord;
-        string firstArg = argv[4];
-        string secondArg = argv[6];
-        if (firstArg == "username") {
-            userName = argv[5];
-            if (secondArg == "password") {
-                passWord = argv[7];
-            } else {
-                throw ClientException(STATUS_400_BAD_REQUEST);
-            }
-        } else if (secondArg == "username") {
-            userName = argv[7];
-            if (firstArg == "password") {
-                passWord = argv[5];
-            } else {
-                throw ClientException(STATUS_400_BAD_REQUEST);
-            }
-        } else {
-            throw ClientException(STATUS_400_BAD_REQUEST);
-        }
-        
-        return controller.signUp(userName, passWord, argv[9]); //todo fix this shit of arguments
+Command CommandManager::findCommand(HttpMethod method, const string &route) {
+    if (method == HttpMethod::POST && route == SIGNUP_COMMAND) {
+        return Command::SIGNUP;
+    } else if (method == HttpMethod::POST && route == LOGOUT_COMMAND) {
+        return Command::LOGOUT;
     }
 
-    cout << "INVALID COOMMAND\n";
-    throw ClientException(400);
+    throw ClientException(STATUS_400_BAD_REQUEST, "Invalid command provided");
+}
+
+void CommandManager::handleSignUp(const vector<string> &args, Database* db) {
+    UsersController controller = UsersController(db);
+    string username = findArgValue(args, "username");
+    string password = findArgValue(args, "password");
+    string mode = findArgValue(args, "mode");
+
+    if (username.empty() || password.empty() || mode.empty()) {
+        cout << "empty!!\n";
+        throw ClientException(STATUS_400_BAD_REQUEST, "insufficient request params for signup");
+    }
+    return controller.signUp(username, password, mode);
+}
+
+void CommandManager::mapCommandToController(Command c, const vector<string> &args, Database* db) {
+    switch (c) {
+    case Command::SIGNUP: {
+        cout << "handling signup...\n";
+        return handleSignUp(args, db);
+    }
+    default:
+        cout << "GOING TO DEFAULT\n";
+        break;
+    }
+}
+
+void CommandManager::process(const vector<string> &args, Database* db) {
+    HttpMethod method = getRequestMode(args[0]);
+    Command command = findCommand(method, args[1]);
+    mapCommandToController(command, args, db);
+}
+
+void CommandManager::handle(Database* db) {
+    string line;
+    while (getline(cin, line)) {
+        vector<string> args;
+        string word;
+        istringstream ss(line);
+        while (getline(ss, word, ' ')) {
+            if (word.empty()) continue;
+            args.push_back(word);
+        }
+
+        try {
+            cout <<"validating...\n";
+            validate(args);
+            cout << "processing...\n";
+            process(args, db);
+        } catch(ClientException &exc) {
+            cout << "handling error...\n";
+            View view;
+            cout << exc.what();
+            cout << view.showResponse(exc.getCode()) << endl;
+        }
+    }
 }
