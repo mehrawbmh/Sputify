@@ -5,7 +5,7 @@
 
 UsersModel::UsersModel(Database* _db): db(_db) {}
 
-int UsersModel::addNewUser(string username, string pass) {
+int UsersModel::addNewUser(const string &username, const string &pass) {
     cout << "creating new normal user in model...\n" << endl;
 
     if (this->db->findOneUserByUsername(username) != nullptr) {
@@ -19,7 +19,7 @@ int UsersModel::addNewUser(string username, string pass) {
     return 200;
 }
 
-int UsersModel::addNewArtist(string username, string pass) {
+int UsersModel::addNewArtist(const string &username, const string &pass) {
     cout << "creating new artist in model...\n" << endl;
 
     if (this->db->findOneUserByUsername(username) != nullptr) {

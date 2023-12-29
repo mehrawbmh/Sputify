@@ -4,7 +4,7 @@ UsersController::UsersController(Database* db) {
     this->model = UsersModel(db);
 }
 
-void UsersController::signUp(string userName, string passWord, string mode) {
+void UsersController::signUp(const string &userName, const string &passWord, const string &mode) {
     int resultStatus;
     if (mode == MODE_NORMAL_USER) {
         cout << "creating normal user...\n";

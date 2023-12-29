@@ -3,6 +3,7 @@
 int Database::addNormalUser(User *user) {
     int lastId = this->getAllUsers().size();
     user->setId(lastId + 1);
+
     this->allUsers.push_back(user);
     this->normalUsers.push_back(user);
 
@@ -14,6 +15,9 @@ void Database::setCurrentUser(BaseUser* user) {
 }
 
 int Database::addArtist(Artist *artist) {
+    int lastId = this->getAllUsers().size();
+    artist->setId(lastId + 1);
+
     this->allUsers.push_back(artist);
     this->artists.push_back(artist);
     
@@ -32,7 +36,7 @@ vector<Artist*> Database::getArtistUsers() {
     return this->artists;
 }
 
-BaseUser* Database::findOneUserById(int id) {
+BaseUser* Database::findOneUserById(const int &id) {
     for (auto baseUser: allUsers) {
         if (baseUser->getId() == id) {
             return baseUser;
@@ -41,7 +45,7 @@ BaseUser* Database::findOneUserById(int id) {
     return nullptr;
 }
 
-BaseUser* Database::findOneUserByUsername(string username) {
+BaseUser* Database::findOneUserByUsername(const string &username) {
     for (auto baseUser: allUsers) {
         if (baseUser->getUsername() == username) {
             return baseUser;

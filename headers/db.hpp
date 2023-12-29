@@ -26,9 +26,9 @@ public:
 
     vector<Artist*> getArtistUsers();
 
-    BaseUser* findOneUserById(int id);
+    BaseUser* findOneUserById(const int &id);
 
-    BaseUser* findOneUserByUsername(string username);
+    BaseUser* findOneUserByUsername(const string &username);
 
     void setCurrentUser(BaseUser* user);
 };

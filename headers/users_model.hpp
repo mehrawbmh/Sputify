@@ -15,9 +15,9 @@ public:
     UsersModel(Database*);
     UsersModel() = default;
 
-    int addNewUser(string user, string pass);
+    int addNewUser(const string &user, const string &pass);
 
-    int addNewArtist(string user, string pass);
+    int addNewArtist(const string &user, const string &pass);
 };
 
 #endif
