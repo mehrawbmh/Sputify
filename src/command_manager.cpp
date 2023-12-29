@@ -16,17 +16,27 @@ HttpMethod CommandManager::getRequestMode(const string &methodInput) {
     } else if (methodInput == "DELETE") {
         return HttpMethod::DELETE;
     } else {
-        throw ClientException(400);
+        throw ClientException(STATUS_400_BAD_REQUEST);
     }
 }
 
 string CommandManager::findArgValue(vector<string> args, const string &target) {
+    string result = "";
     for (int i = 0; i < args.size() - 1; i++) {
         if (args[i] == target) {
-            return args[i+1];
+            if (!args[i+1].starts_with("<")) {
+                throw ClientException(STATUS_400_BAD_REQUEST, "parameter value should be inside < >");
+            }
+            for (int j = i+1; j < args.size(); j++) {
+                result = result + args[j] + " ";
+                if (args[j].ends_with(">")) {
+                    break;
+                }
+            }
+            break;
         }
     }
-    return "";
+    return result.substr(1, result.size()-3);
 }
 
 void CommandManager::validate(const vector<string> &args) {
@@ -42,7 +52,7 @@ Command CommandManager::findCommand(HttpMethod method, const string &route) {
         return Command::LOGOUT;
     }
 
-    throw ClientException(STATUS_400_BAD_REQUEST, "Invalid command provided");
+    throw ClientException(STATUS_404_NOT_FOUND, "Invalid command provided");
 }
 
 void CommandManager::handleSignUp(const vector<string> &args, Database* db) {
@@ -55,6 +65,7 @@ void CommandManager::handleSignUp(const vector<string> &args, Database* db) {
         cout << "empty!!\n";
         throw ClientException(STATUS_400_BAD_REQUEST, "insufficient request params for signup");
     }
+    cout << "passed arg conditions!\n";
     return controller.signUp(username, password, mode);
 }
 
@@ -83,7 +94,7 @@ void CommandManager::handle(Database* db) {
         string word;
         istringstream ss(line);
         while (getline(ss, word, ' ')) {
-            if (word.empty()) continue;
+            // if (word.empty()) continue;
             args.push_back(word);
         }
 
