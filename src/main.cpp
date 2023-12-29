@@ -12,5 +12,6 @@ int main(int argc, char* argv[]) {
 
     cout << "END\n";    
     cout << db->getAllUsers()[db->getAllUsers().size() - 1]->getId();
+    cout << db->getAllUsers()[db->getAllUsers().size() - 1]->getUsername();
     return 0;
 }

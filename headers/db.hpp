@@ -31,6 +31,8 @@ public:
     BaseUser* findOneUserByUsername(const string &username);
 
     void setCurrentUser(BaseUser* user);
+
+    BaseUser* getCurrentUser();
 };
 
 #endif

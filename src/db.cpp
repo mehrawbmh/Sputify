@@ -14,6 +14,10 @@ void Database::setCurrentUser(BaseUser* user) {
     this->currentUser = user;
 }
 
+BaseUser* Database::getCurrentUser() {
+    return this->currentUser;
+}
+
 int Database::addArtist(Artist *artist) {
     int lastId = this->getAllUsers().size();
     artist->setId(lastId + 1);

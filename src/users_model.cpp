@@ -7,6 +7,9 @@ UsersModel::UsersModel(Database* _db): db(_db) {}
 
 int UsersModel::addNewUser(const string &username, const string &pass) {
     cout << "creating new normal user in model...\n" << endl;
+    if (this->db->getCurrentUser() != nullptr) {
+        return 403;
+    }
 
     if (this->db->findOneUserByUsername(username) != nullptr) {
         return 400;
@@ -21,6 +24,9 @@ int UsersModel::addNewUser(const string &username, const string &pass) {
 
 int UsersModel::addNewArtist(const string &username, const string &pass) {
     cout << "creating new artist in model...\n" << endl;
+    if (this->db->getCurrentUser() != nullptr) {
+        return 403;
+    }
 
     if (this->db->findOneUserByUsername(username) != nullptr) {
         return 400;
