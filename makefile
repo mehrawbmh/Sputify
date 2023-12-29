@@ -22,6 +22,12 @@ $(BUILD_DIR):
 $(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp
 	$(CCX) -c $(SRC_DIR)/main.cpp -o $(BUILD_DIR)/main.o;
 
+$(BUILD_DIR)/view.o: $(SRC_DIR)/view.cpp $(HEADERS_DIR)/view.hpp
+	$(CCX) -c $(SRC_DIR)/view.cpp -o $(BUILD_DIR)/view.o
+
+$(BUILD_DIR)/client_exception.o: $(SRC_DIR)/client_exception.cpp $(HEADERS_DIR)/client_exception.hpp
+	$(CCX) -c $(SRC_DIR)/client_exception.cpp -o $(BUILD_DIR)/client_exception.o
+
 $(BUILD_DIR)/base_user.o: $(SRC_DIR)/base_user.cpp $(HEADERS_DIR)/base_user.hpp
 	$(CCX) -c $(SRC_DIR)/base_user.cpp -o $(BUILD_DIR)/base_user.o
 
@@ -31,9 +37,18 @@ $(BUILD_DIR)/user.o: $(SRC_DIR)/user.cpp $(HEADERS_DIR)/user.hpp
 $(BUILD_DIR)/artist.o: $(SRC_DIR)/artist.cpp $(HEADERS_DIR)/artist.hpp
 	$(CCX) -c $(SRC_DIR)/artist.cpp -o $(BUILD_DIR)/artist.o
 
-$(TARGET): $(BUILD_DIR) $(BIN_DIR) $(BUILD_DIR)/main.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o
-	$(CC) $(BUILD_DIR)/main.o $(BUILD_DIR)/base_user.o -o $(TARGET);
-	$(TARGET); #TODO: remove
+$(BUILD_DIR)/users_controller.o: $(SRC_DIR)/users_controller.cpp $(HEADERS_DIR)/users_controller.hpp
+	$(CCX) -c $(SRC_DIR)/users_controller.cpp -o $(BUILD_DIR)/users_controller.o
+
+$(BUILD_DIR)/users_model.o: $(SRC_DIR)/users_model.cpp $(HEADERS_DIR)/users_model.hpp
+	$(CCX) -c $(SRC_DIR)/users_model.cpp -o $(BUILD_DIR)/users_model.o
+
+$(BUILD_DIR)/command_manager.o: $(SRC_DIR)/command_manager.cpp $(HEADERS_DIR)/command_manager.hpp
+	$(CCX) -c $(SRC_DIR)/command_manager.cpp -o $(BUILD_DIR)/command_manager.o
+
+$(TARGET): $(BUILD_DIR) $(BIN_DIR) $(BUILD_DIR)/main.o $(BUILD_DIR)/view.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o
+	$(CC) $(BUILD_DIR)/main.o $(BUILD_DIR)/view.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o -o $(TARGET)
+
 
 .PHONY:
 	clean

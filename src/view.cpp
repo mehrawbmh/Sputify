@@ -1,4 +1,4 @@
-#include "view.hpp"
+#include "../headers/view.hpp"
 
 string View::showResponse(int statusCode)
 {
@@ -14,6 +14,7 @@ string View::showResponse(int statusCode)
     case 404:
         return RESOPNSE_404_NOT_FOUND;
     default:
-        cout << "bad status code provided";
+        cout << "bad status code provided" << endl;
+        return "HAHA";
     }
 }
