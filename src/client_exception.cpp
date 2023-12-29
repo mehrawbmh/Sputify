@@ -1,10 +1,13 @@
 #include "../headers/client_exception.hpp"
+#include <iostream>
 
-ClientException::ClientException(int statusCode): status(statusCode) {}
+ClientException::ClientException(int statusCode, string message): status(statusCode), extraMessage(message) {}
 
-const char *ClientException::what() const throw()
+const char* ClientException::what() const throw()
 {
-    return "Error happened.\n";
+    string output = to_string(this->status) + "Error: " + this->extraMessage;
+    cout << output << endl;
+    return "";
 }
 
 int ClientException::getCode()

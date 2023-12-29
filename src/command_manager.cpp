@@ -18,7 +18,7 @@ HttpMethod CommandManager::getRequestMode(string methodInput) {
 void CommandManager::handle(int argc, char* argv[]) {
     string questionMark = argv[3];
     if ((argc < 4) || (questionMark != "?")) {
-        throw ClientException(400);
+        throw ClientException(400, "format of request is not valid");
     }
 
     HttpMethod method = getRequestMode(argv[1]);

@@ -7,7 +7,7 @@ using namespace std;
 
 class ClientException: public exception {
 public:
-    ClientException(int statusCode);
+    ClientException(int statusCode, string message = "");
 
     const char * what() const throw ();
 
@@ -15,6 +15,7 @@ public:
 
 private:
     int status;
+    string extraMessage;
 };
 
 #endif

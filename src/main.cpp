@@ -11,6 +11,7 @@ int main(int argc, char* argv[]) {
         CommandManager::handle(argc, argv);    
     } catch(ClientException &exc) {
         View view;
+        cout << exc.what();
         cout << view.showResponse(exc.getCode()) << endl;
     }
 
