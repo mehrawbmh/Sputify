@@ -25,6 +25,9 @@ $(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp
 $(BUILD_DIR)/view.o: $(SRC_DIR)/view.cpp $(HEADERS_DIR)/view.hpp
 	$(CCX) -c $(SRC_DIR)/view.cpp -o $(BUILD_DIR)/view.o
 
+$(BUILD_DIR)/db.o: $(SRC_DIR)/db.cpp $(HEADERS_DIR)/db.hpp
+	$(CCX) -c $(SRC_DIR)/db.cpp -o $(BUILD_DIR)/db.o
+
 $(BUILD_DIR)/client_exception.o: $(SRC_DIR)/client_exception.cpp $(HEADERS_DIR)/client_exception.hpp
 	$(CCX) -c $(SRC_DIR)/client_exception.cpp -o $(BUILD_DIR)/client_exception.o
 
@@ -46,8 +49,10 @@ $(BUILD_DIR)/users_model.o: $(SRC_DIR)/users_model.cpp $(HEADERS_DIR)/users_mode
 $(BUILD_DIR)/command_manager.o: $(SRC_DIR)/command_manager.cpp $(HEADERS_DIR)/command_manager.hpp
 	$(CCX) -c $(SRC_DIR)/command_manager.cpp -o $(BUILD_DIR)/command_manager.o
 
-$(TARGET): $(BUILD_DIR) $(BIN_DIR) $(BUILD_DIR)/main.o $(BUILD_DIR)/view.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o
-	$(CC) $(BUILD_DIR)/main.o $(BUILD_DIR)/view.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o -o $(TARGET)
+
+
+$(TARGET): $(BUILD_DIR) $(BIN_DIR) $(BUILD_DIR)/main.o $(BUILD_DIR)/view.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o $(BUILD_DIR)/db.o
+	$(CC) $(BUILD_DIR)/main.o $(BUILD_DIR)/view.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o $(BUILD_DIR)/db.o -o $(TARGET)
 
 
 .PHONY:
