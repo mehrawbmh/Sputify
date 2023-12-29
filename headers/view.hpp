@@ -13,6 +13,12 @@ const string RESOPNSE_400_BAD_REQUEST = "Bad request";
 const string RESPONSE_403_FORBIDDEN = "Permission Denied";
 const string RESOPNSE_404_NOT_FOUND = "Not Found";
 
+const int STATUS_200_SUCCESS = 200;
+const int STATUS_201_NO_RESOPNSE = 201;
+const int STATUS_400_BAD_REQUEST = 400;
+const int STATUS_403_FORBIDDEN = 403;
+const int STATUS_404_NOT_FOUND = 404;
+
 class View {
 public:
     View() = default;

@@ -4,6 +4,7 @@
 #include "base_user.hpp"
 
 class User: public BaseUser {
+public:
     User(string n, string p);
 };
 

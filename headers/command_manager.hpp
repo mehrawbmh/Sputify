@@ -23,7 +23,7 @@ private:
 public:
     CommandManager() = default;
 
-    static void handle(int argc, char* argv[]);
+    static void handle(int argc, char* argv[], Database* db);
 };
 
 

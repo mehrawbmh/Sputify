@@ -13,9 +13,9 @@ private:
     View view;
 
 public:
-    UsersController();
+    UsersController(Database* db);
 
-    void signUp(string userName, string passWord);
+    void signUp(string userName, string passWord, string mode);
 };
 
 #endif

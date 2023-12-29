@@ -4,6 +4,7 @@
 #include "base_user.hpp"
 
 class Artist: public BaseUser {
+public:
     Artist(string n, string p);
 };
 

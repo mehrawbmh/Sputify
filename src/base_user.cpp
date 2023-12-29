@@ -6,3 +6,21 @@ bool BaseUser::isDeleted()
 {
     return this->deleted;
 }
+
+int BaseUser::getId()
+{
+    return this->id;
+}
+
+void BaseUser::setId(int id_)
+{
+    this->id = id_;
+}
+
+void BaseUser::setAsDeleted() {
+    this->deleted = true;
+}
+
+string BaseUser::getUsername() {
+    return this->username;
+}

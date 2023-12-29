@@ -3,13 +3,21 @@
 
 #include <string>
 #include <iostream>
+#include "db.hpp"
+#include "base_user.hpp"
 
 using namespace std;
 
 class UsersModel {
+private:
+    Database* db;
 public:
-    UsersModel();
+    UsersModel(Database*);
+    UsersModel() = default;
+
     int addNewUser(string user, string pass);
+
+    int addNewArtist(string user, string pass);
 };
 
 #endif
