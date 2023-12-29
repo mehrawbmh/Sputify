@@ -22,8 +22,17 @@ $(BUILD_DIR):
 $(BUILD_DIR)/main.o: $(SRC_DIR)/main.cpp
 	$(CCX) -c $(SRC_DIR)/main.cpp -o $(BUILD_DIR)/main.o;
 
-$(TARGET): $(BUILD_DIR) $(BIN_DIR) $(BUILD_DIR)/main.o
-	$(CCX) $(BUILD_DIR)/main.o -o $(TARGET);
+$(BUILD_DIR)/base_user.o: $(SRC_DIR)/base_user.cpp $(HEADERS_DIR)/base_user.hpp
+	$(CCX) -c $(SRC_DIR)/base_user.cpp -o $(BUILD_DIR)/base_user.o
+
+$(BUILD_DIR)/user.o: $(SRC_DIR)/user.cpp $(HEADERS_DIR)/user.hpp
+	$(CCX) -c $(SRC_DIR)/user.cpp -o $(BUILD_DIR)/user.o
+
+$(BUILD_DIR)/artist.o: $(SRC_DIR)/artist.cpp $(HEADERS_DIR)/artist.hpp
+	$(CCX) -c $(SRC_DIR)/artist.cpp -o $(BUILD_DIR)/artist.o
+
+$(TARGET): $(BUILD_DIR) $(BIN_DIR) $(BUILD_DIR)/main.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o
+	$(CC) $(BUILD_DIR)/main.o $(BUILD_DIR)/base_user.o -o $(TARGET);
 	$(TARGET); #TODO: remove
 
 .PHONY:
