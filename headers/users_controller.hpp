@@ -4,6 +4,7 @@
 #include <string>
 #include "users_model.hpp"
 #include "view.hpp"
+#include "client_exception.hpp"
 
 using namespace std;
 
@@ -20,6 +21,10 @@ public:
     void logout();
 
     void login(const string &username, const string &password);
+
+    void getOneUser(int id);
+
+    void getAllUsers();
 };
 
 #endif

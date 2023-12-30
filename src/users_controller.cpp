@@ -26,3 +26,17 @@ void UsersController::login(const string &username, const string &password) {
 void UsersController::logout() {
     cout << view.showResponse(this->model.logoutUser()) << endl;
 }
+
+void UsersController::getOneUser(int id) {
+    try {
+        BaseUser* user = this->model.getOneUser(id);
+        cout << view.showUserDetail(user);
+    } catch(ClientException &exception) {
+        cout << view.showResponse(exception.getCode());
+    }
+    
+}
+
+void UsersController::getAllUsers() {
+    cout << view.showUsersList(this->model.getAllUsers());
+}

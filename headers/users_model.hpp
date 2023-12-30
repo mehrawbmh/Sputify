@@ -12,7 +12,7 @@ class UsersModel {
 private:
     Database* db;
     void loginUser(BaseUser* user);
-    
+
 public:
     UsersModel(Database*);
 
@@ -25,6 +25,10 @@ public:
     int logoutUser();
 
     int login(const string &username, const string &password);
+
+    BaseUser* getOneUser(int id);
+
+    vector<BaseUser*> getAllUsers();
 };
 
 #endif

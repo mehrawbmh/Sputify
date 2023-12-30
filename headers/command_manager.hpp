@@ -19,6 +19,7 @@ enum class Command {
     LOGIN,
     LOGOUT,
     GET_MUSICS,
+    GET_USER,
     GET_USERS,
 };
 
@@ -27,6 +28,7 @@ const string SIGNUP_COMMAND = "signup";
 const string LOGIN_COMMAND = "login";
 const string LOGOUT_COMMAND = "logout";
 const string GET_MUSICS_COMMAND = "musics";
+const string GET_USER_COMMAND = "users";
 const string GET_USERS_COMMAND = "users";
 
 class CommandManager {
@@ -35,11 +37,18 @@ private:
     static void validate(const vector<string> &args);
     static void process(const vector<string> &args, Database* db);
     static HttpMethod getRequestMode(const string &methodInput);
-    static Command findCommand(HttpMethod method, const string &route);
+    static Command findCommand(HttpMethod method, const string &route, int argsCount);
     static void mapCommandToController(Command c, const vector<string> &args, Database* db);
     static void handleSignUp(const vector<string> &args, Database* db);
     static void handleLogout(Database *db);
     static void handleLogin(const vector<string> &args, Database* db);
+    static void handleGetSingleUser(const vector<string> &args, Database* db);
+    static void handleGetManyUsers(const vector<string> &args, Database* db);
+    static void handleGetManyMusics(const vector<string> &args, Database* db);
+    static void handleAddPlayList(const vector<string> &args, Database* db);
+    static void handleAddSongToPlayList(const vector<string> &args, Database *db);
+    static void handleGetManyPlayLists(const vector<string> &args, Database* db);
+    
 
 public:
     CommandManager() = default;

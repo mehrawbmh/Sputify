@@ -4,6 +4,9 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
+#include "../headers/base_user.hpp"
+
 
 using namespace std;
 
@@ -22,7 +25,13 @@ const int STATUS_404_NOT_FOUND = 404;
 class View {
 public:
     View() = default;
+
     string showResponse(int statusCode);
+
+    string showUserDetail(BaseUser* user);
+
+    string showUsersList(vector<BaseUser*> users);
+
 };
 
 #endif

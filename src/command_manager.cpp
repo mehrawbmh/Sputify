@@ -5,6 +5,9 @@
 #include <iostream>
 #include <sstream>
 
+bool is_number(const string &s) {
+  return !s.empty() && std::find_if(s.begin(), s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
+}
 
 HttpMethod CommandManager::getRequestMode(const string &methodInput) {
     if (methodInput == "POST") {
@@ -36,8 +39,8 @@ string CommandManager::findArgValue(vector<string> args, const string &target) {
             break;
         }
     }
-    
-    return result.size() < 4 ? "" : result.substr(1, result.size()-3);
+
+    return result.size() < 4 ? "" : result.substr(1, result.size() - 3);
 }
 
 void CommandManager::validate(const vector<string> &args) {
@@ -46,13 +49,17 @@ void CommandManager::validate(const vector<string> &args) {
     }
 }
 
-Command CommandManager::findCommand(HttpMethod method, const string &route) {
+Command CommandManager::findCommand(HttpMethod method, const string &route, int argsCount) {
     if (method == HttpMethod::POST && route == SIGNUP_COMMAND) {
         return Command::SIGNUP;
     } else if (method == HttpMethod::POST && route == LOGOUT_COMMAND) {
         return Command::LOGOUT;
     } else if (method == HttpMethod::POST && route == LOGIN_COMMAND) {
         return Command::LOGIN;
+    } else if (method == HttpMethod::GET && route == GET_USERS_COMMAND && argsCount < 4) {
+        return Command::GET_USERS;
+    } else if (method == HttpMethod::GET && route == GET_USER_COMMAND) {
+        return Command::GET_USER;
     }
 
     throw ClientException(STATUS_404_NOT_FOUND, "Invalid command provided");
@@ -106,6 +113,14 @@ void CommandManager::mapCommandToController(Command c, const vector<string> &arg
         cout << "handling login...\n";
         return handleLogin(args, db);
     }
+    case Command::GET_USERS: {
+        cout << "handling get many users...\n";
+        return handleGetManyUsers(args, db);
+    }
+    case Command::GET_USER: {
+        cout << "handling get one user...\n";
+        return handleGetSingleUser(args, db);
+    }
     default:
         cout << "GOING TO DEFAULT\n";
         break;
@@ -114,7 +129,7 @@ void CommandManager::mapCommandToController(Command c, const vector<string> &arg
 
 void CommandManager::process(const vector<string> &args, Database* db) {
     HttpMethod method = getRequestMode(args[0]);
-    Command command = findCommand(method, args[1]);
+    Command command = findCommand(method, args[1], args.size());
     mapCommandToController(command, args, db);
 }
 
@@ -141,4 +156,37 @@ void CommandManager::handle(Database* db) {
             cout << view.showResponse(exc.getCode()) << endl;
         }
     }
+}
+
+void CommandManager::handleGetSingleUser(const vector<string> &args, Database* db) {
+    UsersController controller = UsersController(db);
+    string id = findArgValue(args, "id");
+    
+    if (!is_number(id)) {
+        throw ClientException(400, "id should be a positive number");
+    }
+
+    return controller.getOneUser(stoi(id));
+}
+
+
+void CommandManager::handleGetManyUsers(const vector<string> &args, Database* db) {
+    UsersController controller = UsersController(db);
+    return controller.getAllUsers();
+}
+
+void CommandManager::handleGetManyMusics(const vector<string> &args, Database* db) {
+
+}
+
+void CommandManager::handleAddPlayList(const vector<string> &args, Database* db) {
+
+}
+
+void CommandManager::handleAddSongToPlayList(const vector<string> &args, Database *db) {
+
+}
+
+void CommandManager::handleGetManyPlayLists(const vector<string> &args, Database* db) {
+
 }

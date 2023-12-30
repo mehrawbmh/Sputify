@@ -17,3 +17,43 @@ string View::showResponse(int statusCode)
         throw logic_error("bad status code provided");
     }
 }
+
+string View::showUserDetail(BaseUser *user)
+{
+    if (user == nullptr) {
+        return RESOPNSE_404_NOT_FOUND;
+    }
+
+    string response;
+    string mode = (user->canCreatePlayList()) ? "user" : "artist";
+
+    response = response + "ID: " + to_string(user->getId()) + "\n";
+    response = response + "Mode: " + mode + "\n";
+    response = response + "Username: " + user->getUsername() + "\n";
+
+    if (user->canCreatePlayList()) {
+        response = response + "Playlists: ";
+        // response = response + this->getPlayListsFormatted();
+        //todo complete it
+    } else if (user->canShareMusic()) {
+        response = response + "Songs: ";
+        // response = response + this->getSongsFormatted();
+    }
+
+    return response;
+}
+
+string View::showUsersList(vector<BaseUser*> users) {
+    string response = "ID, Mode, Username, Playlists_number/Songs_number\n";
+    for (auto const &user: users) {
+        response += to_string(user->getId()) + ", ";
+        response += ((user->canCreatePlayList()) ? "user" : "artist");
+        response += ", ";
+        response += user->getUsername() + ", ";
+        // int count = (user->canCreatePlayList()) ? user.getSongs().size() : user.getPlaylists().size();
+        // response = response + count;
+        response += "\n";
+    }
+
+    return response;
+}
