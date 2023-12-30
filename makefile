@@ -55,8 +55,15 @@ $(BUILD_DIR)/tag.o: $(SRC_DIR)/tag.cpp $(HEADERS_DIR)/tag.hpp
 $(BUILD_DIR)/music.o: $(SRC_DIR)/music.cpp $(HEADERS_DIR)/music.hpp
 	$(CCX) -c $(SRC_DIR)/music.cpp -o $(BUILD_DIR)/music.o
 
-$(TARGET): $(BUILD_DIR) $(BIN_DIR) $(BUILD_DIR)/main.o $(BUILD_DIR)/view.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o $(BUILD_DIR)/db.o $(BUILD_DIR)/tag.o $(BUILD_DIR)/music.o
-	$(CC) $(BUILD_DIR)/main.o $(BUILD_DIR)/view.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o $(BUILD_DIR)/db.o $(BUILD_DIR)/tag.o $(BUILD_DIR)/music.o -o $(TARGET)
+$(BUILD_DIR)/musics_model.o: $(SRC_DIR)/musics_model.cpp $(HEADERS_DIR)/musics_model.hpp
+	$(CCX) -c $(SRC_DIR)/musics_model.cpp -o $(BUILD_DIR)/musics_model.o
+
+$(BUILD_DIR)/musics_controller.o: $(SRC_DIR)/musics_controller.cpp $(HEADERS_DIR)/musics_controller.hpp
+	$(CCX) -c $(SRC_DIR)/musics_controller.cpp -o $(BUILD_DIR)/musics_controller.o
+
+
+$(TARGET): $(BUILD_DIR) $(BIN_DIR) $(BUILD_DIR)/main.o $(BUILD_DIR)/view.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o $(BUILD_DIR)/db.o $(BUILD_DIR)/tag.o $(BUILD_DIR)/music.o $(BUILD_DIR)/musics_controller.o $(BUILD_DIR)/musics_model.o
+	$(CC) $(BUILD_DIR)/main.o $(BUILD_DIR)/view.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o $(BUILD_DIR)/db.o $(BUILD_DIR)/tag.o $(BUILD_DIR)/music.o $(BUILD_DIR)/musics_controller.o $(BUILD_DIR)/musics_model.o -o $(TARGET)
 
 
 .PHONY:
