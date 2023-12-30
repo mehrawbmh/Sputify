@@ -2,10 +2,10 @@
 
 Artist::Artist(string n, string p): BaseUser(n, p) {}
 
-bool canShareMusic() {
+bool Artist::canShareMusic() {
     return true;
 }
 
-bool canCreatePlayList() {
+bool Artist::canCreatePlayList() {
     return false;
 }

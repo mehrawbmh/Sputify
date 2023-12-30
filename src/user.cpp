@@ -2,10 +2,10 @@
 
 User::User(string n, string p): BaseUser(n, p) {}
 
-bool canCreatePlayList() {
+bool User::canCreatePlayList() {
     return true;
 }
 
-bool canShareMusic() {
+bool User::canShareMusic() {
     return false;
 }
