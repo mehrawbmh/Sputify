@@ -29,6 +29,10 @@ public:
     string getUsername();
 
     string getPassword();
+
+    virtual bool canShareMusic() = 0;
+
+    virtual bool canCreatePlayList() = 0;
 };
 
 #endif //SPUTIFY_BASE_USER_HPP

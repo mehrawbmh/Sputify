@@ -7,9 +7,11 @@ using namespace std;
 
 class Tag {
 private:
-    string title;
+    string title = "";
 public:
     Tag(string name);
+    Tag() = default;
+    
     const string getTitle() const;
 };
 

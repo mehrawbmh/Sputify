@@ -20,6 +20,7 @@ private:
     bool deleted = false;
     
 public:
+    Music(Artist* singer, string title, string filePath, int duration, int year);
     bool isDeleted();
     void setAsDeleted();
     void setId(int id_);
@@ -32,4 +33,4 @@ public:
     Artist* getArtist();
 };
 
-#endif
+#endif //SPUTIFY_MUSIC_HPP

@@ -1,5 +1,8 @@
 #include "../headers/music.hpp"
 
+Music::Music(Artist * singer, string title, string filePath, int duration, int year_):
+ artist(singer), name(title), path(filePath), durationSeconds(duration), year(year_) {}
+
 bool Music::isDeleted() {
     return this->deleted;
 }
