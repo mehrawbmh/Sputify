@@ -38,6 +38,8 @@ private:
     static Command findCommand(HttpMethod method, const string &route);
     static void mapCommandToController(Command c, const vector<string> &args, Database* db);
     static void handleSignUp(const vector<string> &args, Database* db);
+    static void handleLogout(Database *db);
+    static void handleLogin(const vector<string> &args, Database* db);
 
 public:
     CommandManager() = default;

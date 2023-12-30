@@ -17,7 +17,7 @@ int UsersModel::addNewUser(const string &username, const string &pass) {
 
     User* user = new User(username, pass);    
     this->db->addNormalUser(user);
-    this->db->setCurrentUser(user);
+    this->loginUser(user);
 
     return 200;
 }
@@ -34,6 +34,37 @@ int UsersModel::addNewArtist(const string &username, const string &pass) {
 
     Artist* artist = new Artist(username, pass);    
     this->db->addArtist(artist);
-    this->db->setCurrentUser(artist);
+    this->loginUser(artist);
     return 200;
+}
+
+void UsersModel::loginUser(BaseUser* user) {
+    this->db->setCurrentUser(user);
+}
+
+int UsersModel::logoutUser() {
+    if (this->db->getCurrentUser() == nullptr) {
+        return 403;
+    }
+    
+    this->db->setCurrentUser(nullptr);
+    return 200;
+}
+
+int UsersModel::login(const string &username, const string &password) {
+    if (this->db->getCurrentUser() != nullptr) {
+        return 403;
+    }
+
+    for (const auto &user: this->db->getAllUsers()) {
+        if (user->getUsername() == username) {
+            if (user->getPassword() != password) {
+                return 403;
+            }
+            this->loginUser(user);
+            return 200;
+        }
+    }
+
+    return 404;
 }

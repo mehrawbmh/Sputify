@@ -24,3 +24,7 @@ void BaseUser::setAsDeleted() {
 string BaseUser::getUsername() {
     return this->username;
 }
+
+string BaseUser::getPassword() {
+    return this->password;
+}

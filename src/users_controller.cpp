@@ -18,3 +18,11 @@ void UsersController::signUp(const string &userName, const string &passWord, con
 
     cout << view.showResponse(resultStatus) << endl;
 }
+
+void UsersController::login(const string &username, const string &password) {
+    cout << view.showResponse(this->model.login(username, password)) << endl;
+}
+
+void UsersController::logout() {
+    cout << view.showResponse(this->model.logoutUser()) << endl;
+}

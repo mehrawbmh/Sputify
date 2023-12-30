@@ -16,6 +16,10 @@ public:
     UsersController(Database* db);
 
     void signUp(const string &userName, const string &passWord, const string &mode);
+
+    void logout();
+
+    void login(const string &username, const string &password);
 };
 
 #endif

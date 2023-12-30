@@ -27,6 +27,8 @@ public:
     void setId(int id_);
 
     string getUsername();
+
+    string getPassword();
 };
 
 #endif //SPUTIFY_BASE_USER_HPP

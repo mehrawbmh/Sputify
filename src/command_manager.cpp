@@ -36,7 +36,8 @@ string CommandManager::findArgValue(vector<string> args, const string &target) {
             break;
         }
     }
-    return result.substr(1, result.size()-3);
+    
+    return result.size() < 4 ? "" : result.substr(1, result.size()-3);
 }
 
 void CommandManager::validate(const vector<string> &args) {
@@ -50,6 +51,8 @@ Command CommandManager::findCommand(HttpMethod method, const string &route) {
         return Command::SIGNUP;
     } else if (method == HttpMethod::POST && route == LOGOUT_COMMAND) {
         return Command::LOGOUT;
+    } else if (method == HttpMethod::POST && route == LOGIN_COMMAND) {
+        return Command::LOGIN;
     }
 
     throw ClientException(STATUS_404_NOT_FOUND, "Invalid command provided");
@@ -65,8 +68,28 @@ void CommandManager::handleSignUp(const vector<string> &args, Database* db) {
         cout << "empty!!\n";
         throw ClientException(STATUS_400_BAD_REQUEST, "insufficient request params for signup");
     }
+
     cout << "passed arg conditions!\n";
     return controller.signUp(username, password, mode);
+}
+
+void CommandManager::handleLogout(Database* db) {
+    UsersController controller = UsersController(db);
+    return controller.logout();
+}
+
+void CommandManager::handleLogin(const vector<string> &args, Database* db) {
+    UsersController controller = UsersController(db);
+    string username = findArgValue(args, "username");
+    string password = findArgValue(args, "password");
+
+    if (username.empty() || password.empty()) {
+        cout << "empty!!\n";
+        throw ClientException(STATUS_400_BAD_REQUEST, "insufficient request params for signup");
+    }
+
+    cout << "passed arg conditions in login!!\n";
+    return controller.login(username, password);
 }
 
 void CommandManager::mapCommandToController(Command c, const vector<string> &args, Database* db) {
@@ -74,6 +97,14 @@ void CommandManager::mapCommandToController(Command c, const vector<string> &arg
     case Command::SIGNUP: {
         cout << "handling signup...\n";
         return handleSignUp(args, db);
+    }
+    case Command::LOGOUT: {
+        cout << "handling logout...\n";
+        return handleLogout(db);
+    }
+    case Command::LOGIN: {
+        cout << "handling login...\n";
+        return handleLogin(args, db);
     }
     default:
         cout << "GOING TO DEFAULT\n";

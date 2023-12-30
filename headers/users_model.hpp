@@ -11,13 +11,20 @@ using namespace std;
 class UsersModel {
 private:
     Database* db;
+    void loginUser(BaseUser* user);
+    
 public:
     UsersModel(Database*);
+
     UsersModel() = default;
 
     int addNewUser(const string &user, const string &pass);
 
     int addNewArtist(const string &user, const string &pass);
+
+    int logoutUser();
+
+    int login(const string &username, const string &password);
 };
 
 #endif
