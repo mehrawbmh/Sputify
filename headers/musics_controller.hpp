@@ -16,6 +16,12 @@ public:
     void getOneMusic(int id);
 
     void getAllMusics();
+
+    void createPlaylist(string name);
+
+    void addMusicToPlaylist(int songId, string playlistName);
+
+    void deleteMusic(int songId);
 };
 
 #endif // SPUTIFY_MUSICS_CONTROLLER_HPP

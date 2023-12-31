@@ -1,5 +1,10 @@
 #include "../headers/musics_model.hpp"
+#include "../headers/play_list.hpp"
+
 #include <iostream>
+#include <stdexcept>
+
+using namespace std;
 
 MusicsModel::MusicsModel(Database* _db): db(_db) {}
 
@@ -38,4 +43,56 @@ vector<Music*> MusicsModel::getAllMusics() {
     }
 
     return result;
+}
+
+int MusicsModel::createPlaylist(string title) {
+    if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList()) {
+        return 403;
+    }
+
+    try {
+        this->db->addPlaylist(new PlayList(title, this->db->getCurrentUser()->getId()));
+    } catch (logic_error &err) {
+        return 400;
+    }
+    return 200;
+}
+
+int MusicsModel::addMusicToPlaylist(int songId, string playlistName) {
+    if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList()) {
+        return 403;
+    }
+
+    Music* music = this->db->getMusicById(songId);
+    if (music == nullptr) {
+        return 404;
+    }
+
+    PlayList* pl = this->db->getPlaylistWithName(playlistName);
+    if (pl == nullptr) {
+        return 404;
+    }
+
+    //todo check duplicate music in PL
+    this->db->addMusicToPlaylist(music, pl);
+    return 200;
+}
+
+int MusicsModel::deleteMusic(int songId) {
+    if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canShareMusic()) {
+        return 403;
+    }
+
+    Music* music = this->db->getMusicById(songId);
+    if (music == nullptr || music->isDeleted()) {
+        return 404;
+    }
+    
+    if (music->getArtist()->getId() != this->db->getCurrentUser()->getId()) {
+        return 403;
+    }
+
+    music->setAsDeleted();
+    // todo: remove from playlists!
+    return 200;
 }

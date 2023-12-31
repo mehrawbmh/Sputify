@@ -38,3 +38,21 @@ void MusicsController::getAllMusics() {
     cout << "getting all musics...\n";
     cout << view.showMusicsList(model.getAllMusics());
 }
+
+void MusicsController::createPlaylist(string name) {
+    MusicsModel model(db);
+    View view;
+    cout << view.showResponse(model.createPlaylist(name)) << endl;
+}
+
+void MusicsController::addMusicToPlaylist(int songId, string playlistName) {
+    MusicsModel model(db);
+    View view;
+    cout << view.showResponse(model.addMusicToPlaylist(songId, playlistName)) << endl;
+}
+
+void MusicsController::deleteMusic(int songId) {
+    MusicsModel model(db);
+    View view;
+    cout << view.showResponse(model.deleteMusic(songId)) << endl;
+}

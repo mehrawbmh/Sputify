@@ -6,6 +6,7 @@
 class MusicsModel {
 private:
     Database* db;
+
 public:
     MusicsModel(Database* _db);
 
@@ -14,6 +15,12 @@ public:
     Music* getOneMusic(int id);
 
     vector<Music*> getAllMusics();
+
+    int createPlaylist(string);
+
+    int addMusicToPlaylist(int songId, string playlistName);
+
+    int deleteMusic(int songId);
 };
 
 #endif //SPUTIFY_MUSICS_MODEL_HPP
