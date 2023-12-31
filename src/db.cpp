@@ -163,3 +163,23 @@ Music* Database::getMusicById(int musicId) {
     }
     return nullptr;
 }
+
+int Database::getUserPlaylistCount(BaseUser* user) {
+    int count = 0;
+    for (PlayList* pl: this->playlists) {
+        if (pl->getUserId() == user->getId()) {
+            count++;
+        }
+    }
+    return count;
+}
+
+int Database::getArtistSongsCount(BaseUser* artist) {
+    int count = 0;
+    for (Music* music: this->getAllMusics()) {
+        if (music->getArtist()->getId() == artist->getId()) {
+            count++;
+        }
+    }
+    return count;
+}

@@ -58,7 +58,15 @@ string View::getSongsFormatted(int artistId, Database* db) {
     return result;
 }
 
-string View::showUsersList(vector<BaseUser*> users) {
+int View::getPlOrSongsCount(BaseUser* user, Database* db) {
+    if (user->canShareMusic()) {
+        return db->getUserPlaylistCount(user);
+    } else {
+        return db->getArtistSongsCount(user);
+    }
+}
+
+string View::showUsersList(vector<BaseUser*> users, Database* db) {
     if (users.size() == 0) {
         return RESOPNSE_201_NO_RESOPNSE;
     }
@@ -69,8 +77,8 @@ string View::showUsersList(vector<BaseUser*> users) {
         response += ((user->canCreatePlayList()) ? "user" : "artist");
         response += ", ";
         response += user->getUsername() + ", ";
-        // int count = (user->canCreatePlayList()) ? user.getSongs().size() : user.getPlaylists().size();
-        // response = response + count;
+        int count = this->getPlOrSongsCount(user, db);
+        response = response + to_string(count);
         response += "\n";
     }
 

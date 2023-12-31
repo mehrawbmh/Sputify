@@ -26,6 +26,10 @@ public:
     
     int addArtist(Artist* artist);
 
+    int getUserPlaylistCount(BaseUser*);
+
+    int getArtistSongsCount(BaseUser*);
+
     vector<BaseUser*> getAllUsers();
 
     vector<User*> getNormalUsers();

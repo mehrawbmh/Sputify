@@ -29,7 +29,7 @@ class View {
 private:
     string getMusicDetail(Music* music);
     string getSongsFormatted(int artistId, Database* db);
-
+    int getPlOrSongsCount(BaseUser* user, Database* db);
 public:
     View() = default;
 
@@ -37,7 +37,7 @@ public:
 
     string showUserDetail(BaseUser* user, Database* db);
 
-    string showUsersList(vector<BaseUser*> users);
+    string showUsersList(vector<BaseUser*> users, Database* db);
 
     string showMusicDetail(Music* music);
 

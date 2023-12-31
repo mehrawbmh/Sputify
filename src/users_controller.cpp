@@ -37,5 +37,5 @@ void UsersController::getOneUser(int id) {
 }
 
 void UsersController::getAllUsers() {
-    cout << view.showUsersList(this->model.getAllUsers());
+    cout << view.showUsersList(this->model.getAllUsers(), this->db);
 }
