@@ -42,11 +42,21 @@ public:
 
     void addMusic(Music* music);
 
+    Music* getMusicById(int musicId);
+
+    void addPlaylist(PlayList* pl);
+
+    PlayList* getPlaylistWithId(int playListId);
+
+    PlayList* getPlaylistWithName(string);
+
     vector<Music*> getAllMusics();
 
     vector<Music*> getArtistSongs(int artistId);
 
     vector<PlayList*> getUserPlayList(int userId);
+
+    void addMusicToPlaylist(Music* music, PlayList* playList);
 };
 
 #endif //SPUTIFY_DB_HPP
