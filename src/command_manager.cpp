@@ -72,6 +72,12 @@ Command CommandManager::findCommand(HttpMethod method, const string &route, int 
         return Command::GET_ARTIST_MUSICS;
     } else if (method == HttpMethod::GET && route == SEARCH_MUSIC_COMMAND) {
         return Command::SEARCH_MUSIC;
+    } else if (method == HttpMethod::POST && route == PLAYLIST_ACTIONS_COMMAND) {
+        return Command::ADD_PLAY_LIST;
+    } else if (method == HttpMethod::GET && route == PLAYLIST_ACTIONS_COMMAND) {
+        return Command::GET_PLAY_LIST;
+    } else if (method == HttpMethod::PUT && route == ADD_MUSIC_TO_PLAYLIST_COMMAND) {
+        return Command::ADD_MUSIC_TO_PLAY_LIST;
     }
 
     throw ClientException(STATUS_404_NOT_FOUND, "Invalid command provided");
@@ -145,6 +151,26 @@ void CommandManager::mapCommandToController(Command c, const vector<string> &arg
         cout << "creating and sharing music...\n";
         return handleAddMusic(args, db);
     }
+    case Command::DELETE_MUSIC: {
+        cout << "deleting music...\n";
+        return handleDeleteMusic(args, db);   
+    }
+    case Command::ADD_PLAY_LIST: {
+        cout << "adding playlist...\n";
+        return handleAddPlayList(args, db);
+    }
+    case Command::GET_PLAY_LIST: {
+        cout << "getting playlist for user\n";
+        return handleGetManyPlayLists(args, db);
+    }
+    case Command::ADD_MUSIC_TO_PLAY_LIST: {
+        cout << "adding music to playlist...\n";
+        return handleAddSongToPlayList(args, db);
+    }
+    case Command::SEARCH_MUSIC: {
+        cout << "searching music...\n";
+        return handleSearchMusic(args, db);
+    }
     default:
         cout << "GOING TO DEFAULT\n";
         break;
@@ -211,10 +237,19 @@ void CommandManager::handleGetOneMusic(const vector<string> &args, Database* db)
 }
 
 void CommandManager::handleAddPlayList(const vector<string> &args, Database* db) {
-
+    string name = findArgValue(args, "name");
+    MusicsController controller(db);
+    return controller.createPlaylist(name);
 }
 
 void CommandManager::handleAddSongToPlayList(const vector<string> &args, Database *db) {
+    string songId = findArgValue(args, "id");
+    string plName = findArgValue(args, "name");
+    MusicsController controller(db);
+    return controller.addMusicToPlaylist(stoi(songId), plName);
+}
+
+void CommandManager::handleSearchMusic(const vector<string> &args, Database* db) {
 
 }
 
@@ -238,5 +273,11 @@ void CommandManager::handleAddMusic(const vector<string> &args, Database* db) {
     }
 
     MusicsController controller = MusicsController(db);
-    controller.createMusic(title, path, album, stoi(year), durationTime, tagsList);
+    return controller.createMusic(title, path, album, stoi(year), durationTime, tagsList);
+}
+
+void CommandManager::handleDeleteMusic(const vector<string> &args, Database* db) {
+    string id = findArgValue(args, "id");
+    MusicsController controller(db);
+    return controller.deleteMusic(stoi(id));
 }

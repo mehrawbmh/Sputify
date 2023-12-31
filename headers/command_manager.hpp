@@ -60,12 +60,16 @@ private:
     static void handleLogin(const vector<string> &args, Database* db);
     static void handleGetSingleUser(const vector<string> &args, Database* db);
     static void handleGetManyUsers(const vector<string> &args, Database* db);
-    static void handleGetManyMusics(const vector<string> &args, Database* db);
+    
     static void handleAddPlayList(const vector<string> &args, Database* db);
-    static void handleAddSongToPlayList(const vector<string> &args, Database *db);
     static void handleGetManyPlayLists(const vector<string> &args, Database* db);
+    static void handleAddSongToPlayList(const vector<string> &args, Database *db);
+    
+    static void handleGetManyMusics(const vector<string> &args, Database* db);
     static void handleAddMusic(const vector<string> &args, Database* db);
+    static void handleDeleteMusic(const vector<string> &args, Database* db);
     static void handleGetOneMusic(const vector<string> &args, Database* db);
+    static void handleSearchMusic(const vector<string> &args, Database* db);
 
 public:
     CommandManager() = default;
