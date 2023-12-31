@@ -9,3 +9,15 @@ string PlayList::getTitle() {
 int PlayList::getUserId() {
     return this->userId;
 }
+
+int PlayList::getId() {
+    return this->id;
+}
+
+void PlayList::setId(int id_) {
+    this->id = id_;
+}
+
+void PlayList::addMusic(Music* music) {
+    this->musics.push_back(music);
+}

@@ -1,4 +1,7 @@
 #include "../headers/db.hpp"
+#include <stdexcept>
+
+using namespace std;
 
 int Database::addNormalUser(User *user) {
     int lastId = this->getAllUsers().size();
@@ -69,6 +72,17 @@ void Database::addMusic(Music *music) {
     this->musics.push_back(music);
 }
 
+void Database::addPlaylist(PlayList* pl) {
+    for (PlayList* playlist: playlists) {
+        if (playlist->getUserId() == pl->getUserId() && pl->getTitle() == playlist->getTitle()) {
+            throw logic_error("playlist name should be unique");
+        }
+    }
+    int lastId = this->playlists.size();
+    pl->setId(lastId + 1);
+    this->playlists.push_back(pl);
+}
+
 vector<Music *> Database::getArtistSongs(int artistId)
 {
     vector<Music*> result;
@@ -91,4 +105,35 @@ vector<PlayList*> Database::getUserPlayList(int userId)
         }
     }
     return result;
+}
+
+void Database::addMusicToPlaylist(Music* music, PlayList* playList) {
+    playList->addMusic(music);
+}
+
+PlayList* Database::getPlaylistWithId(int playListId) {
+    for (PlayList* playlist: playlists) {
+        if (playlist->getId() == playListId) {
+            return playlist;
+        }
+    }
+    return nullptr;
+}
+
+PlayList* Database::getPlaylistWithName(string name) {
+    for (PlayList* playlist: playlists) {
+        if (playlist->getTitle() == name) {
+            return playlist;
+        }
+    }
+    return nullptr;
+}
+
+Music* Database::getMusicById(int musicId) {
+    for (Music* music: this->musics) {
+        if (music->getId() == musicId && !music->isDeleted()) {
+            return music;
+        }
+    }
+    return nullptr;
 }
