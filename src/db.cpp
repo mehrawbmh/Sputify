@@ -104,7 +104,6 @@ vector<Music*> Database::getMusicsByNameAndArtistAndTag(string name, string arti
         string artist = music->getArtist()->getUsername();
 
         if (musicName.find(name) != string::npos && artist.find(artistName) != string::npos) {
-            cout << "GOT here!!\n" << music->getName() << endl;
             if (tagTitle.empty()) {
                 result.push_back(music);
             } else {

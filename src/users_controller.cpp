@@ -29,7 +29,7 @@ void UsersController::logout() {
 void UsersController::getOneUser(int id) {
     try {
         BaseUser* user = this->model.getOneUser(id);
-        cout << view.showUserDetail(user, this->db) << endl;
+        cout << view.showUserDetail(user, this->db);
     } catch(ClientException &exception) {
         cout << view.showResponse(exception.getCode()) << endl;
     }

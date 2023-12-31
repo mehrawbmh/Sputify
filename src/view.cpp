@@ -118,7 +118,7 @@ string View::showMusicDetail(Music* music) {
 
 string View::showMusicsList(vector<Music*> musics) {
     if (musics.size() == 0) {
-        return RESOPNSE_201_NO_RESOPNSE;
+        return RESOPNSE_201_NO_RESOPNSE + "\n";
     }
 
     string response = "ID, Name, Artist\n";
@@ -131,7 +131,7 @@ string View::showMusicsList(vector<Music*> musics) {
 
 string View::showMusicListDetailed(vector<Music*> musics) {
     if (musics.size() == 0) {
-        return RESOPNSE_201_NO_RESOPNSE;
+        return RESOPNSE_201_NO_RESOPNSE + "\n";
     }
 
     string response = "ID, Name, Artist, Year, Album, Tags, Duration\n";
