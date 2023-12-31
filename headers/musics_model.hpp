@@ -8,6 +8,12 @@ private:
     Database* db;
 public:
     MusicsModel(Database* _db);
+
+    int addNewMusic(string title, string path, string album, int year, string durationTime, vector<string> tags);
+
+    Music* getOneMusic(int id);
+
+    vector<Music*> getAllMusics();
 };
 
 #endif //SPUTIFY_MUSICS_MODEL_HPP
