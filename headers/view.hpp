@@ -27,6 +27,7 @@ const int STATUS_404_NOT_FOUND = 404;
 
 class View {
 private:
+    string getMusicDetail(Music* music);
     string getSongsFormatted(int artistId, Database* db);
 
 public:
@@ -41,6 +42,8 @@ public:
     string showMusicDetail(Music* music);
 
     string showMusicsList(vector<Music*> musics);
+
+    string showMusicListDetailed(vector<Music*> musics);
 };
 
 #endif

@@ -63,8 +63,8 @@ void MusicsController::getCurrentArtistMusics() {
     View view;
     
     try {
-        cout << view.showMusicsList(model.getCurrentArtistMusics());
+        cout << view.showMusicListDetailed(model.getCurrentArtistMusics());
     } catch(ClientException &exc) {
-        cout << view.showResponse(exc.getCode());
+        cout << view.showResponse(exc.getCode()) << endl;
     }
 }
