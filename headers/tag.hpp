@@ -10,9 +10,8 @@ private:
     string title = "";
 public:
     Tag(string name);
-    Tag() = default;
-    
-    const string getTitle() const;
+        
+    string getTitle();
 };
 
 #endif //end SPUTIFY_TAG_HPP

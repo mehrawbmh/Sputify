@@ -3,24 +3,26 @@
 
 #include "artist.hpp"
 #include "tag.hpp"
+
 #include <string>
 #include <vector>
 
 using namespace std;
 
-class Music final {
+class Music {
 private:
     int id;
     Artist* artist;
     vector<Tag*> tags;
     string name;
+    string album;
     int year;
     string path;
-    int durationSeconds;
+    string timeDuration;
     bool deleted = false;
     
 public:
-    Music(Artist* singer, string title, string filePath, int duration, int year);
+    Music(Artist* singer, string title, string filePath, string duration, int year, string album);
     bool isDeleted();
     void setAsDeleted();
     void setId(int id_);
@@ -28,7 +30,8 @@ public:
     vector<Tag*> getTags();
     void addTag(Tag*);
     string getName();
-    int getDuration();
+    string getAlbum();
+    string getDuration();
     int getYear();
     Artist* getArtist();
 };

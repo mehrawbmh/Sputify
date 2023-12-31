@@ -1,7 +1,9 @@
 #include "../headers/music.hpp"
 
-Music::Music(Artist * singer, string title, string filePath, int duration, int year_):
- artist(singer), name(title), path(filePath), durationSeconds(duration), year(year_) {}
+Music::Music(Artist* singer, string title, string filePath, string duration, int year_, string album_):
+ artist(singer), name(title), path(filePath), timeDuration(duration), year(year_), album(album_) {
+    this->tags = {};
+ }
 
 bool Music::isDeleted() {
     return this->deleted;
@@ -23,18 +25,26 @@ void Music::addTag(Tag *tag) {
     this->tags.push_back(tag);
 }
 
+vector<Tag*> Music::getTags() {
+    return this->tags;
+}
+
 string Music::getName() {
     return this->name;
 }
 
-int Music::getDuration() {
-    return this->durationSeconds;
+string Music::getAlbum() {
+    return this->album;
+}
+
+string Music::getDuration() {
+    return this->timeDuration;
 }
 
 int Music::getYear() {
     return this->year;
 }
 
-Artist *Music::getArtist() {
+Artist* Music::getArtist() {
     return this->artist;
 }

@@ -2,7 +2,6 @@
 
 Tag::Tag(string name): title(name) {}
 
-const string Tag::getTitle() const
-{
+string Tag::getTitle() {
     return this->title;
 }

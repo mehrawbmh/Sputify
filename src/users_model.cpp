@@ -73,7 +73,7 @@ BaseUser* UsersModel::getOneUser(int id) {
     if (this->db->getCurrentUser() == nullptr) {
         throw ClientException(403, "you are not logged in yet!\n");
     }
-    
+
     auto allUsers = this->db->getAllUsers();
     for (const auto user: allUsers) {
         if (user->getId() == id && !user->isDeleted()) {
