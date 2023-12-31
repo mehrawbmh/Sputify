@@ -62,6 +62,7 @@ private:
     static void handleGetManyUsers(const vector<string> &args, Database* db);
     
     static void handleAddPlayList(const vector<string> &args, Database* db);
+    static void handleGetArtistMusics(const vector<string> &args, Database* db);
     static void handleGetManyPlayLists(const vector<string> &args, Database* db);
     static void handleAddSongToPlayList(const vector<string> &args, Database *db);
     

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include "../headers/client_exception.hpp"
 
 using namespace std;
 
@@ -95,4 +96,12 @@ int MusicsModel::deleteMusic(int songId) {
     music->setAsDeleted();
     // todo: remove from playlists!
     return 200;
+}
+
+vector<Music*> MusicsModel::getCurrentArtistMusics() {
+    if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canShareMusic()) {
+        throw ClientException(403, "you have to log in as an artist!");
+    }
+
+    return this->db->getArtistSongs(this->db->getCurrentUser()->getId());
 }

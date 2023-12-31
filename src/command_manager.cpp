@@ -147,6 +147,10 @@ void CommandManager::mapCommandToController(Command c, const vector<string> &arg
         cout << "handlign get music details...\n";
         return handleGetOneMusic(args, db);
     }
+    case Command::GET_ARTIST_MUSICS: {
+        cout << "getting regitered musics...\n";
+        return handleGetArtistMusics(args, db);
+    }
     case Command::CREATE_MUSIC: {
         cout << "creating and sharing music...\n";
         return handleAddMusic(args, db);
@@ -234,6 +238,11 @@ void CommandManager::handleGetOneMusic(const vector<string> &args, Database* db)
     string id = findArgValue(args, "id");
     MusicsController controller = MusicsController(db);
     return controller.getOneMusic(stoi(id));
+}
+
+void CommandManager::handleGetArtistMusics(const vector<string> &args, Database* db) {
+    MusicsController controller(db);
+    return controller.getCurrentArtistMusics();
 }
 
 void CommandManager::handleAddPlayList(const vector<string> &args, Database* db) {

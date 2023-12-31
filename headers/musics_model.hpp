@@ -21,6 +21,8 @@ public:
     int addMusicToPlaylist(int songId, string playlistName);
 
     int deleteMusic(int songId);
+
+    vector<Music*> getCurrentArtistMusics();
 };
 
 #endif //SPUTIFY_MUSICS_MODEL_HPP

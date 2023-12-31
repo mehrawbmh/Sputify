@@ -22,6 +22,8 @@ public:
     void addMusicToPlaylist(int songId, string playlistName);
 
     void deleteMusic(int songId);
+
+    void getCurrentArtistMusics();
 };
 
 #endif // SPUTIFY_MUSICS_CONTROLLER_HPP

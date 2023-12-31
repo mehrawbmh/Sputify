@@ -1,6 +1,7 @@
 #include "../headers/musics_controller.hpp"
 #include "../headers/musics_model.hpp"
 #include "../headers/view.hpp"
+#include "../headers/client_exception.hpp"
 
 MusicsController::MusicsController(Database *_db) : db(_db) {}
 
@@ -55,4 +56,15 @@ void MusicsController::deleteMusic(int songId) {
     MusicsModel model(db);
     View view;
     cout << view.showResponse(model.deleteMusic(songId)) << endl;
+}
+
+void MusicsController::getCurrentArtistMusics() {
+    MusicsModel model(db);
+    View view;
+    
+    try {
+        cout << view.showMusicsList(model.getCurrentArtistMusics());
+    } catch(ClientException &exc) {
+        cout << view.showResponse(exc.getCode());
+    }
 }
