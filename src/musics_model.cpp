@@ -105,3 +105,11 @@ vector<Music*> MusicsModel::getCurrentArtistMusics() {
 
     return this->db->getArtistSongs(this->db->getCurrentUser()->getId());
 }
+
+vector<Music*> MusicsModel::searchMusic(string name, string artist, string tag) {
+    if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList()) {
+        throw ClientException(403, "you have to log in as an artist!");
+    }
+
+    return this->db->getMusicsByNameAndArtistAndTag(name, artist, tag);
+}

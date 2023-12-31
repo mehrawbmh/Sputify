@@ -199,14 +199,11 @@ void CommandManager::handle(Database* db) {
         }
 
         try {
-            cout <<"validating...\n";
             validate(args);
-            cout << "processing...\n";
             process(args, db);
         } catch(ClientException &exc) {
             cout << "handling error...\n";
             View view;
-            cout << exc.what();
             cout << view.showResponse(exc.getCode()) << endl;
         }
     }
@@ -259,7 +256,12 @@ void CommandManager::handleAddSongToPlayList(const vector<string> &args, Databas
 }
 
 void CommandManager::handleSearchMusic(const vector<string> &args, Database* db) {
+    string name = findArgValue(args, "name");
+    string artist = findArgValue(args, "artist");
+    string tag = findArgValue(args, "tag");
 
+    MusicsController controller(db);
+    return controller.searchMusic(name, artist, tag);
 }
 
 void CommandManager::handleGetManyPlayLists(const vector<string> &args, Database* db) {

@@ -23,6 +23,8 @@ public:
     int deleteMusic(int songId);
 
     vector<Music*> getCurrentArtistMusics();
+
+    vector<Music*> searchMusic(string name, string artist, string tag);
 };
 
 #endif //SPUTIFY_MUSICS_MODEL_HPP

@@ -68,3 +68,14 @@ void MusicsController::getCurrentArtistMusics() {
         cout << view.showResponse(exc.getCode()) << endl;
     }
 }
+
+void MusicsController::searchMusic(string name, string artist, string tag) {
+    MusicsModel model(db);
+    View view;
+
+    try {
+        cout << view.showMusicsList(model.searchMusic(name, artist, tag));
+    } catch (ClientException &exc) {
+        cout << view.showResponse(exc.getCode()) << endl;
+    }
+}

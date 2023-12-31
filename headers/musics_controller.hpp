@@ -24,6 +24,8 @@ public:
     void deleteMusic(int songId);
 
     void getCurrentArtistMusics();
+
+    void searchMusic(string name, string artist, string tag);
 };
 
 #endif // SPUTIFY_MUSICS_CONTROLLER_HPP

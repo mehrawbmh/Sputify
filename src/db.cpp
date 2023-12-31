@@ -1,5 +1,6 @@
 #include "../headers/db.hpp"
 #include <stdexcept>
+#include <iostream>
 
 using namespace std;
 
@@ -92,6 +93,31 @@ vector<Music *> Database::getArtistSongs(int artistId)
             result.push_back(song);
         }
     }
+    return result;
+}
+
+vector<Music*> Database::getMusicsByNameAndArtistAndTag(string name, string artistName, string tagTitle) {
+    vector<Music*> result;
+
+    for (auto const &music: this->musics) {
+        string musicName = music->getName();
+        string artist = music->getArtist()->getUsername();
+
+        if (musicName.find(name) != string::npos && artist.find(artistName) != string::npos) {
+            cout << "GOT here!!\n" << music->getName() << endl;
+            if (tagTitle.empty()) {
+                result.push_back(music);
+            } else {
+                for (Tag* tag: music->getTags()) {
+                    if (tag->getTitle() == tagTitle) {
+                        result.push_back(music);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     return result;
 }
 
