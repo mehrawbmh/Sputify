@@ -6,7 +6,7 @@ ClientException::ClientException(int statusCode, string message): status(statusC
 const char* ClientException::what() const throw()
 {
     string output = to_string(this->status) + "Error: " + this->extraMessage;
-    cout << output << endl;
+    // cout << output << endl;
     return "";
 }
 

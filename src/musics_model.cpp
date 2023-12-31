@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 #include "../headers/client_exception.hpp"
+#include "../headers/view.hpp"
 
 using namespace std;
 
@@ -12,7 +13,7 @@ MusicsModel::MusicsModel(Database* _db): db(_db) {}
 
 int MusicsModel::addNewMusic(string title, string path, string album, int year, string durationTime, vector<string> tags) {
     if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canShareMusic()) {
-        return 403;
+        return STATUS_403_FORBIDDEN;
     }
 
     Music* music = new Music(dynamic_cast<Artist*>(this->db->getCurrentUser()), title, path, durationTime, year, album);
@@ -21,17 +22,16 @@ int MusicsModel::addNewMusic(string title, string path, string album, int year, 
     }
     
     this->db->addMusic(music);
-    return 200;
+    return STATUS_200_SUCCESS;
 }
 
 Music* MusicsModel::getOneMusic(int id) {
     for (Music* music: this->db->getAllMusics()) {
         if ((music->getId() == id) && (!music->isDeleted())) {
-            cout << "found\n";
             return music;
         }
     }
-    cout << "nothing found!\n";
+
     return nullptr;
 }
 
@@ -48,59 +48,60 @@ vector<Music*> MusicsModel::getAllMusics() {
 
 int MusicsModel::createPlaylist(string title) {
     if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList()) {
-        return 403;
+        return STATUS_403_FORBIDDEN;
     }
 
     try {
         this->db->addPlaylist(new PlayList(title, this->db->getCurrentUser()->getId()));
     } catch (logic_error &err) {
-        return 400;
+        return STATUS_400_BAD_REQUEST;
     }
-    return 200;
+
+    return STATUS_200_SUCCESS;
 }
 
 int MusicsModel::addMusicToPlaylist(int songId, string playlistName) {
     if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList()) {
-        return 403;
+        return STATUS_403_FORBIDDEN;
     }
 
     Music* music = this->db->getMusicById(songId);
     if (music == nullptr) {
-        return 404;
+        return STATUS_404_NOT_FOUND;
     }
 
     PlayList* pl = this->db->getPlaylistWithName(playlistName);
     if (pl == nullptr) {
-        return 404;
+        return STATUS_404_NOT_FOUND;
     }
 
     //todo check duplicate music in PL
     this->db->addMusicToPlaylist(music, pl);
-    return 200;
+    return STATUS_200_SUCCESS;
 }
 
 int MusicsModel::deleteMusic(int songId) {
     if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canShareMusic()) {
-        return 403;
+        return STATUS_403_FORBIDDEN;
     }
 
     Music* music = this->db->getMusicById(songId);
     if (music == nullptr || music->isDeleted()) {
-        return 404;
+        return STATUS_404_NOT_FOUND;
     }
     
     if (music->getArtist()->getId() != this->db->getCurrentUser()->getId()) {
-        return 403;
+        return STATUS_403_FORBIDDEN;
     }
 
     music->setAsDeleted();
     // todo: remove from playlists!
-    return 200;
+    return STATUS_200_SUCCESS;
 }
 
 vector<Music*> MusicsModel::getCurrentArtistMusics() {
     if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canShareMusic()) {
-        throw ClientException(403, "you have to log in as an artist!");
+        throw ClientException(STATUS_403_FORBIDDEN, "you have to log in as an artist!");
     }
 
     return this->db->getArtistSongs(this->db->getCurrentUser()->getId());
@@ -108,7 +109,7 @@ vector<Music*> MusicsModel::getCurrentArtistMusics() {
 
 vector<Music*> MusicsModel::searchMusic(string name, string artist, string tag) {
     if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList()) {
-        throw ClientException(403, "you have to log in as an artist!");
+        throw ClientException(STATUS_403_FORBIDDEN, "you have to log in as an artist!");
     }
 
     return this->db->getMusicsByNameAndArtistAndTag(name, artist, tag);

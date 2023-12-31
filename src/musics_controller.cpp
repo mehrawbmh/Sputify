@@ -10,7 +10,6 @@ void MusicsController::createMusic(string title, string path, string album, int 
     MusicsModel model = MusicsModel(db);
     View view;
     
-    cout << "here before model\n";
     int result = model.addNewMusic(title, path, album, year, durationTime, tags);
     cout << view.showResponse(result) << endl;
 }
@@ -20,10 +19,10 @@ void MusicsController::getOneMusic(int id) {
     View view;
 
     if (this->db->getCurrentUser() == nullptr) {
-        cout << view.showResponse(STATUS_403_FORBIDDEN);
+        cout << view.showResponse(STATUS_403_FORBIDDEN) << endl;
+        return;
     }
 
-    cout << "getting one music...\n";
     cout << view.showMusicDetail(model.getOneMusic(id)) << endl;
 }
 
@@ -32,11 +31,10 @@ void MusicsController::getAllMusics() {
     View view;
 
     if (this->db->getCurrentUser() == nullptr) {
-        cout << view.showResponse(STATUS_403_FORBIDDEN);
+        cout << view.showResponse(STATUS_403_FORBIDDEN) << endl;
         return;
     }
 
-    cout << "getting all musics...\n";
     cout << view.showMusicsList(model.getAllMusics());
 }
 
