@@ -8,6 +8,7 @@
 #include "../headers/base_user.hpp"
 #include "../headers/music.hpp"
 #include "../headers/artist.hpp"
+#include "db.hpp"
 
 
 using namespace std;
@@ -25,12 +26,15 @@ const int STATUS_403_FORBIDDEN = 403;
 const int STATUS_404_NOT_FOUND = 404;
 
 class View {
+private:
+    string getSongsFormatted(int artistId, Database* db);
+
 public:
     View() = default;
 
     string showResponse(int statusCode);
 
-    string showUserDetail(BaseUser* user);
+    string showUserDetail(BaseUser* user, Database* db);
 
     string showUsersList(vector<BaseUser*> users);
 

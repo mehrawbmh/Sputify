@@ -32,6 +32,7 @@ void MusicsController::getAllMusics() {
 
     if (this->db->getCurrentUser() == nullptr) {
         cout << view.showResponse(STATUS_403_FORBIDDEN);
+        return;
     }
 
     cout << "getting all musics...\n";

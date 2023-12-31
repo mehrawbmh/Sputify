@@ -18,7 +18,7 @@ string View::showResponse(int statusCode)
     }
 }
 
-string View::showUserDetail(BaseUser *user)
+string View::showUserDetail(BaseUser *user, Database* db)
 {
     if (user == nullptr) {
         return RESOPNSE_404_NOT_FOUND;
@@ -37,10 +37,25 @@ string View::showUserDetail(BaseUser *user)
         //todo complete it
     } else if (user->canShareMusic()) {
         response = response + "Songs: ";
-        // response = response + this->getSongsFormatted();
+        response = response + this->getSongsFormatted(user->getId(), db);
     }
 
     return response;
+}
+
+string View::getSongsFormatted(int artistId, Database* db) {
+    string result;
+    for (Music* music: db->getAllMusics()) {
+        if (!music->isDeleted() || music->getArtist()->getId() == artistId) {
+            result += music->getName() + ", ";
+        }
+    }
+
+    result.pop_back();
+    result.pop_back();
+    result += "\n";
+
+    return result;
 }
 
 string View::showUsersList(vector<BaseUser*> users) {

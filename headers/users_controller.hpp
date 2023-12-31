@@ -12,6 +12,7 @@ class UsersController {
 private:
     UsersModel model;
     View view;
+    Database *db;
 
 public:
     UsersController(Database* db);

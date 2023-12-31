@@ -1,7 +1,8 @@
 #include "../headers/users_controller.hpp"
 
-UsersController::UsersController(Database* db) {
-    this->model = UsersModel(db);
+UsersController::UsersController(Database* db_) {
+    this->db = db_;
+    this->model = UsersModel(db_);
 }
 
 void UsersController::signUp(const string &userName, const string &passWord, const string &mode) {
@@ -30,9 +31,9 @@ void UsersController::logout() {
 void UsersController::getOneUser(int id) {
     try {
         BaseUser* user = this->model.getOneUser(id);
-        cout << view.showUserDetail(user);
+        cout << view.showUserDetail(user, this->db) << endl;
     } catch(ClientException &exception) {
-        cout << view.showResponse(exception.getCode());
+        cout << view.showResponse(exception.getCode()) << endl;
     }
     
 }
