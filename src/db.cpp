@@ -58,3 +58,37 @@ BaseUser* Database::findOneUserByUsername(const string &username) {
     return nullptr;
 }
 
+vector<Music *> Database::getAllMusics()
+{
+    return this->musics;
+}
+
+void Database::addMusic(Music *music) {
+    int lastId = this->musics.size();
+    music->setId(lastId + 1);
+    this->musics.push_back(music);
+}
+
+vector<Music *> Database::getArtistSongs(int artistId)
+{
+    vector<Music*> result;
+
+    for (auto const &song: this->musics) {
+        if (song->getArtist()->getId() == artistId && !song->isDeleted()) {
+            result.push_back(song);
+        }
+    }
+    return result;
+}
+
+vector<PlayList*> Database::getUserPlayList(int userId)
+{
+    vector <PlayList*> result;
+
+    for (PlayList* pl: this->playlists) {
+        if (pl->getUserId() == userId) {
+            result.push_back(pl);
+        }
+    }
+    return result;
+}
