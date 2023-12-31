@@ -59,7 +59,7 @@ string View::getSongsFormatted(int artistId, Database* db) {
 }
 
 int View::getPlOrSongsCount(BaseUser* user, Database* db) {
-    if (user->canShareMusic()) {
+    if (user->canCreatePlayList()) {
         return db->getUserPlaylistCount(user);
     } else {
         return db->getArtistSongsCount(user);
