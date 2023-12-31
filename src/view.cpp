@@ -44,6 +44,10 @@ string View::showUserDetail(BaseUser *user)
 }
 
 string View::showUsersList(vector<BaseUser*> users) {
+    if (users.size() == 0) {
+        return RESOPNSE_201_NO_RESOPNSE;
+    }
+
     string response = "ID, Mode, Username, Playlists_number/Songs_number\n";
     for (auto const &user: users) {
         response += to_string(user->getId()) + ", ";
@@ -53,6 +57,43 @@ string View::showUsersList(vector<BaseUser*> users) {
         // int count = (user->canCreatePlayList()) ? user.getSongs().size() : user.getPlaylists().size();
         // response = response + count;
         response += "\n";
+    }
+
+    return response;
+}
+
+string View::showMusicDetail(Music* music) {
+    if (music == nullptr) {
+        return RESOPNSE_404_NOT_FOUND;
+    }
+    string response = "ID, Name, Artist, Year, Album, Tags, Duration\n";
+    response += to_string(music->getId()) + ", ";
+    response += music->getName() + ", ";
+    response += music->getArtist()->getUsername() + ", ";
+    response += to_string(music->getYear()) + ", ";
+    response += music->getAlbum() + ", ";
+
+    cout << "here in view...\n";
+    for (Tag* tag: music->getTags()) {
+        cout << "again here\n";
+        response += tag->getTitle() + ";";
+    }
+    cout << "here after view...\n";
+    response.pop_back();
+    response += ", ";
+    response += music->getDuration();
+
+    return response;
+}
+
+string View::showMusicsList(vector<Music*> musics) {
+    if (musics.size() == 0) {
+        return RESOPNSE_201_NO_RESOPNSE;
+    }
+
+    string response = "ID, Name, Artist\n";
+    for (Music* music: musics) {
+        response += to_string(music->getId()) + ", " + music->getName() + ", " + music->getArtist()->getUsername() + "\n";
     }
 
     return response;

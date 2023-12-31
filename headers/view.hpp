@@ -1,11 +1,13 @@
 #ifndef SPUTIFY_VIEW_HPP
-#define SPUTIFY_ARTIST_HPP
 #define SPUTIFY_VIEW_HPP
 
 #include <string>
 #include <iostream>
 #include <vector>
+
 #include "../headers/base_user.hpp"
+#include "../headers/music.hpp"
+#include "../headers/artist.hpp"
 
 
 using namespace std;
@@ -32,6 +34,9 @@ public:
 
     string showUsersList(vector<BaseUser*> users);
 
+    string showMusicDetail(Music* music);
+
+    string showMusicsList(vector<Music*> musics);
 };
 
 #endif
