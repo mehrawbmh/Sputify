@@ -56,10 +56,22 @@ Command CommandManager::findCommand(HttpMethod method, const string &route, int 
         return Command::LOGOUT;
     } else if (method == HttpMethod::POST && route == LOGIN_COMMAND) {
         return Command::LOGIN;
-    } else if (method == HttpMethod::GET && route == GET_USERS_COMMAND && argsCount < 4) {
+    } else if (method == HttpMethod::GET && route == GET_USER_COMMAND && argsCount < 4) {
         return Command::GET_USERS;
     } else if (method == HttpMethod::GET && route == GET_USER_COMMAND) {
         return Command::GET_USER;
+    } else if (method == HttpMethod::GET && route == GET_MUSICS_COMMAND && argsCount < 4) {
+        return Command::GET_MUSICS;
+    } else if (method == HttpMethod::GET && route == GET_MUSICS_COMMAND) {
+        return Command::GET_MUSIC;
+    } else if (method == HttpMethod::POST && route == ONE_MUSIC_COMMAND) {
+        return Command::CREATE_MUSIC;
+    } else if (method == HttpMethod::DELETE && route == ONE_MUSIC_COMMAND) {
+        return Command::DELETE_MUSIC;
+    } else if (method == HttpMethod::GET && route == GET_ARTIST_MUSICS_COMMAND) {
+        return Command::GET_ARTIST_MUSICS;
+    } else if (method == HttpMethod::GET && route == SEARCH_MUSIC_COMMAND) {
+        return Command::SEARCH_MUSIC;
     }
 
     throw ClientException(STATUS_404_NOT_FOUND, "Invalid command provided");
@@ -121,6 +133,18 @@ void CommandManager::mapCommandToController(Command c, const vector<string> &arg
         cout << "handling get one user...\n";
         return handleGetSingleUser(args, db);
     }
+    case Command::GET_MUSICS: {
+        cout << "Handling getting musics...\n";
+        return handleGetManyMusics(args, db);
+    }
+    case Command::GET_MUSIC: {
+        cout << "handlign get music details...\n";
+        return handleGetOneMusic(args, db);
+    }
+    case Command::CREATE_MUSIC: {
+        cout << "creating and sharing music...\n";
+        return handleAddMusic(args, db);
+    }
     default:
         cout << "GOING TO DEFAULT\n";
         break;
@@ -176,7 +200,14 @@ void CommandManager::handleGetManyUsers(const vector<string> &args, Database* db
 }
 
 void CommandManager::handleGetManyMusics(const vector<string> &args, Database* db) {
+    MusicsController controller(db);
+    controller.getAllMusics();
+}
 
+void CommandManager::handleGetOneMusic(const vector<string> &args, Database* db) {
+    string id = findArgValue(args, "id");
+    MusicsController controller = MusicsController(db);
+    return controller.getOneMusic(stoi(id));
 }
 
 void CommandManager::handleAddPlayList(const vector<string> &args, Database* db) {
@@ -189,4 +220,23 @@ void CommandManager::handleAddSongToPlayList(const vector<string> &args, Databas
 
 void CommandManager::handleGetManyPlayLists(const vector<string> &args, Database* db) {
 
+}
+
+void CommandManager::handleAddMusic(const vector<string> &args, Database* db) {
+    string title = findArgValue(args, "title");
+    string path = findArgValue(args, "path");
+    string year = findArgValue(args, "year");
+    string album = findArgValue(args, "album");
+    string durationTime = findArgValue(args, "duration");
+    string tags = findArgValue(args, "tags");
+
+    vector<string> tagsList;
+    string tag;
+    istringstream ss(tags);
+    while (getline(ss, tag, ';')) {
+        tagsList.push_back(tag);
+    }
+
+    MusicsController controller = MusicsController(db);
+    controller.createMusic(title, path, album, stoi(year), durationTime, tagsList);
 }
