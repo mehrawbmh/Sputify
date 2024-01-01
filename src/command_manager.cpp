@@ -262,7 +262,6 @@ void CommandManager::handleSearchMusic(const vector<string> &args, Database* db)
 void CommandManager::handleGetManyPlayLists(const vector<string> &args, Database* db) {
     string userId = findArgValue(args, "id");
     MusicsController controller(db);
-
     return controller.getUserPlaylists(stoi(userId));
 }
 

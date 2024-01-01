@@ -22,6 +22,7 @@ public:
     int getId();
     void addMusic(Music* music);
     string getPlaylistDuration();
+    int getSongsCount();
 };
 
 #endif //SPUTIFY_PLAY_LIST_HPP

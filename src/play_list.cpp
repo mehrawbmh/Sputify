@@ -28,5 +28,17 @@ string PlayList::getPlaylistDuration() {
         sum += music->getDurationInSeconds();
     }
 
-    return to_string(sum);
+    return Music::formatSecondsToTime(sum);
+}
+
+int PlayList::getSongsCount() {
+    int count = 0;
+    for (Music* music: this->musics) {
+        if (music->isDeleted()) {
+            continue;
+        }
+        count++;
+    }
+
+    return count;
 }

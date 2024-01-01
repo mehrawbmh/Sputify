@@ -57,20 +57,29 @@ Artist* Music::getArtist() {
 
 int Music::getDurationInSeconds() {
     string durationFormatted = this->timeDuration;
+
     if (durationFormatted.size() != 8) {
         throw std::logic_error("bad format for music time!");
     }
 
-    string hour = durationFormatted.substr(7,6);
-    string minutes = durationFormatted.substr(4,3);
-    string seconds = durationFormatted.substr(1,0);
+    string hours = durationFormatted.substr(0,2);
+    string minutes = durationFormatted.substr(3,2);
+    string seconds = durationFormatted.substr(6,2);
 
-    cout << "HOUR" << hour << endl;
-    cout << "MIN" << minutes << endl;
-    cout << "SEC" << seconds << endl;
-
-    abort();
-
-    return (stoi(hour) * 3600) + (stoi(minutes) * 60) + stoi(seconds);
+    int result = (stoi(hours) * 3600) + (stoi(minutes) * 60) + stoi(seconds);
+    return result;
 }
 
+string Music::formatSecondsToTime(int seconds) {
+    int hour = seconds / 3600;
+    string hours = (hour > 9) ? to_string(hour) : ("0" + to_string(hour));
+
+    int minute = seconds % 3600;
+    minute = minute / 60;
+    string minutes = (minute > 9) ? to_string(minute) : ("0" + to_string(minute));
+
+    seconds = seconds % 60;
+    string secondsString = (seconds > 9) ? to_string(seconds) : ("0" + to_string(seconds));
+
+    return hours + ":" + minutes + ":" + secondsString;
+}

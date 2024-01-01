@@ -70,7 +70,7 @@ string View::getPlayListsFormatted(int userId, Database* db) {
     if (result.empty()) {
         return "\n";
     }
-    
+
     result.pop_back();
     result.pop_back();
     result += "\n";
@@ -164,9 +164,19 @@ string View::showMusicListDetailed(vector<Music*> musics) {
 
 string View::showPlaylists(vector<PlayList*> playlists) {
     if (playlists.size() == 0) {
-        return RESOPNSE_201_NO_RESOPNSE;
+        return RESOPNSE_201_NO_RESOPNSE + "\n";
     }
 
+    string response = "Playlist_ID, Playlist_name, Songs_number, Duration\n";
 
+    for (PlayList* playlist: playlists) {
+        response += to_string(playlist->getId()) + ", ";
+        response += playlist->getTitle() + ", ";
+        response += to_string(playlist->getSongsCount()) + ", ";
+        response += playlist->getPlaylistDuration();
+        response += "\n";
+    }
+
+    return response;
 }
 
