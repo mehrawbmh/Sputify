@@ -5,6 +5,10 @@ bool sortPlaylistsWithName(PlayList* p1, PlayList* p2) {
     return p1->getTitle() < p2->getTitle();
 }
 
+bool sortUsersByUsername(BaseUser* u1, BaseUser* u2) {
+    return u1->getUsername() < u2->getUsername();
+}
+
 string View::showResponse(int statusCode)
 {
     switch (statusCode) {
@@ -95,6 +99,7 @@ string View::showUsersList(vector<BaseUser*> users, Database* db) {
     if (users.size() == 0) {
         return RESOPNSE_201_NO_RESOPNSE;
     }
+    sort(users.begin(), users.end(), sortUsersByUsername);
 
     string response = "ID, Mode, Username, Playlists_number/Songs_number\n";
     for (auto const &user: users) {
