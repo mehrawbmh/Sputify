@@ -9,6 +9,10 @@
 
 using namespace std;
 
+const int HOUR_SECONDS = 3600;
+const int MAX_ONE_DIGIT_NUMBER = 9;
+const int MINUTE_SECONDS = 60;
+
 class Music {
 private:
     int id;

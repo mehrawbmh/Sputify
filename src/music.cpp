@@ -71,15 +71,15 @@ int Music::getDurationInSeconds() {
 }
 
 string Music::formatSecondsToTime(int seconds) {
-    int hour = seconds / 3600;
-    string hours = (hour > 9) ? to_string(hour) : ("0" + to_string(hour));
+    int hour = seconds / HOUR_SECONDS;
+    string hours = (hour > MAX_ONE_DIGIT_NUMBER) ? to_string(hour) : ("0" + to_string(hour));
 
-    int minute = seconds % 3600;
-    minute = minute / 60;
-    string minutes = (minute > 9) ? to_string(minute) : ("0" + to_string(minute));
+    int minute = seconds % HOUR_SECONDS;
+    minute = minute / MINUTE_SECONDS;
+    string minutes = (minute > MAX_ONE_DIGIT_NUMBER) ? to_string(minute) : ("0" + to_string(minute));
 
-    seconds = seconds % 60;
-    string secondsString = (seconds > 9) ? to_string(seconds) : ("0" + to_string(seconds));
+    seconds = seconds % MINUTE_SECONDS;
+    string secondsString = (seconds > MAX_ONE_DIGIT_NUMBER) ? to_string(seconds) : ("0" + to_string(seconds));
 
     return hours + ":" + minutes + ":" + secondsString;
 }
