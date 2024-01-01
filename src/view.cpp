@@ -21,7 +21,7 @@ string View::showResponse(int statusCode)
 string View::showUserDetail(BaseUser *user, Database* db)
 {
     if (user == nullptr) {
-        return RESOPNSE_404_NOT_FOUND;
+        return RESOPNSE_404_NOT_FOUND + "\n";
     }
 
     string response;
@@ -33,8 +33,7 @@ string View::showUserDetail(BaseUser *user, Database* db)
 
     if (user->canCreatePlayList()) {
         response = response + "Playlists: ";
-        // response = response + this->getPlayListsFormatted();
-        //todo complete it
+        response = response + this->getPlayListsFormatted(user->getId(), db);
     } else if (user->canShareMusic()) {
         response = response + "Songs: ";
         response = response + this->getSongsFormatted(user->getId(), db);
@@ -46,11 +45,32 @@ string View::showUserDetail(BaseUser *user, Database* db)
 string View::getSongsFormatted(int artistId, Database* db) {
     string result;
     for (Music* music: db->getAllMusics()) {
-        if (!music->isDeleted() || music->getArtist()->getId() == artistId) {
+        if (!music->isDeleted() && music->getArtist()->getId() == artistId) {
             result += music->getName() + ", ";
         }
     }
 
+    if (result.empty()) {
+        return "\n";
+    }
+
+    result.pop_back();
+    result.pop_back();
+    result += "\n";
+
+    return result;
+}
+
+string View::getPlayListsFormatted(int userId, Database* db) {
+    string result;
+    for (PlayList* pl: db->getUserPlayList(userId)) {
+        result += pl->getTitle() + ", ";
+    }
+
+    if (result.empty()) {
+        return "\n";
+    }
+    
     result.pop_back();
     result.pop_back();
     result += "\n";
@@ -141,3 +161,12 @@ string View::showMusicListDetailed(vector<Music*> musics) {
 
     return response;
 }
+
+string View::showPlaylists(vector<PlayList*> playlists) {
+    if (playlists.size() == 0) {
+        return RESOPNSE_201_NO_RESOPNSE;
+    }
+
+
+}
+
