@@ -25,6 +25,8 @@ public:
     vector<Music*> getCurrentArtistMusics();
 
     vector<Music*> searchMusic(string name, string artist, string tag);
+
+    vector <PlayList*> getUserPlaylists(int userId);
 };
 
 #endif //SPUTIFY_MUSICS_MODEL_HPP

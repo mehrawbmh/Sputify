@@ -77,3 +77,14 @@ void MusicsController::searchMusic(string name, string artist, string tag) {
         cout << view.showResponse(exc.getCode()) << endl;
     }
 }
+
+void MusicsController::getUserPlaylists(int id) {
+    MusicsModel model(db);
+    View (view);
+
+    try {
+        cout << view.showPlaylists(model.getUserPlaylists(id));
+    } catch (ClientException &exception) {
+        cout << view.showResponse(exception.getCode()) << endl;
+    }
+}

@@ -8,6 +8,7 @@ using namespace std;
 class MusicsController {
 private:
     Database* db;
+
 public:
     MusicsController(Database* db);
 
@@ -26,6 +27,8 @@ public:
     void getCurrentArtistMusics();
 
     void searchMusic(string name, string artist, string tag);
+
+    void getUserPlaylists(int id);
 };
 
 #endif // SPUTIFY_MUSICS_CONTROLLER_HPP

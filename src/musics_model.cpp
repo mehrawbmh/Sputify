@@ -114,3 +114,21 @@ vector<Music*> MusicsModel::searchMusic(string name, string artist, string tag) 
 
     return this->db->getMusicsByNameAndArtistAndTag(name, artist, tag);
 }
+
+vector <PlayList*> MusicsModel::getUserPlaylists(int userId) {
+    BaseUser* user = this->db->findOneUserById(userId);
+
+    if (this->db->getCurrentUser() == nullptr || this->db->getCurrentUser()->canShareMusic()) {
+        throw ClientException(STATUS_403_FORBIDDEN, "you do not have access to this page");
+    }
+
+    if (user == nullptr)  {
+        throw ClientException(STATUS_404_NOT_FOUND, "user not found");
+    }
+
+    if (user->canShareMusic()) {
+        throw ClientException(STATUS_400_BAD_REQUEST, "you can not get an artist\'s playlist!");
+    }
+
+    return this->db->getUserPlayList(userId);
+}

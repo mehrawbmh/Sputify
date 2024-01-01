@@ -7,6 +7,7 @@
 
 #include "../headers/base_user.hpp"
 #include "../headers/music.hpp"
+#include "../headers/play_list.hpp"
 #include "../headers/artist.hpp"
 #include "db.hpp"
 
@@ -29,6 +30,7 @@ class View {
 private:
     string getMusicDetail(Music* music);
     string getSongsFormatted(int artistId, Database* db);
+    string getPlayListsFormatted(int userId, Database* db);
     int getPlOrSongsCount(BaseUser* user, Database* db);
 public:
     View() = default;
@@ -44,6 +46,8 @@ public:
     string showMusicsList(vector<Music*> musics);
 
     string showMusicListDetailed(vector<Music*> musics);
+
+    string showPlaylists(vector<PlayList*> playlists);
 };
 
 #endif

@@ -34,6 +34,7 @@ public:
     string getDuration();
     int getYear();
     Artist* getArtist();
+    int getDurationInSeconds();
 };
 
 #endif //SPUTIFY_MUSIC_HPP

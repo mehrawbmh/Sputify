@@ -21,3 +21,12 @@ void PlayList::setId(int id_) {
 void PlayList::addMusic(Music* music) {
     this->musics.push_back(music);
 }
+
+string PlayList::getPlaylistDuration() {
+    int sum = 0;
+    for (Music* music: this->musics) {
+        sum += music->getDurationInSeconds();
+    }
+
+    return to_string(sum);
+}
