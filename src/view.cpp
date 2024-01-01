@@ -1,4 +1,9 @@
 #include "../headers/view.hpp"
+#include <algorithm>
+
+bool sortPlaylistsWithName(PlayList* p1, PlayList* p2) {
+    return p1->getTitle() < p2->getTitle();
+}
 
 string View::showResponse(int statusCode)
 {
@@ -167,6 +172,7 @@ string View::showPlaylists(vector<PlayList*> playlists) {
         return RESOPNSE_201_NO_RESOPNSE + "\n";
     }
 
+    sort(playlists.begin(), playlists.end(), sortPlaylistsWithName);
     string response = "Playlist_ID, Playlist_name, Songs_number, Duration\n";
 
     for (PlayList* playlist: playlists) {
