@@ -36,14 +36,7 @@ Music* MusicsModel::getOneMusic(int id) {
 }
 
 vector<Music*> MusicsModel::getAllMusics() {
-    vector<Music*> result;
-    for (Music* music: this->db->getAllMusics()) {
-        if (!music->isDeleted()) {
-            result.push_back(music);
-        }
-    }
-
-    return result;
+    return this->db->getAllMusics(true);
 }
 
 int MusicsModel::createPlaylist(string title) {
@@ -94,7 +87,7 @@ int MusicsModel::deleteMusic(int songId) {
         return STATUS_403_FORBIDDEN;
     }
 
-    music->setAsDeleted();
+    music->markAsDeleted();
     // todo: remove from playlists!
     return STATUS_200_SUCCESS;
 }
