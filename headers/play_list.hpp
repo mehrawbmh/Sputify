@@ -4,11 +4,12 @@
 #include <string>
 #include <vector>
 
+#include "entity.hpp"
 #include "music.hpp"
 
 using namespace std;
 
-class PlayList {
+class PlayList: public Entity {
 private:
     vector<Music*> musics;
     string title;

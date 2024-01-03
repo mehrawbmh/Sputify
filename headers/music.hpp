@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "entity.hpp"
 #include "artist.hpp"
 #include "tag.hpp"
 
@@ -13,7 +14,7 @@ const int HOUR_SECONDS = 3600;
 const int MAX_ONE_DIGIT_NUMBER = 9;
 const int MINUTE_SECONDS = 60;
 
-class Music {
+class Music: public Entity {
 private:
     int id;
     Artist* artist;
@@ -23,12 +24,9 @@ private:
     int year;
     string path;
     string timeDuration;
-    bool deleted = false;
     
 public:
     Music(Artist* singer, string title, string filePath, string duration, int year, string album);
-    bool isDeleted();
-    void setAsDeleted();
     void setId(int id_);
     int getId();
     vector<Tag*> getTags();

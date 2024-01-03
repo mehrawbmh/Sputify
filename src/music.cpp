@@ -11,14 +11,6 @@ Music::Music(Artist* singer, string title, string filePath, string duration, int
     this->tags = {};
  }
 
-bool Music::isDeleted() {
-    return this->deleted;
-}
-
-void Music::setAsDeleted() {
-    this->deleted = true;
-}
-
 void Music::setId(int id_) {
     this->id = id_;
 }
