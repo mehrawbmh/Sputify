@@ -62,8 +62,18 @@ BaseUser* Database::findOneUserByUsername(const string &username) {
     return nullptr;
 }
 
-vector<Music *> Database::getAllMusics() {
-    return this->musics;
+vector<Music *> Database::getAllMusics(bool excludeDeleted) {
+    if (!excludeDeleted) {
+        return this->musics;
+    }
+
+    vector<Music*> result;
+    for (Music* mus: this->musics) {
+        if (!mus->isDeleted()) {
+            result.push_back(mus);
+        }
+    }
+    return result;
 }
 
 void Database::addMusic(Music *music) {
