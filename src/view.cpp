@@ -51,8 +51,8 @@ string View::showUserDetail(BaseUser *user, Database* db) {
 
 string View::getSongsFormatted(int artistId, Database* db) {
     string result;
-    for (Music* music: db->getAllMusics()) {
-        if (!music->isDeleted() && music->getArtist()->getId() == artistId) {
+    for (Music* music: db->getAllMusics(true)) {
+        if (music->getArtist()->getId() == artistId) {
             result += music->getName() + ", ";
         }
     }
