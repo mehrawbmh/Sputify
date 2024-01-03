@@ -44,7 +44,6 @@ const string GET_ARTIST_MUSICS_COMMAND = "registered_musics";
 const string PLAYLIST_ACTIONS_COMMAND = "playlist";
 const string ADD_MUSIC_TO_PLAYLIST_COMMAND = "add_playlist";
 
-
 class CommandManager {
 private:
     static string findArgValue(vector<string> args, const string &target);
@@ -74,6 +73,7 @@ private:
 
 public:
     CommandManager() = default;
+    
     static void handle(Database* db);
 };
 

@@ -9,8 +9,7 @@ bool sortUsersByUsername(BaseUser* u1, BaseUser* u2) {
     return u1->getUsername() < u2->getUsername();
 }
 
-string View::showResponse(int statusCode)
-{
+string View::showResponse(int statusCode) {
     switch (statusCode) {
     case STATUS_200_SUCCESS:
         return RESOPNSE_200_SUCCESS;
@@ -27,8 +26,7 @@ string View::showResponse(int statusCode)
     }
 }
 
-string View::showUserDetail(BaseUser *user, Database* db)
-{
+string View::showUserDetail(BaseUser *user, Database* db) {
     if (user == nullptr) {
         return RESOPNSE_404_NOT_FOUND + "\n";
     }
@@ -190,4 +188,3 @@ string View::showPlaylists(vector<PlayList*> playlists) {
 
     return response;
 }
-

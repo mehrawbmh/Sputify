@@ -6,16 +6,16 @@
 using namespace std;
 
 class ClientException: public exception {
+private:
+    int status;
+    string extraMessage;
+
 public:
     ClientException(int statusCode, string message = "");
 
     const char * what() const throw ();
 
     int getCode();
-
-private:
-    int status;
-    string extraMessage;
 };
 
 #endif

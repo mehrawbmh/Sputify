@@ -5,8 +5,7 @@
 
 MusicsController::MusicsController(Database *_db) : db(_db) {}
 
-void MusicsController::createMusic(string title, string path, string album, int year, string durationTime, vector<string> tags)
-{
+void MusicsController::createMusic(string title, string path, string album, int year, string durationTime, vector<string> tags) {
     MusicsModel model = MusicsModel(db);
     View view;
     

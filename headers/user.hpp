@@ -6,7 +6,9 @@
 class User: public BaseUser {
 public:
     User(string n, string p);
+
     bool canCreatePlayList() override;
+    
     bool canShareMusic() override;
 };
 

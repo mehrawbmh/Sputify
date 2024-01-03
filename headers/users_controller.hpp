@@ -2,6 +2,7 @@
 #define SPUTIFY_USERS_CONTROLLER_HPP
 
 #include <string>
+
 #include "users_model.hpp"
 #include "view.hpp"
 #include "client_exception.hpp"

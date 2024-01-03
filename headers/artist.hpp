@@ -6,7 +6,9 @@
 class Artist: public BaseUser {
 public:
     Artist(string n, string p);
+
     bool canCreatePlayList() override;
+    
     bool canShareMusic() override;
 };
 

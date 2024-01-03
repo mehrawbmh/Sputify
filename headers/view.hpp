@@ -5,10 +5,10 @@
 #include <iostream>
 #include <vector>
 
-#include "../headers/base_user.hpp"
-#include "../headers/music.hpp"
-#include "../headers/play_list.hpp"
-#include "../headers/artist.hpp"
+#include "base_user.hpp"
+#include "music.hpp"
+#include "play_list.hpp"
+#include "artist.hpp"
 #include "db.hpp"
 
 
@@ -29,9 +29,13 @@ const int STATUS_404_NOT_FOUND = 404;
 class View {
 private:
     string getMusicDetail(Music* music);
+
     string getSongsFormatted(int artistId, Database* db);
+
     string getPlayListsFormatted(int userId, Database* db);
+    
     int getPlOrSongsCount(BaseUser* user, Database* db);
+
 public:
     View() = default;
 

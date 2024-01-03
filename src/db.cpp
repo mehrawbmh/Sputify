@@ -62,8 +62,7 @@ BaseUser* Database::findOneUserByUsername(const string &username) {
     return nullptr;
 }
 
-vector<Music *> Database::getAllMusics()
-{
+vector<Music *> Database::getAllMusics() {
     return this->musics;
 }
 
@@ -84,8 +83,7 @@ void Database::addPlaylist(PlayList* pl) {
     this->playlists.push_back(pl);
 }
 
-vector<Music *> Database::getArtistSongs(int artistId)
-{
+vector<Music *> Database::getArtistSongs(int artistId) {
     vector<Music*> result;
 
     for (auto const &song: this->musics) {
@@ -120,8 +118,7 @@ vector<Music*> Database::getMusicsByNameAndArtistAndTag(string name, string arti
     return result;
 }
 
-vector<PlayList*> Database::getUserPlayList(int userId)
-{
+vector<PlayList*> Database::getUserPlayList(int userId) {
     vector <PlayList*> result;
 
     for (PlayList* pl: this->playlists) {

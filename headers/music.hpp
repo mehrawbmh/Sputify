@@ -1,11 +1,11 @@
 #ifndef SPUTIFY_MUSIC_HPP
 #define SPUTIFY_MUSIC_HPP
 
-#include "artist.hpp"
-#include "tag.hpp"
-
 #include <string>
 #include <vector>
+
+#include "artist.hpp"
+#include "tag.hpp"
 
 using namespace std;
 

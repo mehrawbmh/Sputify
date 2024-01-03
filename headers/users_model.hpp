@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+
 #include "db.hpp"
 #include "base_user.hpp"
 
@@ -11,6 +12,7 @@ using namespace std;
 class UsersModel {
 private:
     Database* db;
+    
     void loginUser(BaseUser* user);
 
 public:

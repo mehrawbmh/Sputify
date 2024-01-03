@@ -66,7 +66,7 @@ int Music::getDurationInSeconds() {
     string minutes = durationFormatted.substr(3,2);
     string seconds = durationFormatted.substr(6,2);
 
-    int result = (stoi(hours) * 3600) + (stoi(minutes) * 60) + stoi(seconds);
+    int result = (stoi(hours) * HOUR_SECONDS) + (stoi(minutes) * MINUTE_SECONDS) + stoi(seconds);
     return result;
 }
 

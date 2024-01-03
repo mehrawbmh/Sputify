@@ -8,6 +8,7 @@ using namespace std;
 class Tag {
 private:
     string title = "";
+
 public:
     Tag(string name);
         
