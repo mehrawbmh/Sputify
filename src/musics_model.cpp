@@ -92,6 +92,26 @@ int MusicsModel::deleteMusic(int songId) {
     return STATUS_200_SUCCESS;
 }
 
+void MusicsModel::deletePlaylist(const string &playlistName) {
+    if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList()) {
+        throw ClientException(STATUS_403_FORBIDDEN, "you have to log in as a normal user!");
+    }
+
+    PlayList* playlist = this->db->getPlaylistWithName(playlistName);
+    if (playlist == nullptr) {
+        throw ClientException(STATUS_404_NOT_FOUND, "playlist not found!");
+    }
+
+    for (PlayList* pl: this->db->getUserPlayList(this->db->getCurrentUser()->getId())) {
+        if (pl->getId() == playlist->getId()) {
+            playlist->markAsDeleted();
+            return;
+        }
+    }
+
+    throw ClientException(STATUS_403_FORBIDDEN, "you can't delete other user's playlists!");
+}
+
 vector<Music*> MusicsModel::getCurrentArtistMusics() {
     if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canShareMusic()) {
         throw ClientException(STATUS_403_FORBIDDEN, "you have to log in as an artist!");

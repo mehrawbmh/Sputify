@@ -22,7 +22,9 @@ public:
 
     void addMusicToPlaylist(int songId, string playlistName);
 
-    void deleteMusic(int songId);
+    void deleteMusic(const int &songId);
+
+    void deletePlaylist(const string &playlistName);
 
     void getCurrentArtistMusics();
 

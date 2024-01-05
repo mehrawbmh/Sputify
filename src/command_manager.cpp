@@ -80,6 +80,8 @@ Command CommandManager::findCommand(HttpMethod method, const string &route, int 
         return Command::GET_PLAY_LIST;
     } else if (method == HttpMethod::PUT && route == ADD_MUSIC_TO_PLAYLIST_COMMAND) {
         return Command::ADD_MUSIC_TO_PLAY_LIST;
+    } else if (method == HttpMethod::DELETE && route == PLAYLIST_ACTIONS_COMMAND) {
+        return Command::DELETE_PLAY_LIST;
     }
 
     throw ClientException(STATUS_404_NOT_FOUND, "Invalid command provided");
@@ -118,63 +120,67 @@ void CommandManager::handleLogin(const vector<string> &args) {
 void CommandManager::mapCommandToController(Command c, const vector<string> &args) {
     switch (c) {
     case Command::SIGNUP: {
-        // cout << "handling signup...\n";
+        cout << "handling signup...\n";
         return handleSignUp(args);
     }
     case Command::LOGOUT: {
-        // cout << "handling logout...\n";
+        cout << "handling logout...\n";
         return handleLogout();
     }
     case Command::LOGIN: {
-        // cout << "handling login...\n";
+        cout << "handling login...\n";
         return handleLogin(args);
     }
     case Command::GET_USERS: {
-        // cout << "handling get many users...\n";
+        cout << "handling get many users...\n";
         return handleGetManyUsers(args);
     }
     case Command::GET_USER: {
-        // cout << "handling get one user...\n";
+        cout << "handling get one user...\n";
         return handleGetSingleUser(args);
     }
     case Command::GET_MUSICS: {
-        // cout << "Handling getting musics...\n";
+        cout << "Handling getting musics...\n";
         return handleGetManyMusics(args);
     }
     case Command::GET_MUSIC: {
-        // cout << "handlign get music details...\n";
+        cout << "handlign get music details...\n";
         return handleGetOneMusic(args);
     }
     case Command::GET_ARTIST_MUSICS: {
-        // cout << "getting regitered musics...\n";
+        cout << "getting regitered musics...\n";
         return handleGetArtistMusics(args);
     }
     case Command::CREATE_MUSIC: {
-        // cout << "creating and sharing music...\n";
+        cout << "creating and sharing music...\n";
         return handleAddMusic(args);
     }
     case Command::DELETE_MUSIC: {
-        // cout << "deleting music...\n";
+        cout << "deleting music...\n";
         return handleDeleteMusic(args);   
     }
     case Command::ADD_PLAY_LIST: {
-        // cout << "adding playlist...\n";
+        cout << "adding playlist...\n";
         return handleAddPlayList(args);
     }
     case Command::GET_PLAY_LIST: {
-        // cout << "getting playlist for user\n";
+        cout << "getting playlist for user\n";
         return handleGetManyPlayLists(args);
     }
+    case Command::DELETE_PLAY_LIST: {
+        cout << "deleting playlist for user\n";
+        return handleDeletePlaylist(args);
+    }
     case Command::ADD_MUSIC_TO_PLAY_LIST: {
-        // cout << "adding music to playlist...\n";
+        cout << "adding music to playlist...\n";
         return handleAddSongToPlayList(args);
     }
     case Command::SEARCH_MUSIC: {
-        // cout << "searching music...\n";
+        cout << "searching music...\n";
         return handleSearchMusic(args);
     }
     default:
-        // cout << "GOING TO DEFAULT\n";
+        cout << "GOING TO DEFAULT\n";
         break;
     }
 }
@@ -290,4 +296,9 @@ void CommandManager::handleDeleteMusic(const vector<string> &args) {
     string id = findArgValue(args, "id");
     MusicsController controller(db);
     return controller.deleteMusic(stoi(id));
+}
+
+void CommandManager::handleDeletePlaylist(const vector<string> &args) {
+    string plName = findArgValue(args, "name");
+    return this->musicsController.deletePlaylist(plName);
 }

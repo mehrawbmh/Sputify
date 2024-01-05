@@ -41,6 +41,8 @@ public:
 
     string showResponse(int statusCode);
 
+    string showSuccessResponse();
+
     string showUserDetail(BaseUser* user, Database* db);
 
     string showUsersList(vector<BaseUser*> users, Database* db);

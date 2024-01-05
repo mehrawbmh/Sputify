@@ -1,6 +1,7 @@
 #include "../headers/db.hpp"
 #include <stdexcept>
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
@@ -83,6 +84,8 @@ void Database::addMusic(Music *music) {
 }
 
 void Database::addPlaylist(PlayList* pl) {
+    assert(!pl->isDeleted());
+
     for (PlayList* playlist: playlists) {
         if (playlist->getUserId() == pl->getUserId() && pl->getTitle() == playlist->getTitle()) {
             throw logic_error("playlist name should be unique");
@@ -132,7 +135,7 @@ vector<PlayList*> Database::getUserPlayList(int userId) {
     vector <PlayList*> result;
 
     for (PlayList* pl: this->playlists) {
-        if (pl->getUserId() == userId) {
+        if (!pl->isDeleted() && pl->getUserId() == userId) {
             result.push_back(pl);
         }
     }
@@ -145,7 +148,7 @@ void Database::addMusicToPlaylist(Music* music, PlayList* playList) {
 
 PlayList* Database::getPlaylistWithId(int playListId) {
     for (PlayList* playlist: playlists) {
-        if (playlist->getId() == playListId) {
+        if (playlist->getId() == playListId && !playlist->isDeleted()) {
             return playlist;
         }
     }
@@ -154,7 +157,7 @@ PlayList* Database::getPlaylistWithId(int playListId) {
 
 PlayList* Database::getPlaylistWithName(string name) {
     for (PlayList* playlist: playlists) {
-        if (playlist->getTitle() == name) {
+        if (playlist->getTitle() == name && !playlist->isDeleted()) {
             return playlist;
         }
     }
@@ -173,7 +176,7 @@ Music* Database::getMusicById(int musicId) {
 int Database::getUserPlaylistCount(BaseUser* user) {
     int count = 0;
     for (PlayList* pl: this->playlists) {
-        if (pl->getUserId() == user->getId()) {
+        if (pl->getUserId() == user->getId() && !pl->isDeleted()) {
             count++;
         }
     }

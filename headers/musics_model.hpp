@@ -27,6 +27,8 @@ public:
     vector<Music*> searchMusic(string name, string artist, string tag);
 
     vector <PlayList*> getUserPlaylists(int userId);
+
+    void deletePlaylist(const string &playlistName);
 };
 
 #endif //SPUTIFY_MUSICS_MODEL_HPP

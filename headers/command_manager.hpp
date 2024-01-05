@@ -28,6 +28,7 @@ enum class Command {
     ADD_MUSIC_TO_PLAY_LIST,
     ADD_PLAY_LIST,
     GET_PLAY_LIST,
+    DELETE_PLAY_LIST,
     GET_USER,
     GET_USERS,
 };
@@ -71,6 +72,7 @@ private:
     void handleDeleteMusic(const vector<string> &args);
     void handleGetOneMusic(const vector<string> &args);
     void handleSearchMusic(const vector<string> &args);
+    void handleDeletePlaylist(const vector<string> &args);
 
 public:    
     CommandManager(Database* db);

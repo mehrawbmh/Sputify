@@ -26,6 +26,10 @@ string View::showResponse(int statusCode) {
     }
 }
 
+string View::showSuccessResponse() {
+    return showResponse(STATUS_200_SUCCESS);
+}
+
 string View::showUserDetail(BaseUser *user, Database* db) {
     if (user == nullptr) {
         return RESOPNSE_404_NOT_FOUND + "\n";

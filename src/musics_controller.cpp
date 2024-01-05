@@ -49,10 +49,22 @@ void MusicsController::addMusicToPlaylist(int songId, string playlistName) {
     cout << view.showResponse(model.addMusicToPlaylist(songId, playlistName)) << endl;
 }
 
-void MusicsController::deleteMusic(int songId) {
+void MusicsController::deleteMusic(const int &songId) {
     MusicsModel model(db);
     View view;
     cout << view.showResponse(model.deleteMusic(songId)) << endl;
+}
+
+void MusicsController::deletePlaylist(const string &playlistName) {
+    MusicsModel model(db);
+    View view;
+    
+    try {
+        model.deletePlaylist(playlistName);
+        cout << view.showSuccessResponse() << endl;
+    } catch (ClientException &exception) {
+        cout << view.showResponse(exception.getCode()) << endl;
+    }
 }
 
 void MusicsController::getCurrentArtistMusics() {
