@@ -31,6 +31,11 @@ enum class Command {
     DELETE_PLAY_LIST,
     GET_USER,
     GET_USERS,
+    FOLLOW_USER,
+    UNFOLLOW_USER,
+    LIKE_MUSIC,
+    GET_RECOMMENDED_MUSICS,
+    GET_LIKED_MUSICS,
 };
 
 const string QUERY_PARAMS_SEPERATOR = "?";
@@ -44,6 +49,11 @@ const string SEARCH_MUSIC_COMMAND = "search_music";
 const string GET_ARTIST_MUSICS_COMMAND = "registered_musics";
 const string PLAYLIST_ACTIONS_COMMAND = "playlist";
 const string ADD_MUSIC_TO_PLAYLIST_COMMAND = "add_playlist";
+const string FOLLOW_USER_COMMAND = "follow";
+const string UNFOLLOW_USER_COMMAND = "unfollow";
+const string LIKE_MUSIC_COMMAND = "like";
+const string GET_LIKED_MUSICS_COMMAND = "likes";
+const string GET_RECOMMENDED_MUSICS_COMMAND = "recommendations";
 
 class CommandManager {
 private:    
@@ -51,13 +61,14 @@ private:
     MusicsController musicsController;
     UsersController usersController;
 
-
     string findArgValue(vector<string> args, const string &target);
     Command findCommand(HttpMethod method, const string &route, int argsCount);
     HttpMethod getRequestMode(const string &methodInput);
+
     void validate(const vector<string> &args);
     void process(const vector<string> &args);
     void mapCommandToController(Command c, const vector<string> &args);
+
     void handleSignUp(const vector<string> &args);
     void handleLogout();
     void handleLogin(const vector<string> &args);
@@ -73,6 +84,11 @@ private:
     void handleGetOneMusic(const vector<string> &args);
     void handleSearchMusic(const vector<string> &args);
     void handleDeletePlaylist(const vector<string> &args);
+    void handleLikeMusic(const vector<string> &args);
+    void handleFollowUser(const vector<string> &args);
+    void handleUnfollowUser(const vector<string> &args);
+    void handleGetLikedMusics(const vector<string> &args);
+    void handleGetRecommendedMusics(const vector<string> &args);
 
 public:    
     CommandManager(Database* db);

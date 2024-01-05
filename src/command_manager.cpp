@@ -82,6 +82,16 @@ Command CommandManager::findCommand(HttpMethod method, const string &route, int 
         return Command::ADD_MUSIC_TO_PLAY_LIST;
     } else if (method == HttpMethod::DELETE && route == PLAYLIST_ACTIONS_COMMAND) {
         return Command::DELETE_PLAY_LIST;
+    } else if (method == HttpMethod::GET && route == GET_RECOMMENDED_MUSICS_COMMAND) {
+        return Command::GET_RECOMMENDED_MUSICS;
+    } else if (method == HttpMethod::POST && route == LIKE_MUSIC_COMMAND) {
+        return Command::LIKE_MUSIC;
+    } else if (method == HttpMethod::POST && route == FOLLOW_USER_COMMAND) {
+        return Command::FOLLOW_USER;
+    } else if (method == HttpMethod::POST && route == UNFOLLOW_USER_COMMAND) {
+        return Command::UNFOLLOW_USER;
+    } else if (method == HttpMethod::GET && route == GET_LIKED_MUSICS_COMMAND) {
+        return Command::GET_LIKED_MUSICS;
     }
 
     throw ClientException(STATUS_404_NOT_FOUND, "Invalid command provided");
@@ -178,6 +188,21 @@ void CommandManager::mapCommandToController(Command c, const vector<string> &arg
     case Command::SEARCH_MUSIC: {
         cout << "searching music...\n";
         return handleSearchMusic(args);
+    }
+    case Command::LIKE_MUSIC: {
+        return handleLikeMusic(args);
+    }
+    case Command::FOLLOW_USER: {
+        return handleFollowUser(args);
+    }
+    case Command::UNFOLLOW_USER: {
+        return handleUnfollowUser(args);
+    }
+    case Command::GET_LIKED_MUSICS: {
+        return handleGetLikedMusics(args);
+    }
+    case Command::GET_RECOMMENDED_MUSICS: {
+        return handleGetRecommendedMusics(args);
     }
     default:
         cout << "GOING TO DEFAULT\n";
@@ -301,4 +326,24 @@ void CommandManager::handleDeleteMusic(const vector<string> &args) {
 void CommandManager::handleDeletePlaylist(const vector<string> &args) {
     string plName = findArgValue(args, "name");
     return this->musicsController.deletePlaylist(plName);
+}
+
+void CommandManager::handleLikeMusic(const vector<string> &args) {
+
+}
+
+void CommandManager::handleFollowUser(const vector<string> &args) {
+
+}
+
+void CommandManager::handleUnfollowUser(const vector<string> &args) {
+
+}
+
+void CommandManager::handleGetLikedMusics(const vector<string> &args) {
+
+}
+
+void CommandManager::handleGetRecommendedMusics(const vector<string> &args) {
+
 }
