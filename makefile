@@ -31,6 +31,12 @@ $(BUILD_DIR)/db.o: $(SRC_DIR)/db.cpp $(HEADERS_DIR)/db.hpp
 $(BUILD_DIR)/client_exception.o: $(SRC_DIR)/client_exception.cpp $(HEADERS_DIR)/client_exception.hpp
 	$(CCX) -c $(SRC_DIR)/client_exception.cpp -o $(BUILD_DIR)/client_exception.o
 
+$(BUILD_DIR)/format_exception.o: $(SRC_DIR)/format_exception.cpp $(HEADERS_DIR)/format_exception.hpp
+	$(CCX) -c $(SRC_DIR)/format_exception.cpp -o $(BUILD_DIR)/format_exception.o
+
+$(BUILD_DIR)/unique_exception.o: $(SRC_DIR)/unique_exception.cpp $(HEADERS_DIR)/unique_exception.hpp
+	$(CCX) -c $(SRC_DIR)/unique_exception.cpp -o $(BUILD_DIR)/unique_exception.o
+
 $(BUILD_DIR)/entity.o: $(SRC_DIR)/entity.cpp $(HEADERS_DIR)/entity.hpp
 	$(CCX) -c $(SRC_DIR)/entity.cpp -o $(BUILD_DIR)/entity.o
 
@@ -67,8 +73,8 @@ $(BUILD_DIR)/musics_controller.o: $(SRC_DIR)/musics_controller.cpp $(HEADERS_DIR
 $(BUILD_DIR)/play_list.o: $(SRC_DIR)/play_list.cpp $(HEADERS_DIR)/play_list.hpp $(HEADERS_DIR)/entity.hpp
 	$(CCX) -c $(SRC_DIR)/play_list.cpp -o $(BUILD_DIR)/play_list.o
 
-$(TARGET): $(BUILD_DIR) $(BIN_DIR) $(BUILD_DIR)/main.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o $(BUILD_DIR)/db.o $(BUILD_DIR)/tag.o $(BUILD_DIR)/music.o $(BUILD_DIR)/musics_controller.o $(BUILD_DIR)/musics_model.o $(BUILD_DIR)/play_list.o $(BUILD_DIR)/view.o $(BUILD_DIR)/entity.o
-	$(CC) $(BUILD_DIR)/main.o $(BUILD_DIR)/view.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o $(BUILD_DIR)/db.o $(BUILD_DIR)/tag.o $(BUILD_DIR)/music.o $(BUILD_DIR)/musics_controller.o $(BUILD_DIR)/musics_model.o $(BUILD_DIR)/play_list.o $(BUILD_DIR)/entity.o -o $(TARGET)
+$(TARGET): $(BUILD_DIR) $(BIN_DIR) $(BUILD_DIR)/main.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o $(BUILD_DIR)/db.o $(BUILD_DIR)/tag.o $(BUILD_DIR)/music.o $(BUILD_DIR)/musics_controller.o $(BUILD_DIR)/musics_model.o $(BUILD_DIR)/play_list.o $(BUILD_DIR)/view.o $(BUILD_DIR)/entity.o $(BUILD_DIR)/format_exception.o $(BUILD_DIR)/unique_exception.o
+	$(CC) $(BUILD_DIR)/main.o $(BUILD_DIR)/view.o $(BUILD_DIR)/base_user.o $(BUILD_DIR)/user.o $(BUILD_DIR)/artist.o $(BUILD_DIR)/command_manager.o $(BUILD_DIR)/users_model.o $(BUILD_DIR)/users_controller.o $(BUILD_DIR)/client_exception.o $(BUILD_DIR)/db.o $(BUILD_DIR)/tag.o $(BUILD_DIR)/music.o $(BUILD_DIR)/musics_controller.o $(BUILD_DIR)/musics_model.o $(BUILD_DIR)/play_list.o $(BUILD_DIR)/entity.o $(BUILD_DIR)/format_exception.o $(BUILD_DIR)/unique_exception.o -o $(TARGET)
 
 
 

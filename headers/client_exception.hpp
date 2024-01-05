@@ -18,4 +18,4 @@ public:
     int getCode();
 };
 
-#endif
+#endif //SPUTIFY_FORMAT_EXCEPTION_HPP

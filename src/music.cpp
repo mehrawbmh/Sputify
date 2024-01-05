@@ -1,4 +1,6 @@
 #include "../headers/music.hpp"
+#include "../headers/format_exception.hpp"
+
 #include <sstream>
 #include <istream>
 #include <stdexcept>
@@ -51,7 +53,7 @@ int Music::getDurationInSeconds() {
     string durationFormatted = this->timeDuration;
 
     if (durationFormatted.size() != 8) {
-        throw std::logic_error("bad format for music time!");
+        throw FormatException("bad format for music time!");
     }
 
     string hours = durationFormatted.substr(0,2);

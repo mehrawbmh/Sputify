@@ -1,4 +1,6 @@
 #include "../headers/db.hpp"
+#include "../headers/unique_exception.hpp"
+
 #include <stdexcept>
 #include <iostream>
 #include <cassert>
@@ -88,7 +90,7 @@ void Database::addPlaylist(PlayList* pl) {
 
     for (PlayList* playlist: playlists) {
         if (playlist->getUserId() == pl->getUserId() && pl->getTitle() == playlist->getTitle()) {
-            throw logic_error("playlist name should be unique");
+            throw UniqueException("playlist name should be unique");
         }
     }
     int lastId = this->playlists.size();

@@ -1,5 +1,6 @@
-#include "../headers/view.hpp"
 #include <algorithm>
+
+#include "../headers/view.hpp"
 
 bool sortPlaylistsWithName(PlayList* p1, PlayList* p2) {
     return p1->getTitle() < p2->getTitle();
