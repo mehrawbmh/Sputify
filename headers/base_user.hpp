@@ -2,6 +2,7 @@
 #define SPUTIFY_BASE_USER_HPP
 
 #include <string>
+#include <vector>
 
 #include "entity.hpp"
 
@@ -11,10 +12,14 @@ const string MODE_ARTIST = "artist";
 const string MODE_NORMAL_USER = "user";
 
 class BaseUser: public Entity {
-protected:
+private:
     int id;
     string username;
     string password; //fixme change to hashed password
+    vector<int> followers;
+    vector<int> followings;
+    vector<int> favoriteMusics;
+
 public:
     BaseUser(string username_, string password_);
 
@@ -25,6 +30,20 @@ public:
     string getUsername();
 
     string getPassword();
+
+    vector<int> getFavoriteMusics();
+
+    vector<int> getFollowers();
+
+    vector<int> getFollowings();
+
+    bool addFollower(int userId);
+
+    bool addFollowing(int userId);
+
+    bool removeFollower(int userId);
+
+    bool removeFollowing(int userId);
 
     virtual bool canShareMusic() = 0;
 
