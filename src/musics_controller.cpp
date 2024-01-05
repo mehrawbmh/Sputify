@@ -3,17 +3,11 @@
 MusicsController::MusicsController(Database *_db) : db(_db), model(MusicsModel(_db)) {}
 
 void MusicsController::createMusic(string title, string path, string album, int year, string durationTime, vector<string> tags) {
-    MusicsModel model = MusicsModel(db);
-    View view;
-    
     int result = model.addNewMusic(title, path, album, year, durationTime, tags);
     cout << view.showResponse(result) << endl;
 }
 
 void MusicsController::getOneMusic(int id) {
-    MusicsModel model = MusicsModel(db);
-    View view;
-
     if (this->db->getCurrentUser() == nullptr) {
         cout << view.showResponse(STATUS_403_FORBIDDEN) << endl;
         return;
@@ -23,9 +17,6 @@ void MusicsController::getOneMusic(int id) {
 }
 
 void MusicsController::getAllMusics() {
-    MusicsModel model = MusicsModel(db);
-    View view;
-
     if (this->db->getCurrentUser() == nullptr) {
         cout << view.showResponse(STATUS_403_FORBIDDEN) << endl;
         return;
@@ -35,27 +26,18 @@ void MusicsController::getAllMusics() {
 }
 
 void MusicsController::createPlaylist(string name) {
-    MusicsModel model(db);
-    View view;
     cout << view.showResponse(model.createPlaylist(name)) << endl;
 }
 
 void MusicsController::addMusicToPlaylist(int songId, string playlistName) {
-    MusicsModel model(db);
-    View view;
     cout << view.showResponse(model.addMusicToPlaylist(songId, playlistName)) << endl;
 }
 
 void MusicsController::deleteMusic(const int &songId) {
-    MusicsModel model(db);
-    View view;
     cout << view.showResponse(model.deleteMusic(songId)) << endl;
 }
 
 void MusicsController::deletePlaylist(const string &playlistName) {
-    MusicsModel model(db);
-    View view;
-    
     try {
         model.deletePlaylist(playlistName);
         cout << view.showSuccessResponse() << endl;
@@ -65,9 +47,6 @@ void MusicsController::deletePlaylist(const string &playlistName) {
 }
 
 void MusicsController::getCurrentArtistMusics() {
-    MusicsModel model(db);
-    View view;
-    
     try {
         cout << view.showMusicListDetailed(model.getCurrentArtistMusics());
     } catch(ClientException &exc) {
@@ -76,9 +55,6 @@ void MusicsController::getCurrentArtistMusics() {
 }
 
 void MusicsController::searchMusic(string name, string artist, string tag) {
-    MusicsModel model(db);
-    View view;
-
     try {
         cout << view.showMusicsList(model.searchMusic(name, artist, tag));
     } catch (ClientException &exc) {
@@ -87,9 +63,6 @@ void MusicsController::searchMusic(string name, string artist, string tag) {
 }
 
 void MusicsController::getUserPlaylists(int id) {
-    MusicsModel model(db);
-    View (view);
-
     try {
         cout << view.showPlaylists(model.getUserPlaylists(id));
     } catch (ClientException &exception) {
