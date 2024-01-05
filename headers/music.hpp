@@ -24,7 +24,8 @@ private:
     int year;
     string path;
     string timeDuration;
-    
+    int likesCount;
+
 public:
     Music(Artist* singer, string title, string filePath, string duration, int year, string album);
     void setId(int id_);
@@ -37,6 +38,9 @@ public:
     int getYear();
     Artist* getArtist();
     int getDurationInSeconds();
+    int getLikesCount();
+    void incrementLikes();
+    void decrementLikes();
     static string formatSecondsToTime(int seconds);
 };
 

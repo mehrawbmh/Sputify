@@ -7,7 +7,7 @@
 using namespace std;
 
 Music::Music(Artist* singer, string title, string filePath, string duration, int year_, string album_):
- artist(singer), name(title), path(filePath), timeDuration(duration), year(year_), album(album_) {
+ artist(singer), name(title), path(filePath), timeDuration(duration), year(year_), album(album_), likesCount(0) {
     this->tags = {};
  }
 
@@ -74,4 +74,16 @@ string Music::formatSecondsToTime(int seconds) {
     string secondsString = (seconds > MAX_ONE_DIGIT_NUMBER) ? to_string(seconds) : ("0" + to_string(seconds));
 
     return hours + ":" + minutes + ":" + secondsString;
+}
+
+void Music::incrementLikes() {
+    this->likesCount++;
+}
+
+void Music::decrementLikes() {
+    this->likesCount--;
+}
+
+int Music::getLikesCount() {
+    return this->likesCount;
 }
