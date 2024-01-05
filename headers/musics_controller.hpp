@@ -2,12 +2,17 @@
 #define SPUTIFY_MUSICS_CONTROLLER_HPP
 
 #include "db.hpp"
+#include "musics_model.hpp"
+#include "view.hpp"
+#include "client_exception.hpp"
 
 using namespace std;
 
 class MusicsController {
 private:
     Database* db;
+    MusicsModel model;
+    View view;
 
 public:
     MusicsController(Database* db);

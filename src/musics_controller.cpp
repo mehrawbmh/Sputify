@@ -1,9 +1,6 @@
 #include "../headers/musics_controller.hpp"
-#include "../headers/musics_model.hpp"
-#include "../headers/view.hpp"
-#include "../headers/client_exception.hpp"
 
-MusicsController::MusicsController(Database *_db) : db(_db) {}
+MusicsController::MusicsController(Database *_db) : db(_db), model(MusicsModel(_db)) {}
 
 void MusicsController::createMusic(string title, string path, string album, int year, string durationTime, vector<string> tags) {
     MusicsModel model = MusicsModel(db);
