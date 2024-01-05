@@ -223,7 +223,6 @@ void CommandManager::handle() {
         string word;
         istringstream ss(line);
         while (getline(ss, word, ' ')) {
-            // if (word.empty()) continue;
             args.push_back(word);
         }
 
@@ -329,21 +328,24 @@ void CommandManager::handleDeletePlaylist(const vector<string> &args) {
 }
 
 void CommandManager::handleLikeMusic(const vector<string> &args) {
-
+    string id = findArgValue(args, "id");
+    return this->musicsController.likeMusic(stoi(id));
 }
 
 void CommandManager::handleFollowUser(const vector<string> &args) {
-
+    string id = findArgValue(args, "id");
+    return this->usersController.follow(stoi(id));
 }
 
 void CommandManager::handleUnfollowUser(const vector<string> &args) {
-
+    string id = findArgValue(args, "id");
+    return this->usersController.unfollow(stoi(id));
 }
 
 void CommandManager::handleGetLikedMusics(const vector<string> &args) {
-
+    return this->musicsController.getLikedMusics();
 }
 
 void CommandManager::handleGetRecommendedMusics(const vector<string> &args) {
-
+    return this->musicsController.getRecommendedMusics();
 }

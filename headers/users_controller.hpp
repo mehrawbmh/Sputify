@@ -27,6 +27,10 @@ public:
     void getOneUser(int id);
 
     void getAllUsers();
+
+    void follow(int userId);
+
+    void unfollow(int userId);
 };
 
 #endif

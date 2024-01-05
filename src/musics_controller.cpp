@@ -69,3 +69,15 @@ void MusicsController::getUserPlaylists(int id) {
         cout << view.showResponse(exception.getCode()) << endl;
     }
 }
+
+void MusicsController::getLikedMusics() {
+
+}
+
+void MusicsController::getRecommendedMusics() {
+
+}
+
+void MusicsController::likeMusic(const int &songId) {
+
+}

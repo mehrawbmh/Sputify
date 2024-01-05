@@ -39,3 +39,11 @@ void UsersController::getOneUser(int id) {
 void UsersController::getAllUsers() {
     cout << view.showUsersList(this->model.getAllUsers(), this->db);
 }
+
+void UsersController::follow(int userId) {
+
+}
+
+void UsersController::unfollow(int userId) {
+
+}
