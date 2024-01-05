@@ -13,7 +13,7 @@ private:
 public:
     ClientException(int statusCode, string message = "");
 
-    const char * what() const throw ();
+    const char * what() const noexcept;
 
     int getCode();
 };
