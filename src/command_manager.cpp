@@ -23,6 +23,8 @@ HttpMethod CommandManager::getRequestMode(const string &methodInput) {
     }
 }
 
+CommandManager::CommandManager(Database* _db): musicsController(MusicsController(_db)), usersController(UsersController(_db)), db(_db) {}
+
 string CommandManager::findArgValue(vector<string> args, const string &target) {
     string result = "";
     for (int i = 0; i < args.size() - 1; i++) {
@@ -83,7 +85,7 @@ Command CommandManager::findCommand(HttpMethod method, const string &route, int 
     throw ClientException(STATUS_404_NOT_FOUND, "Invalid command provided");
 }
 
-void CommandManager::handleSignUp(const vector<string> &args, Database* db) {
+void CommandManager::handleSignUp(const vector<string> &args) {
     UsersController controller = UsersController(db);
     string username = findArgValue(args, "username");
     string password = findArgValue(args, "password");
@@ -96,12 +98,12 @@ void CommandManager::handleSignUp(const vector<string> &args, Database* db) {
     return controller.signUp(username, password, mode);
 }
 
-void CommandManager::handleLogout(Database* db) {
+void CommandManager::handleLogout() {
     UsersController controller = UsersController(db);
     return controller.logout();
 }
 
-void CommandManager::handleLogin(const vector<string> &args, Database* db) {
+void CommandManager::handleLogin(const vector<string> &args) {
     UsersController controller = UsersController(db);
     string username = findArgValue(args, "username");
     string password = findArgValue(args, "password");
@@ -113,63 +115,63 @@ void CommandManager::handleLogin(const vector<string> &args, Database* db) {
     return controller.login(username, password);
 }
 
-void CommandManager::mapCommandToController(Command c, const vector<string> &args, Database* db) {
+void CommandManager::mapCommandToController(Command c, const vector<string> &args) {
     switch (c) {
     case Command::SIGNUP: {
         // cout << "handling signup...\n";
-        return handleSignUp(args, db);
+        return handleSignUp(args);
     }
     case Command::LOGOUT: {
         // cout << "handling logout...\n";
-        return handleLogout(db);
+        return handleLogout();
     }
     case Command::LOGIN: {
         // cout << "handling login...\n";
-        return handleLogin(args, db);
+        return handleLogin(args);
     }
     case Command::GET_USERS: {
         // cout << "handling get many users...\n";
-        return handleGetManyUsers(args, db);
+        return handleGetManyUsers(args);
     }
     case Command::GET_USER: {
         // cout << "handling get one user...\n";
-        return handleGetSingleUser(args, db);
+        return handleGetSingleUser(args);
     }
     case Command::GET_MUSICS: {
         // cout << "Handling getting musics...\n";
-        return handleGetManyMusics(args, db);
+        return handleGetManyMusics(args);
     }
     case Command::GET_MUSIC: {
         // cout << "handlign get music details...\n";
-        return handleGetOneMusic(args, db);
+        return handleGetOneMusic(args);
     }
     case Command::GET_ARTIST_MUSICS: {
         // cout << "getting regitered musics...\n";
-        return handleGetArtistMusics(args, db);
+        return handleGetArtistMusics(args);
     }
     case Command::CREATE_MUSIC: {
         // cout << "creating and sharing music...\n";
-        return handleAddMusic(args, db);
+        return handleAddMusic(args);
     }
     case Command::DELETE_MUSIC: {
         // cout << "deleting music...\n";
-        return handleDeleteMusic(args, db);   
+        return handleDeleteMusic(args);   
     }
     case Command::ADD_PLAY_LIST: {
         // cout << "adding playlist...\n";
-        return handleAddPlayList(args, db);
+        return handleAddPlayList(args);
     }
     case Command::GET_PLAY_LIST: {
         // cout << "getting playlist for user\n";
-        return handleGetManyPlayLists(args, db);
+        return handleGetManyPlayLists(args);
     }
     case Command::ADD_MUSIC_TO_PLAY_LIST: {
         // cout << "adding music to playlist...\n";
-        return handleAddSongToPlayList(args, db);
+        return handleAddSongToPlayList(args);
     }
     case Command::SEARCH_MUSIC: {
         // cout << "searching music...\n";
-        return handleSearchMusic(args, db);
+        return handleSearchMusic(args);
     }
     default:
         // cout << "GOING TO DEFAULT\n";
@@ -177,13 +179,13 @@ void CommandManager::mapCommandToController(Command c, const vector<string> &arg
     }
 }
 
-void CommandManager::process(const vector<string> &args, Database* db) {
+void CommandManager::process(const vector<string> &args) {
     HttpMethod method = getRequestMode(args[0]);
     Command command = findCommand(method, args[1], args.size());
-    mapCommandToController(command, args, db);
+    mapCommandToController(command, args);
 }
 
-void CommandManager::handle(Database* db) {
+void CommandManager::handle() {
     string line;
     while (getline(cin, line)) {
         vector<string> args;
@@ -196,7 +198,7 @@ void CommandManager::handle(Database* db) {
 
         try {
             validate(args);
-            process(args, db);
+            process(args);
         } catch(ClientException &exc) {
             View view;
             cout << view.showResponse(exc.getCode()) << endl;
@@ -204,7 +206,7 @@ void CommandManager::handle(Database* db) {
     }
 }
 
-void CommandManager::handleGetSingleUser(const vector<string> &args, Database* db) {
+void CommandManager::handleGetSingleUser(const vector<string> &args) {
     UsersController controller = UsersController(db);
     string id = findArgValue(args, "id");
     
@@ -216,41 +218,41 @@ void CommandManager::handleGetSingleUser(const vector<string> &args, Database* d
 }
 
 
-void CommandManager::handleGetManyUsers(const vector<string> &args, Database* db) {
+void CommandManager::handleGetManyUsers(const vector<string> &args) {
     UsersController controller = UsersController(db);
     return controller.getAllUsers();
 }
 
-void CommandManager::handleGetManyMusics(const vector<string> &args, Database* db) {
+void CommandManager::handleGetManyMusics(const vector<string> &args) {
     MusicsController controller(db);
     controller.getAllMusics();
 }
 
-void CommandManager::handleGetOneMusic(const vector<string> &args, Database* db) {
+void CommandManager::handleGetOneMusic(const vector<string> &args) {
     string id = findArgValue(args, "id");
     MusicsController controller = MusicsController(db);
     return controller.getOneMusic(stoi(id));
 }
 
-void CommandManager::handleGetArtistMusics(const vector<string> &args, Database* db) {
+void CommandManager::handleGetArtistMusics(const vector<string> &args) {
     MusicsController controller(db);
     return controller.getCurrentArtistMusics();
 }
 
-void CommandManager::handleAddPlayList(const vector<string> &args, Database* db) {
+void CommandManager::handleAddPlayList(const vector<string> &args) {
     string name = findArgValue(args, "name");
     MusicsController controller(db);
     return controller.createPlaylist(name);
 }
 
-void CommandManager::handleAddSongToPlayList(const vector<string> &args, Database *db) {
+void CommandManager::handleAddSongToPlayList(const vector<string> &args) {
     string songId = findArgValue(args, "id");
     string plName = findArgValue(args, "name");
     MusicsController controller(db);
     return controller.addMusicToPlaylist(stoi(songId), plName);
 }
 
-void CommandManager::handleSearchMusic(const vector<string> &args, Database* db) {
+void CommandManager::handleSearchMusic(const vector<string> &args) {
     string name = findArgValue(args, "name");
     string artist = findArgValue(args, "artist");
     string tag = findArgValue(args, "tag");
@@ -259,13 +261,13 @@ void CommandManager::handleSearchMusic(const vector<string> &args, Database* db)
     return controller.searchMusic(name, artist, tag);
 }
 
-void CommandManager::handleGetManyPlayLists(const vector<string> &args, Database* db) {
+void CommandManager::handleGetManyPlayLists(const vector<string> &args) {
     string userId = findArgValue(args, "id");
     MusicsController controller(db);
     return controller.getUserPlaylists(stoi(userId));
 }
 
-void CommandManager::handleAddMusic(const vector<string> &args, Database* db) {
+void CommandManager::handleAddMusic(const vector<string> &args) {
     string title = findArgValue(args, "title");
     string path = findArgValue(args, "path");
     string year = findArgValue(args, "year");
@@ -284,7 +286,7 @@ void CommandManager::handleAddMusic(const vector<string> &args, Database* db) {
     return controller.createMusic(title, path, album, stoi(year), durationTime, tagsList);
 }
 
-void CommandManager::handleDeleteMusic(const vector<string> &args, Database* db) {
+void CommandManager::handleDeleteMusic(const vector<string> &args) {
     string id = findArgValue(args, "id");
     MusicsController controller(db);
     return controller.deleteMusic(stoi(id));

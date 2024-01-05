@@ -45,36 +45,36 @@ const string PLAYLIST_ACTIONS_COMMAND = "playlist";
 const string ADD_MUSIC_TO_PLAYLIST_COMMAND = "add_playlist";
 
 class CommandManager {
-private:
-    static string findArgValue(vector<string> args, const string &target);
-    static Command findCommand(HttpMethod method, const string &route, int argsCount);
-    static HttpMethod getRequestMode(const string &methodInput);
+private:    
+    Database* db;
+    MusicsController musicsController;
+    UsersController usersController;
 
-    static void validate(const vector<string> &args);
-    static void process(const vector<string> &args, Database* db);
-    static void mapCommandToController(Command c, const vector<string> &args, Database* db);
 
-    static void handleSignUp(const vector<string> &args, Database* db);
-    static void handleLogout(Database *db);
-    static void handleLogin(const vector<string> &args, Database* db);
-    static void handleGetSingleUser(const vector<string> &args, Database* db);
-    static void handleGetManyUsers(const vector<string> &args, Database* db);
-    
-    static void handleAddPlayList(const vector<string> &args, Database* db);
-    static void handleGetArtistMusics(const vector<string> &args, Database* db);
-    static void handleGetManyPlayLists(const vector<string> &args, Database* db);
-    static void handleAddSongToPlayList(const vector<string> &args, Database *db);
-    
-    static void handleGetManyMusics(const vector<string> &args, Database* db);
-    static void handleAddMusic(const vector<string> &args, Database* db);
-    static void handleDeleteMusic(const vector<string> &args, Database* db);
-    static void handleGetOneMusic(const vector<string> &args, Database* db);
-    static void handleSearchMusic(const vector<string> &args, Database* db);
+    string findArgValue(vector<string> args, const string &target);
+    Command findCommand(HttpMethod method, const string &route, int argsCount);
+    HttpMethod getRequestMode(const string &methodInput);
+    void validate(const vector<string> &args);
+    void process(const vector<string> &args);
+    void mapCommandToController(Command c, const vector<string> &args);
+    void handleSignUp(const vector<string> &args);
+    void handleLogout();
+    void handleLogin(const vector<string> &args);
+    void handleGetSingleUser(const vector<string> &args);
+    void handleGetManyUsers(const vector<string> &args);
+    void handleAddPlayList(const vector<string> &args);
+    void handleGetArtistMusics(const vector<string> &args);
+    void handleGetManyPlayLists(const vector<string> &args);
+    void handleAddSongToPlayList(const vector<string> &args);
+    void handleGetManyMusics(const vector<string> &args);
+    void handleAddMusic(const vector<string> &args);
+    void handleDeleteMusic(const vector<string> &args);
+    void handleGetOneMusic(const vector<string> &args);
+    void handleSearchMusic(const vector<string> &args);
 
-public:
-    CommandManager() = default;
-    
-    static void handle(Database* db);
+public:    
+    CommandManager(Database* db);
+    void handle();
 };
 
 

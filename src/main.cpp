@@ -6,7 +6,8 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     Database *db = new Database();
-    CommandManager::handle(db);    
+    CommandManager* manager = new CommandManager(db); 
     
+    manager->handle();    
     return 0;
 }
