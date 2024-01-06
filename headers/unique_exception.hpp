@@ -10,8 +10,8 @@ private:
     std::string msg;
 
 public:
-    UniqueException(const std::string& message);
-    const char* what() const noexcept;
+    explicit UniqueException(std::string message);
+    const char* what() const noexcept override;
 };
 
 #endif // SPUTIFY_UNIQUE_EXCEPTION_HPP

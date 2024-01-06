@@ -15,7 +15,7 @@ public:
 
     const char * what() const noexcept;
 
-    int getCode();
+    int getCode() const;
 };
 
 #endif //SPUTIFY_FORMAT_EXCEPTION_HPP

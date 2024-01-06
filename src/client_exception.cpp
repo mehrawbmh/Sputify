@@ -9,6 +9,6 @@ const char* ClientException::what() const noexcept {
     return "";
 }
 
-int ClientException::getCode() {
+int ClientException::getCode() const {
     return status;
 }

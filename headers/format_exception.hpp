@@ -10,7 +10,7 @@ private:
     std::string msg;
 
 public:
-    FormatException(const std::string& message);
+    FormatException(string message);
     const char* what() const noexcept;
 };
 
