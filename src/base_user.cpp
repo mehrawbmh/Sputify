@@ -40,6 +40,14 @@ bool BaseUser::addFollower(int userId) {
     return true;
 }
 
+bool BaseUser::addToFavoriteMusics(const int &songId) {
+    if (find(favoriteMusics.begin(), favoriteMusics.end(), songId) == favoriteMusics.end()) {
+        favoriteMusics.push_back(songId);
+        return true;
+    }
+    return false;
+}
+
 bool BaseUser::addFollowing(int userId) {
     if (userId == id || find(followings.begin(), followings.end(), userId) != followings.end()) {
         return false;

@@ -33,6 +33,8 @@ public:
 
     vector<int> getFavoriteMusics();
 
+    bool addToFavoriteMusics(const int &songId);
+
     vector<int> getFollowers();
 
     vector<int> getFollowings();
