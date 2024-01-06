@@ -1,37 +1,39 @@
 #include "../headers/users_model.hpp"
 #include "../headers/client_exception.hpp"
+#include "../headers/view.hpp"
 
 UsersModel::UsersModel(Database* _db): db(_db) {}
 
 int UsersModel::addNewUser(const string &username, const string &pass) {
     if (this->db->getCurrentUser() != nullptr) {
-        return 403;
+        return STATUS_403_FORBIDDEN;
     }
 
     if (this->db->findOneUserByUsername(username) != nullptr) {
-        return 400;
+        return STATUS_400_BAD_REQUEST;
     }
 
     User* user = new User(username, pass);    
     this->db->addNormalUser(user);
     this->loginUser(user);
 
-    return 200;
+    return STATUS_200_SUCCESS;
 }
 
 int UsersModel::addNewArtist(const string &username, const string &pass) {
     if (this->db->getCurrentUser() != nullptr) {
-        return 403;
+        return STATUS_403_FORBIDDEN;
     }
 
     if (this->db->findOneUserByUsername(username) != nullptr) {
-        return 400;
+        return STATUS_400_BAD_REQUEST;
     }
 
     auto* artist = new Artist(username, pass);
     this->db->addArtist(artist);
     this->loginUser(artist);
-    return 200;
+    
+    return STATUS_200_SUCCESS;
 }
 
 void UsersModel::loginUser(BaseUser* user) {
@@ -40,34 +42,34 @@ void UsersModel::loginUser(BaseUser* user) {
 
 int UsersModel::logoutUser() {
     if (this->db->getCurrentUser() == nullptr) {
-        return 403;
+        return STATUS_403_FORBIDDEN;
     }
 
     this->db->setCurrentUser(nullptr);
-    return 200;
+    return STATUS_200_SUCCESS;
 }
 
 int UsersModel::login(const string &username, const string &password) {
     if (this->db->getCurrentUser() != nullptr) {
-        return 403;
+        return STATUS_403_FORBIDDEN;
     }
 
     for (const auto &user: this->db->getAllUsers()) {
         if (user->getUsername() == username) {
             if (user->getPassword() != password) {
-                return 403;
+                return STATUS_403_FORBIDDEN;
             }
             this->loginUser(user);
-            return 200;
+            return STATUS_200_SUCCESS;
         }
     }
 
-    return 404;
+    return STATUS_404_NOT_FOUND;
 }
 
 BaseUser* UsersModel::getOneUser(int id) {
     if (this->db->getCurrentUser() == nullptr) {
-        throw ClientException(403, "you are not logged in yet!\n");
+        throw ClientException(STATUS_403_FORBIDDEN, "you are not logged in yet!\n");
     }
 
     auto allUsers = this->db->getAllUsers();
@@ -82,7 +84,7 @@ BaseUser* UsersModel::getOneUser(int id) {
 
 vector<BaseUser*> UsersModel::getAllUsers() {
     if (this->db->getCurrentUser() == nullptr) {
-        throw ClientException(403, "you are not logged in yet!\n");
+        throw ClientException(STATUS_403_FORBIDDEN, "you are not logged in yet!\n");
     }
 
     vector<BaseUser*> result;
