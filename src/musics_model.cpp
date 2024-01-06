@@ -168,3 +168,37 @@ vector <PlayList*> MusicsModel::getUserPlaylists(int userId) {
 
     return this->db->getUserPlayList(userId);
 }
+
+void MusicsModel::likeMusic(const int &songId) {
+    if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList()) {
+        throw ClientException(STATUS_403_FORBIDDEN, "you do not have access to this page");
+    }
+
+    Music* song = this->db->getMusicById(songId);
+
+    if (song == nullptr) {
+        throw ClientException(STATUS_404_NOT_FOUND, "song not found");
+    }
+
+    if (!this->db->getCurrentUser()->addToFavoriteMusics(songId)) {
+        throw ClientException(STATUS_400_BAD_REQUEST, "song alreay exists in your favorite list!");
+    }
+    song->incrementLikes();
+}
+
+vector<Music*> MusicsModel::getFavoriteMusics() {
+    if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList()) {
+        throw ClientException(STATUS_403_FORBIDDEN, "you do not have access to this page");
+    }
+
+    vector<int> musicIds = this->db->getCurrentUser()->getFavoriteMusics();
+    return this->db->findManyMusicsByIds(musicIds);
+}
+
+vector<Music*> MusicsModel::getRecommendedMusics() {
+    if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList()) {
+        throw ClientException(STATUS_403_FORBIDDEN, "you do not have access to this page");
+    }
+
+    return this->db->getMostLikedMusics(RECOMMENDED_MUSICS_DEFAULT_COUNT);
+}

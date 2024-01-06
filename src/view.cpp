@@ -118,7 +118,7 @@ int View::getPlOrSongsCount(BaseUser* user, Database* db) {
 }
 
 string View::showUsersList(vector<BaseUser*> users, Database* db) {
-    if (users.size() == 0) {
+    if (users.empty()) {
         return RESOPNSE_201_NO_RESOPNSE;
     }
     sort(users.begin(), users.end(), sortUsersByUsername);
@@ -169,7 +169,7 @@ string View::showMusicDetail(Music* music) {
 }
 
 string View::showMusicsList(const vector<Music*>& musics) {
-    if (musics.size() == 0) {
+    if (musics.empty()) {
         return RESOPNSE_201_NO_RESOPNSE + "\n";
     }
 
@@ -215,4 +215,20 @@ string View::showPlaylists(vector<PlayList*> playlists) {
 
 string View::showPlaylistDetail(PlayList* playlist, Database* db) {
     return showMusicsList(playlist->getSongs());
+}
+
+string View::showRecommendedMusics(vector<Music*> songs) {
+    if (songs.empty()) {
+        return RESOPNSE_201_NO_RESOPNSE + "\n";
+    }
+
+    string response = "ID, Name, Artist, Likes\n";
+    for (Music* music: songs) {
+        response += to_string(music->getId()) + ", " +
+            music->getName() + ", " +
+            music->getArtist()->getUsername() + ", " +
+            to_string(music->getLikesCount()) + "\n";
+    }
+
+    return response;
 }

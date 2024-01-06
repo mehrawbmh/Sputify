@@ -62,9 +62,13 @@ public:
 
     vector<Music*> getMusicsByNameAndArtistAndTag(const string& name, const string& artistName, const string& tagTitle);
 
+    vector<Music*> findManyMusicsByIds(const vector<int> &ids);
+
     vector<PlayList*> getUserPlayList(int userId);
 
     void addMusicToPlaylist(Music* music, PlayList* playList);
+
+    vector<Music*> getMostLikedMusics(const int &count);
 };
 
 #endif //SPUTIFY_DB_HPP

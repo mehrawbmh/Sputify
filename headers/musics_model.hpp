@@ -3,6 +3,8 @@
 
 #include "db.hpp"
 
+const int RECOMMENDED_MUSICS_DEFAULT_COUNT = 5;
+
 class MusicsModel {
 private:
     Database* db;
@@ -31,6 +33,12 @@ public:
     void deletePlaylist(const string &playlistName);
 
     PlayList* getPlayList(const int &userId, const string &name);
+
+    void likeMusic(const int &musicId);
+
+    vector<Music*> getFavoriteMusics();
+
+    vector<Music*> getRecommendedMusics();
 };
 
 #endif //SPUTIFY_MUSICS_MODEL_HPP

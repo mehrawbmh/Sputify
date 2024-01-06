@@ -80,15 +80,28 @@ void MusicsController::getUserPlaylists(int id) {
 }
 
 void MusicsController::getLikedMusics() {
-
+    try {
+        cout << view.showMusicsList(model.getFavoriteMusics());
+    } catch (ClientException &exception) {
+        cout << view.showResponse(exception.getCode()) << endl;
+    }
 }
 
 void MusicsController::getRecommendedMusics() {
-
+    try {
+        cout << view.showRecommendedMusics(model.getRecommendedMusics());
+    } catch (ClientException &ex) {
+        cout << view.showResponse(ex.getCode()) << endl;
+    }
 }
 
 void MusicsController::likeMusic(const int &songId) {
-
+    try {
+        model.likeMusic(songId);
+        cout << view.showSuccessResponse() << endl;
+    } catch (ClientException &exc) {
+        cout << view.showResponse(exc.getCode()) << endl;
+    }
 }
 
 void MusicsController::getPlayList(const int &id, const string &name) {

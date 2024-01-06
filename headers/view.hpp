@@ -58,6 +58,8 @@ public:
     string showPlaylists(vector<PlayList*> playlists);
 
     string showPlaylistDetail(PlayList* playlist, Database* db);
+
+    string showRecommendedMusics(vector<Music*> songs);
 };
 
 #endif
