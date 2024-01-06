@@ -26,7 +26,7 @@ BaseUser* Database::getCurrentUser() {
 }
 
 int Database::addArtist(Artist *artist) {
-    int lastId = this->getAllUsers().size();
+    int lastId = static_cast<int>(this->getAllUsers().size());
     artist->setId(lastId + 1);
 
     this->allUsers.push_back(artist);
@@ -80,7 +80,7 @@ vector<Music *> Database::getAllMusics(bool excludeDeleted) {
 }
 
 void Database::addMusic(Music *music) {
-    int lastId = this->musics.size();
+    int lastId = static_cast<int>(this->musics.size());
     music->setId(lastId + 1);
     this->musics.push_back(music);
 }
@@ -93,7 +93,7 @@ void Database::addPlaylist(PlayList* pl) {
             throw UniqueException("playlist name should be unique");
         }
     }
-    int lastId = this->playlists.size();
+    int lastId = static_cast<int>(this->playlists.size());
     pl->setId(lastId + 1);
     this->playlists.push_back(pl);
 }
@@ -109,7 +109,7 @@ vector<Music *> Database::getArtistSongs(int artistId) {
     return result;
 }
 
-vector<Music*> Database::getMusicsByNameAndArtistAndTag(string name, string artistName, string tagTitle) {
+vector<Music*> Database::getMusicsByNameAndArtistAndTag(const string& name, const string& artistName, const string& tagTitle) {
     vector<Music*> result;
 
     for (auto const &music: this->musics) {

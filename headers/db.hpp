@@ -58,7 +58,7 @@ public:
 
     vector<Music*> getArtistSongs(int artistId);
 
-    vector<Music*> getMusicsByNameAndArtistAndTag(string name, string artistName, string tagTitle);
+    vector<Music*> getMusicsByNameAndArtistAndTag(const string& name, const string& artistName, const string& tagTitle);
 
     vector<PlayList*> getUserPlayList(int userId);
 

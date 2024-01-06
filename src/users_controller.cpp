@@ -1,9 +1,6 @@
 #include "../headers/users_controller.hpp"
 
-UsersController::UsersController(Database* db_) {
-    this->db = db_;
-    this->model = UsersModel(db_);
-}
+UsersController::UsersController(Database* db_): db(db_), model(UsersModel(db_)) {}
 
 void UsersController::signUp(const string &userName, const string &passWord, const string &mode) {
     int resultStatus;

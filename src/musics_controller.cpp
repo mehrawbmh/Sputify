@@ -1,9 +1,18 @@
 #include "../headers/musics_controller.hpp"
 
+using namespace std;
+
 MusicsController::MusicsController(Database *_db) : db(_db), model(MusicsModel(_db)) {}
 
 void MusicsController::createMusic(string title, string path, string album, int year, string durationTime, vector<string> tags) {
-    int result = model.addNewMusic(title, path, album, year, durationTime, tags);
+    int result = model.addNewMusic(
+            std::move(title),
+            std::move(path),
+            std::move(album),
+            std::move(year),
+            std::move(durationTime),
+            std::move(tags)
+    );
     cout << view.showResponse(result) << endl;
 }
 
@@ -49,7 +58,7 @@ void MusicsController::deletePlaylist(const string &playlistName) {
 void MusicsController::getCurrentArtistMusics() {
     try {
         cout << view.showMusicListDetailed(model.getCurrentArtistMusics());
-    } catch(ClientException &exc) {
+    } catch (ClientException &exc) {
         cout << view.showResponse(exc.getCode()) << endl;
     }
 }

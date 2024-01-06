@@ -1,6 +1,4 @@
 #include "../headers/users_model.hpp"
-#include "../headers/user.hpp"
-#include "../headers/artist.hpp"
 #include "../headers/client_exception.hpp"
 
 UsersModel::UsersModel(Database* _db): db(_db) {}
@@ -30,7 +28,7 @@ int UsersModel::addNewArtist(const string &username, const string &pass) {
         return 400;
     }
 
-    Artist* artist = new Artist(username, pass);    
+    auto* artist = new Artist(username, pass);
     this->db->addArtist(artist);
     this->loginUser(artist);
     return 200;

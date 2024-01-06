@@ -111,7 +111,7 @@ string View::showUsersList(vector<BaseUser*> users, Database* db) {
         response += ", ";
         response += user->getUsername() + ", ";
         int count = this->getPlOrSongsCount(user, db);
-        response = response + to_string(count);
+        response += to_string(count);
         response += "\n";
     }
 
@@ -149,7 +149,7 @@ string View::showMusicDetail(Music* music) {
     return response;
 }
 
-string View::showMusicsList(vector<Music*> musics) {
+string View::showMusicsList(const vector<Music*>& musics) {
     if (musics.size() == 0) {
         return RESOPNSE_201_NO_RESOPNSE + "\n";
     }
@@ -162,8 +162,8 @@ string View::showMusicsList(vector<Music*> musics) {
     return response;
 }
 
-string View::showMusicListDetailed(vector<Music*> musics) {
-    if (musics.size() == 0) {
+string View::showMusicListDetailed(const vector<Music*>& musics) {
+    if (musics.empty()) {
         return RESOPNSE_201_NO_RESOPNSE + "\n";
     }
 
@@ -176,7 +176,7 @@ string View::showMusicListDetailed(vector<Music*> musics) {
 }
 
 string View::showPlaylists(vector<PlayList*> playlists) {
-    if (playlists.size() == 0) {
+    if (playlists.empty()) {
         return RESOPNSE_201_NO_RESOPNSE + "\n";
     }
 

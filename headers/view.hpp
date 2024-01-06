@@ -49,9 +49,9 @@ public:
 
     string showMusicDetail(Music* music);
 
-    string showMusicsList(vector<Music*> musics);
+    string showMusicsList(const vector<Music*>& musics);
 
-    string showMusicListDetailed(vector<Music*> musics);
+    string showMusicListDetailed(const vector<Music*>& musics);
 
     string showPlaylists(vector<PlayList*> playlists);
 };
