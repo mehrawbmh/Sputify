@@ -23,7 +23,7 @@ private:
 public:
     BaseUser(string username_, string password_);
 
-    int getId();
+    int getId() const;
 
     void setId(int id_);
 

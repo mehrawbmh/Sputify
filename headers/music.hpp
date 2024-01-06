@@ -29,13 +29,13 @@ private:
 public:
     Music(Artist* singer, string title, string filePath, string duration, int year, string album);
     void setId(int id_);
-    int getId();
+    int getId() const;
     vector<Tag*> getTags();
     void addTag(Tag*);
     string getName();
     string getAlbum();
     string getDuration();
-    int getYear();
+    int getYear() const;
     Artist* getArtist();
     int getDurationInSeconds();
     int getLikesCount();

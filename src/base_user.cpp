@@ -1,9 +1,9 @@
 #include "../headers/base_user.hpp"
 #include <algorithm>
 
-BaseUser::BaseUser(std::string username_, std::string password_) : username(username_), password(password_) {}
+BaseUser::BaseUser(string username_, string password_): Entity(), username(username_), password(password_) {}
 
-int BaseUser::getId() {
+int BaseUser::getId() const {
     return this->id;
 }
 
@@ -53,7 +53,7 @@ bool BaseUser::removeFollower(int userId) {
     auto iterator = find(followers.begin(), followers.end(), userId);
 
     if (iterator != followers.end()) {
-        int index = distance(followers.begin(), iterator);
+        int index = static_cast<int>(distance(followers.begin(), iterator));
         followers.erase(followers.begin() + index);
         return true;
         
@@ -66,7 +66,7 @@ bool BaseUser::removeFollowing(int userId) {
     auto iterator = find(followings.begin(), followings.end(), userId);
 
     if (iterator != followings.end()) {
-        int index = distance(followings.begin(), iterator);
+        int index = static_cast<int>(distance(followings.begin(), iterator));
         followings.erase(followings.begin() + index);
         return true;
 

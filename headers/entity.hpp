@@ -6,7 +6,7 @@ private:
     bool deleted;
 
 public:
-    bool isDeleted();
+    bool isDeleted() const;
     
     void markAsDeleted();
 };

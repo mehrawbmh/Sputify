@@ -1,23 +1,21 @@
 #include "../headers/music.hpp"
 #include "../headers/format_exception.hpp"
 
-#include <sstream>
-#include <istream>
 #include <stdexcept>
 #include <iostream>
+#include <utility>
 
 using namespace std;
 
 Music::Music(Artist* singer, string title, string filePath, string duration, int year_, string album_):
- artist(singer), name(title), path(filePath), timeDuration(duration), year(year_), album(album_), likesCount(0) {
-    this->tags = {};
- }
+ artist(singer), name(std::move(title)), path(std::move(filePath)), timeDuration(std::move(duration)),
+ year(year_), album(std::move(album_)), likesCount(0), tags({}) {}
 
 void Music::setId(int id_) {
     this->id = id_;
 }
 
-int Music::getId() {
+int Music::getId() const {
     return this->id;
 }
 
@@ -41,7 +39,7 @@ string Music::getDuration() {
     return this->timeDuration;
 }
 
-int Music::getYear() {
+int Music::getYear() const {
     return this->year;
 }
 

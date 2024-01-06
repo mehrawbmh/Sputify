@@ -1,6 +1,6 @@
 #include "../headers/entity.hpp"
 
-bool Entity::isDeleted() {
+bool Entity::isDeleted() const {
     return this->deleted;
 }
 
