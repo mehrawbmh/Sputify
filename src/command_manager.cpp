@@ -1,25 +1,28 @@
-#include "../headers/command_manager.hpp"
-
 #include <istream>
 #include <iostream>
 #include <sstream>
+#include <unordered_map>
+
+#include "../headers/command_manager.hpp"
 
 bool is_number(const string &s) {
   return !s.empty() && std::find_if(s.begin(), s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
 }
 
 HttpMethod CommandManager::getRequestMode(const string &methodInput) {
-    if (methodInput == "POST") {
-        return HttpMethod::POST;
-    } else if (methodInput == "GET") {
-        return HttpMethod::GET;
-    } else if (methodInput == "PUT") {
-        return HttpMethod::PUT;
-    } else if (methodInput == "DELETE") {
-        return HttpMethod::DELETE;
-    } else {
+    static const std::unordered_map<string, HttpMethod> methodMap = {
+        {"POST", HttpMethod::POST},
+        {"GET", HttpMethod::GET},
+        {"PUT", HttpMethod::PUT},
+        {"DELETE", HttpMethod::DELETE}
+    };
+
+    auto iterator = methodMap.find(methodInput);
+    if (iterator == methodMap.end()) {
         throw ClientException(STATUS_400_BAD_REQUEST);
     }
+    
+    return iterator->second;
 }
 
 CommandManager::CommandManager(Database* _db): musicsController(MusicsController(_db)), usersController(UsersController(_db)), db(_db) {}
