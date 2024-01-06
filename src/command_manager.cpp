@@ -1,5 +1,4 @@
 #include "../headers/command_manager.hpp"
-#include "../headers/client_exception.hpp"
 
 #include <istream>
 #include <iostream>
@@ -26,14 +25,14 @@ HttpMethod CommandManager::getRequestMode(const string &methodInput) {
 CommandManager::CommandManager(Database* _db): musicsController(MusicsController(_db)), usersController(UsersController(_db)), db(_db) {}
 
 string CommandManager::findArgValue(vector<string> args, const string &target) {
-    string result = "";
+    string result;
     for (int i = 0; i < args.size() - 1; i++) {
         if (args[i] == target) {
             if (!args[i+1].starts_with("<")) {
                 throw ClientException(STATUS_400_BAD_REQUEST, "parameter value should be inside < >");
             }
             for (int j = i+1; j < args.size(); j++) {
-                result = result + args[j] + " ";
+                result += args[j] + " ";
                 if (args[j].ends_with(">")) {
                     break;
                 }
@@ -46,7 +45,7 @@ string CommandManager::findArgValue(vector<string> args, const string &target) {
 }
 
 void CommandManager::validate(const vector<string> &args) {
-    if (args.size() < 3 || args[2] != QUERY_PARAMS_SEPERATOR) {
+    if (args.size() < 3 || args[2] != QUERY_PARAMS_SEPARATOR) {
         throw ClientException(STATUS_400_BAD_REQUEST, "format of request is not valid");
     }
 }
@@ -98,7 +97,6 @@ Command CommandManager::findCommand(HttpMethod method, const string &route, int 
 }
 
 void CommandManager::handleSignUp(const vector<string> &args) {
-    UsersController controller = UsersController(db);
     string username = findArgValue(args, "username");
     string password = findArgValue(args, "password");
     string mode = findArgValue(args, "mode");
@@ -107,16 +105,14 @@ void CommandManager::handleSignUp(const vector<string> &args) {
         throw ClientException(STATUS_400_BAD_REQUEST, "insufficient request params for signup");
     }
 
-    return controller.signUp(username, password, mode);
+    return this->usersController.signUp(username, password, mode);
 }
 
 void CommandManager::handleLogout() {
-    UsersController controller = UsersController(db);
-    return controller.logout();
+    return this->usersController.logout();
 }
 
 void CommandManager::handleLogin(const vector<string> &args) {
-    UsersController controller = UsersController(db);
     string username = findArgValue(args, "username");
     string password = findArgValue(args, "password");
 
@@ -124,7 +120,7 @@ void CommandManager::handleLogin(const vector<string> &args) {
         throw ClientException(STATUS_400_BAD_REQUEST, "insufficient request params for signup");
     }
 
-    return controller.login(username, password);
+    return this->usersController.login(username, password);
 }
 
 void CommandManager::mapCommandToController(Command c, const vector<string> &args) {
@@ -237,49 +233,42 @@ void CommandManager::handle() {
 }
 
 void CommandManager::handleGetSingleUser(const vector<string> &args) {
-    UsersController controller = UsersController(db);
     string id = findArgValue(args, "id");
     
     if (!is_number(id)) {
         throw ClientException(400, "id should be a positive number");
     }
 
-    return controller.getOneUser(stoi(id));
+    return this->usersController.getOneUser(stoi(id));
 }
 
 
 void CommandManager::handleGetManyUsers(const vector<string> &args) {
-    UsersController controller = UsersController(db);
-    return controller.getAllUsers();
+    return this->usersController.getAllUsers();
 }
 
 void CommandManager::handleGetManyMusics(const vector<string> &args) {
-    MusicsController controller(db);
-    controller.getAllMusics();
+    this->musicsController.getAllMusics();
 }
 
 void CommandManager::handleGetOneMusic(const vector<string> &args) {
     string id = findArgValue(args, "id");
-    MusicsController controller = MusicsController(db);
-    return controller.getOneMusic(stoi(id));
+    return this->musicsController.getOneMusic(stoi(id));
 }
 
 void CommandManager::handleGetArtistMusics(const vector<string> &args) {
-    MusicsController controller(db);
-    return controller.getCurrentArtistMusics();
+    return this->musicsController.getCurrentArtistMusics();
 }
 
 void CommandManager::handleAddPlayList(const vector<string> &args) {
     string name = findArgValue(args, "name");
-    MusicsController controller(db);
-    return controller.createPlaylist(name);
+    return this->musicsController.createPlaylist(name);
 }
 
 void CommandManager::handleAddSongToPlayList(const vector<string> &args) {
     string songId = findArgValue(args, "id");
     string plName = findArgValue(args, "name");
-    MusicsController controller(db);
-    return controller.addMusicToPlaylist(stoi(songId), plName);
+    return this->musicsController.addMusicToPlaylist(stoi(songId), plName);
 }
 
 void CommandManager::handleSearchMusic(const vector<string> &args) {
@@ -287,14 +276,12 @@ void CommandManager::handleSearchMusic(const vector<string> &args) {
     string artist = findArgValue(args, "artist");
     string tag = findArgValue(args, "tag");
 
-    MusicsController controller(db);
-    return controller.searchMusic(name, artist, tag);
+    return this->musicsController.searchMusic(name, artist, tag);
 }
 
 void CommandManager::handleGetManyPlayLists(const vector<string> &args) {
     string userId = findArgValue(args, "id");
-    MusicsController controller(db);
-    return controller.getUserPlaylists(stoi(userId));
+    return this->musicsController.getUserPlaylists(stoi(userId));
 }
 
 void CommandManager::handleAddMusic(const vector<string> &args) {
@@ -312,14 +299,12 @@ void CommandManager::handleAddMusic(const vector<string> &args) {
         tagsList.push_back(tag);
     }
 
-    MusicsController controller = MusicsController(db);
-    return controller.createMusic(title, path, album, stoi(year), durationTime, tagsList);
+    return this->musicsController.createMusic(title, path, album, stoi(year), durationTime, tagsList);
 }
 
 void CommandManager::handleDeleteMusic(const vector<string> &args) {
     string id = findArgValue(args, "id");
-    MusicsController controller(db);
-    return controller.deleteMusic(stoi(id));
+    return this->musicsController.deleteMusic(stoi(id));
 }
 
 void CommandManager::handleDeletePlaylist(const vector<string> &args) {

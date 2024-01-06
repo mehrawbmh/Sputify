@@ -5,6 +5,7 @@ using namespace std;
 
 #include <iostream>
 #include <string>
+
 #include "users_controller.hpp"
 #include "musics_controller.hpp"
 
@@ -38,7 +39,7 @@ enum class Command {
     GET_LIKED_MUSICS,
 };
 
-const string QUERY_PARAMS_SEPERATOR = "?";
+const string QUERY_PARAMS_SEPARATOR = "?";
 const string SIGNUP_COMMAND = "signup";
 const string LOGIN_COMMAND = "login";
 const string LOGOUT_COMMAND = "logout";
@@ -63,7 +64,7 @@ private:
 
     string findArgValue(vector<string> args, const string &target);
     Command findCommand(HttpMethod method, const string &route, int argsCount);
-    HttpMethod getRequestMode(const string &methodInput);
+    static HttpMethod getRequestMode(const string &methodInput);
 
     void validate(const vector<string> &args);
     void process(const vector<string> &args);
@@ -91,7 +92,7 @@ private:
     void handleGetRecommendedMusics(const vector<string> &args);
 
 public:    
-    CommandManager(Database* db);
+    explicit CommandManager(Database* db);
     void handle();
 };
 
