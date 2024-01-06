@@ -65,6 +65,17 @@ BaseUser* Database::findOneUserByUsername(const string &username) {
     return nullptr;
 }
 
+vector<BaseUser*> Database::findManyUsersByIds(const vector<int> &ids) {
+    vector<BaseUser*> result;
+    for (auto user: allUsers) {
+        if (find(ids.begin(), ids.end(), user->getId()) != ids.end()) {
+            result.push_back(user);
+        }
+    }
+    return result;
+}
+
+
 vector<Music *> Database::getAllMusics(bool excludeDeleted) {
     if (!excludeDeleted) {
         return this->musics;

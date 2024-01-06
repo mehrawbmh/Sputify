@@ -40,6 +40,8 @@ public:
 
     BaseUser* findOneUserByUsername(const string &username);
 
+    vector<BaseUser*> findManyUsersByIds(const vector<int> &ids);
+
     void setCurrentUser(BaseUser* user);
 
     BaseUser* getCurrentUser();
