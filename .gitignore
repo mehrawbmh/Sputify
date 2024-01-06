@@ -7,6 +7,9 @@
 *.o
 *.obj
 
+*.txt
+*.list
+
 .idea/
 .vscode/
 build/
