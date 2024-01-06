@@ -67,9 +67,14 @@ BaseUser* Database::findOneUserByUsername(const string &username) {
 
 vector<BaseUser*> Database::findManyUsersByIds(const vector<int> &ids) {
     vector<BaseUser*> result;
-    for (auto user: allUsers) {
-        if (find(ids.begin(), ids.end(), user->getId()) != ids.end()) {
-            result.push_back(user);
+    for (const int &id: ids) {
+        for (auto *user: allUsers) {
+            if (user->getId() == id) {
+                if (!user->isDeleted()) {
+                    result.push_back(user);
+                }
+                break;
+            }
         }
     }
     return result;
@@ -204,4 +209,32 @@ int Database::getArtistSongsCount(BaseUser* artist) {
         }
     }
     return count;
+}
+
+vector<Music*> Database::findManyMusicsByIds(const vector<int> &ids) {
+    vector<Music*> result;
+    for (int id: ids) {
+        for (auto* music: musics) {
+            if (music->getId() == id && !music->isDeleted()) {
+                result.push_back(music);
+                break;
+            }
+        }
+    }
+    return result;
+}
+
+vector<Music*> Database::getMostLikedMusics(const int &count) {
+    int actualCount = std::min(count, static_cast<int>(musics.size()));
+
+    vector<Music*> temp(musics.begin(), musics.end());
+    std::sort(
+        temp.begin(),
+        temp.end(),
+        [](Music* m1, Music* m2) {
+            return m1->getLikesCount() > m2->getLikesCount();
+        }
+    );
+
+    return vector<Music*>(temp.begin(), temp.begin() + actualCount);
 }
