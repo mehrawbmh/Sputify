@@ -212,3 +212,7 @@ string View::showPlaylists(vector<PlayList*> playlists) {
 
     return response;
 }
+
+string View::showPlaylistDetail(PlayList* playlist, Database* db) {
+    return showMusicsList(playlist->getSongs());
+}

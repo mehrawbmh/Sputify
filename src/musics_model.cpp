@@ -112,6 +112,29 @@ void MusicsModel::deletePlaylist(const string &playlistName) {
     throw ClientException(STATUS_403_FORBIDDEN, "you can't delete other user's playlists!");
 }
 
+PlayList* MusicsModel::getPlayList(const int &userId, const string &name) {
+    if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList()) {
+        throw ClientException(STATUS_403_FORBIDDEN, "you do not have access to this page");
+    }
+
+    BaseUser* user = this->db->findOneUserById(userId);
+    if (user == nullptr)  {
+        throw ClientException(STATUS_404_NOT_FOUND, "user not found");
+    }
+
+    if (user->canShareMusic()) {
+        throw ClientException(STATUS_400_BAD_REQUEST, "you can not get an artist\'s playlist!");
+    }
+
+    PlayList* playlist = this->db->getPlaylistWithName(name);
+    if (playlist == nullptr || playlist->getUserId() != userId) {
+        throw ClientException(STATUS_400_BAD_REQUEST, "playlist not found");
+    }
+
+    return playlist;
+}
+
+
 vector<Music*> MusicsModel::getCurrentArtistMusics() {
     if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canShareMusic()) {
         throw ClientException(STATUS_403_FORBIDDEN, "you have to log in as an artist!");
@@ -129,11 +152,11 @@ vector<Music*> MusicsModel::searchMusic(string name, string artist, string tag) 
 }
 
 vector <PlayList*> MusicsModel::getUserPlaylists(int userId) {
-    BaseUser* user = this->db->findOneUserById(userId);
-
-    if (this->db->getCurrentUser() == nullptr || this->db->getCurrentUser()->canShareMusic()) {
+    if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList()) {
         throw ClientException(STATUS_403_FORBIDDEN, "you do not have access to this page");
     }
+
+    BaseUser* user = this->db->findOneUserById(userId);
 
     if (user == nullptr)  {
         throw ClientException(STATUS_404_NOT_FOUND, "user not found");

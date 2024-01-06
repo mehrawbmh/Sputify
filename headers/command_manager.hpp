@@ -29,6 +29,7 @@ enum class Command {
     ADD_MUSIC_TO_PLAY_LIST,
     ADD_PLAY_LIST,
     GET_PLAY_LIST,
+    GET_ONE_PLAY_LIST,
     DELETE_PLAY_LIST,
     GET_USER,
     GET_USERS,
@@ -78,6 +79,7 @@ private:
     void handleAddPlayList(const vector<string> &args);
     void handleGetArtistMusics(const vector<string> &args);
     void handleGetManyPlayLists(const vector<string> &args);
+    void handleGetOnePlaylist(const vector<string> &args);
     void handleAddSongToPlayList(const vector<string> &args);
     void handleGetManyMusics(const vector<string> &args);
     void handleAddMusic(const vector<string> &args);

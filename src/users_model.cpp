@@ -136,6 +136,6 @@ void UsersModel::unfollow(int userId) {
     }
 
     if (!current->removeFollowing(other->getId()) || !other->removeFollower(current->getId())) {
-        throw UniqueException("User was not followed!");
+        throw UniqueException("User was not followed at all!");
     }
 }

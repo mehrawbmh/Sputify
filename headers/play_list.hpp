@@ -25,6 +25,7 @@ public:
     void addMusic(Music* music);
     string getPlaylistDuration();
     int getSongsCount();
+    vector<Music*> getSongs();
 };
 
 #endif //SPUTIFY_PLAY_LIST_HPP

@@ -56,6 +56,8 @@ public:
     string showMusicListDetailed(const vector<Music*>& musics);
 
     string showPlaylists(vector<PlayList*> playlists);
+
+    string showPlaylistDetail(PlayList* playlist, Database* db);
 };
 
 #endif

@@ -90,3 +90,11 @@ void MusicsController::getRecommendedMusics() {
 void MusicsController::likeMusic(const int &songId) {
 
 }
+
+void MusicsController::getPlayList(const int &id, const string &name) {
+    try {
+        cout << view.showPlaylistDetail(model.getPlayList(id, name), this->db);
+    } catch (ClientException &exception) {
+        cout << view.showResponse(exception.getCode()) << endl;
+    }
+}

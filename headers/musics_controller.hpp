@@ -42,6 +42,8 @@ public:
     void getRecommendedMusics();
 
     void likeMusic(const int &songId);
+
+    void getPlayList(const int &id, const string &name);
 };
 
 #endif // SPUTIFY_MUSICS_CONTROLLER_HPP

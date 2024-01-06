@@ -75,6 +75,8 @@ Command CommandManager::findCommand(HttpMethod method, const string &route, int 
         return Command::SEARCH_MUSIC;
     } else if (method == HttpMethod::POST && route == PLAYLIST_ACTIONS_COMMAND) {
         return Command::ADD_PLAY_LIST;
+    } else if (method == HttpMethod::GET && route == PLAYLIST_ACTIONS_COMMAND && argsCount > 6) {
+        return Command::GET_ONE_PLAY_LIST;  
     } else if (method == HttpMethod::GET && route == PLAYLIST_ACTIONS_COMMAND) {
         return Command::GET_PLAY_LIST;
     } else if (method == HttpMethod::PUT && route == ADD_MUSIC_TO_PLAYLIST_COMMAND) {
@@ -168,6 +170,10 @@ void CommandManager::mapCommandToController(Command c, const vector<string> &arg
     case Command::ADD_PLAY_LIST: {
         cout << "adding playlist...\n";
         return handleAddPlayList(args);
+    }
+    case Command::GET_ONE_PLAY_LIST: {
+        cout << "getting one playlist...\n";
+        return handleGetOnePlaylist(args);
     }
     case Command::GET_PLAY_LIST: {
         cout << "getting playlist for user\n";
@@ -283,6 +289,13 @@ void CommandManager::handleGetManyPlayLists(const vector<string> &args) {
     string userId = findArgValue(args, "id");
     return this->musicsController.getUserPlaylists(stoi(userId));
 }
+
+void CommandManager::handleGetOnePlaylist(const vector<string> &args) {
+    string userId = findArgValue(args, "id");
+    string name = findArgValue(args, "name");
+    return this->musicsController.getPlayList(stoi(userId), name);
+}
+
 
 void CommandManager::handleAddMusic(const vector<string> &args) {
     string title = findArgValue(args, "title");

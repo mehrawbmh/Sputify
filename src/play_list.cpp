@@ -42,3 +42,13 @@ int PlayList::getSongsCount() {
 
     return count;
 }
+
+vector<Music*> PlayList::getSongs() {
+    vector<Music*> result;
+    for (auto *music: this->musics) {
+        if (!music->isDeleted()) {
+            result.push_back(music);
+        }
+    }
+    return result;
+}
