@@ -1,5 +1,6 @@
 #include "../headers/users_model.hpp"
 #include "../headers/client_exception.hpp"
+#include "../headers/unique_exception.hpp"
 #include "../headers/view.hpp"
 
 UsersModel::UsersModel(Database* _db): db(_db) {}
@@ -32,7 +33,7 @@ int UsersModel::addNewArtist(const string &username, const string &pass) {
     auto* artist = new Artist(username, pass);
     this->db->addArtist(artist);
     this->loginUser(artist);
-    
+
     return STATUS_200_SUCCESS;
 }
 
@@ -95,4 +96,46 @@ vector<BaseUser*> UsersModel::getAllUsers() {
     }
 
     return result;
+}
+
+void UsersModel::follow(int userId) {
+    auto *current = this->db->getCurrentUser();
+    auto *other = this->db->findOneUserById(userId);
+
+    if (!current) {
+        throw ClientException(STATUS_403_FORBIDDEN, "you have to login first");
+    }
+
+    if (!other) {
+        throw ClientException(STATUS_404_NOT_FOUND, "user not found");
+    }
+
+    if (current->getId() == other->getId()) {
+        throw ClientException(STATUS_400_BAD_REQUEST, "you can't follow yourself!");
+    }
+
+    if (!current->addFollowing(other->getId()) || !other->addFollower(current->getId())) {
+        throw UniqueException("already followed!");
+    }
+}
+
+void UsersModel::unfollow(int userId) {
+    auto *current = this->db->getCurrentUser();
+    auto *other = this->db->findOneUserById(userId);
+
+    if (!current) {
+        throw ClientException(STATUS_403_FORBIDDEN, "you have to login first");
+    }
+
+    if (!other) {
+        throw ClientException(STATUS_404_NOT_FOUND, "user not found");
+    }
+
+    if (current->getId() == other->getId()) {
+        throw ClientException(STATUS_400_BAD_REQUEST, "you can't unfollow yourself!");
+    }
+
+    if (!current->removeFollowing(other->getId()) || !other->removeFollower(current->getId())) {
+        throw UniqueException("User was not followed!");
+    }
 }

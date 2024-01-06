@@ -43,6 +43,9 @@ string View::showUserDetail(BaseUser *user, Database* db) {
     response = response + "Mode: " + mode + "\n";
     response = response + "Username: " + user->getUsername() + "\n";
 
+    response += "Followings: " + this->printUsernames(db->findManyUsersByIds(user->getFollowings())) + "\n";
+    response += "Followers: " + this->printUsernames(db->findManyUsersByIds(user->getFollowers())) + "\n";
+    
     if (user->canCreatePlayList()) {
         response = response + "Playlists: ";
         response = response + this->getPlayListsFormatted(user->getId(), db);
@@ -51,7 +54,23 @@ string View::showUserDetail(BaseUser *user, Database* db) {
         response = response + this->getSongsFormatted(user->getId(), db);
     }
 
+
     return response;
+}
+
+string View::printUsernames(vector<BaseUser*> users) {
+    string result;
+    if (users.empty()) {
+        return "";
+    }
+
+    for (auto user: users) {
+        result += user->getUsername() + ", ";
+    }
+
+    result.pop_back();
+    result.pop_back();
+    return result;
 }
 
 string View::getSongsFormatted(int artistId, Database* db) {

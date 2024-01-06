@@ -31,6 +31,10 @@ public:
     BaseUser* getOneUser(int id);
 
     vector<BaseUser*> getAllUsers();
+
+    void follow(int userId);
+
+    void unfollow(int userId);
 };
 
 #endif

@@ -1,4 +1,7 @@
 #include "../headers/users_controller.hpp"
+#include "../headers/unique_exception.hpp"
+#include "../headers/client_exception.hpp"
+
 
 UsersController::UsersController(Database* db_): db(db_), model(UsersModel(db_)) {}
 
@@ -38,9 +41,27 @@ void UsersController::getAllUsers() {
 }
 
 void UsersController::follow(int userId) {
-
+    try {
+        this->model.follow(userId);
+        cout << view.showSuccessResponse() << endl;
+    } catch (UniqueException &uex) {
+        cout << "UNIQUE:" << uex.what() << endl;
+        cout << view.showResponse(STATUS_400_BAD_REQUEST) << endl;
+    } catch(ClientException &cex) {
+        cout << "CLIENT: " << cex.what() << endl;
+        cout << view.showResponse(cex.getCode()) << endl;
+    }
 }
 
 void UsersController::unfollow(int userId) {
-
+    try {
+        this->model.unfollow(userId);
+        cout << view.showSuccessResponse() << endl;
+    } catch (UniqueException &uex) {
+        cout << "UNIQUE:" << uex.what() << endl;
+        cout << view.showResponse(STATUS_400_BAD_REQUEST) << endl;
+    } catch(ClientException &cex) {
+        cout << "CLIENT: " << cex.what() << endl;
+        cout << view.showResponse(cex.getCode()) << endl;
+    }
 }

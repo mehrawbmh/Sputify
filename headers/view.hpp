@@ -36,6 +36,8 @@ private:
     
     int getPlOrSongsCount(BaseUser* user, Database* db);
 
+    string printUsernames(vector<BaseUser*> users);
+
 public:
     View() = default;
 
