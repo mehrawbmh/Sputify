@@ -45,10 +45,8 @@ void UsersController::follow(int userId) {
         this->model.follow(userId);
         cout << view.showSuccessResponse() << endl;
     } catch (UniqueException &uex) {
-        cout << "UNIQUE:" << uex.what() << endl;
         cout << view.showResponse(STATUS_400_BAD_REQUEST) << endl;
     } catch(ClientException &cex) {
-        cout << "CLIENT: " << cex.what() << endl;
         cout << view.showResponse(cex.getCode()) << endl;
     }
 }
@@ -58,10 +56,8 @@ void UsersController::unfollow(int userId) {
         this->model.unfollow(userId);
         cout << view.showSuccessResponse() << endl;
     } catch (UniqueException &uex) {
-        cout << "UNIQUE:" << uex.what() << endl;
         cout << view.showResponse(STATUS_400_BAD_REQUEST) << endl;
     } catch(ClientException &cex) {
-        cout << "CLIENT: " << cex.what() << endl;
         cout << view.showResponse(cex.getCode()) << endl;
     }
 }

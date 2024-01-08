@@ -5,8 +5,7 @@ ClientException::ClientException(int statusCode, string message): status(statusC
 
 const char* ClientException::what() const noexcept {
     string output = to_string(this->status) + "Error: " + this->extraMessage;
-    // cout << output << endl;
-    return "";
+    return output.c_str();
 }
 
 int ClientException::getCode() const {
