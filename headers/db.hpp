@@ -56,6 +56,8 @@ public:
 
     PlayList* getPlaylistWithName(string);
 
+    PlayList* findPlaylistByNameAndUserId(string name, int userId);
+
     vector<Music*> getAllMusics(bool excludeDeleted = false);
 
     vector<Music*> getArtistSongs(int artistId);

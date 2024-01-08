@@ -126,9 +126,9 @@ PlayList* MusicsModel::getPlayList(const int &userId, const string &name) {
         throw ClientException(STATUS_400_BAD_REQUEST, "you can not get an artist\'s playlist!");
     }
 
-    PlayList* playlist = this->db->getPlaylistWithName(name);
+    PlayList* playlist = this->db->findPlaylistByNameAndUserId(name, userId);
     if (playlist == nullptr || playlist->getUserId() != userId) {
-        throw ClientException(STATUS_400_BAD_REQUEST, "playlist not found");
+        throw ClientException(STATUS_404_NOT_FOUND, "playlist not found");
     }
 
     return playlist;

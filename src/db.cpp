@@ -182,6 +182,15 @@ PlayList* Database::getPlaylistWithName(string name) {
     return nullptr;
 }
 
+PlayList* Database::findPlaylistByNameAndUserId(string name, int userId) {
+    for (PlayList* playlist: playlists) {
+        if (playlist->getTitle() == name && playlist->getUserId() == userId && !playlist->isDeleted()) {
+            return playlist;
+        }
+    }
+    return nullptr;
+}
+
 Music* Database::getMusicById(int musicId) {
     for (Music* music: this->musics) {
         if (music->getId() == musicId && !music->isDeleted()) {
