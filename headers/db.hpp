@@ -22,7 +22,7 @@ private:
     vector<PlayList*> playlists;
 
 public:
-    void handleCurrentUserSession(string session);
+    void handleCurrentUserBySession(string session);
     
     int addNormalUser(User* user);
     

@@ -1,5 +1,6 @@
 #include "../headers/db.hpp"
 #include "../headers/unique_exception.hpp"
+#include "../utils/strutils.hpp"
 
 #include <stdexcept>
 #include <iostream>
@@ -17,8 +18,8 @@ int Database::addNormalUser(User *user) {
     return 200;
 }
 
-void Database::handleCurrentUserSession(string session) {
-    int userId = stoi(session);
+void Database::handleCurrentUserBySession(string session) {
+    int userId = utils::isNumeric(session) ? stoi(session) : -1;
     BaseUser* user = findOneUserById(userId);
     this->setCurrentUser(user);
 }
