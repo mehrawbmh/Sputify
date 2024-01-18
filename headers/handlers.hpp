@@ -30,11 +30,35 @@ public:
     Response* callback(Request*);
 };
 
+class FollowHandler: public RequestHandler {
+private:
+    Database* db;
+public:
+    FollowHandler(Database* db);
+    Response* callback(Request*);
+};
+
+class UnfollowHandler: public RequestHandler {
+private:
+    Database* db;
+public:
+    UnfollowHandler(Database* db);
+    Response* callback(Request*);
+};
+
 class UsersHandler: public RequestHandler {
 private:
     Database* db;
 public:
     UsersHandler(Database* db);
+    Response* callback(Request*);
+};
+
+class UserDetailHandler: public RequestHandler {
+private:
+    Database* db;
+public:
+    UserDetailHandler(Database* db);
     Response* callback(Request*);
 };
 

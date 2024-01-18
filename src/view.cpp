@@ -40,16 +40,18 @@ string View::showUserDetail(BaseUser *user, Database* db) {
     response += "<!DOCTYPE html>";
     response += "<html>";
     response += "<body style=\"text-align: center;\">";
+    response += " <a href=\"/\"> <img src=\"/home.png\" alt=\"Home Logo\" style=\"width:5%;\"><br> </a>";
+    response += "<h1> Sputify </h1>";
     response += "<p style=\"font-family: 'Arial', sans-serif; font-size: 16px; color: #333; line-height: 1.5; text-align: center;\">";
 
     string mode = (user->canCreatePlayList()) ? "user" : "artist";
 
-    response = response + "ID: " + to_string(user->getId()) + "\n";
-    response = response + "Mode: " + mode + "\n";
-    response = response + "Username: " + user->getUsername() + "\n";
+    response = response + "ID: " + to_string(user->getId()) + "<br>";
+    response = response + "Mode: " + mode + "<br>";
+    response = response + "Username: " + user->getUsername() + "<br>";
 
-    response += "Followings: " + this->printUsernames(db->findManyUsersByIds(user->getFollowings())) + "\n";
-    response += "Followers: " + this->printUsernames(db->findManyUsersByIds(user->getFollowers())) + "\n";
+    response += "Followings: " + this->printUsernames(db->findManyUsersByIds(user->getFollowings())) + "<br>";
+    response += "Followers: " + this->printUsernames(db->findManyUsersByIds(user->getFollowers())) + "<br>";
     
     if (user->canCreatePlayList()) {
         response = response + "Playlists: ";
@@ -59,6 +61,15 @@ string View::showUserDetail(BaseUser *user, Database* db) {
         response = response + this->getSongsFormatted(user->getId(), db);
     }
     response += "</p>";
+
+    auto followings = db->getCurrentUser()->getFollowings();
+    if (user->getId() != db->getCurrentUser()->getId() &&
+        std::find(followings.begin(), followings.end(), user->getId()) == followings.end() ) {
+        response += "<form method=\"post\" action=\"/follow?id=" + to_string(user->getId()) +" \" class=\"inline\"> <button type=\"submit\" name=\"submitButton\" value=\"submit\" class=\"link-button\"> Follow </button> </form> ";
+    } else if(user->getId() != db->getCurrentUser()->getId()) {
+        response += "<form method=\"post\" action=\"/unfollow?id=" + to_string(user->getId()) +" \" class=\"inline\"> <button type=\"submit\" name=\"submitButton2\" value=\"submit\" class=\"link-button\"> Unfollow </button> </form> ";
+    }
+
     response += "</body>";
     response += "</html>";
 
@@ -143,7 +154,7 @@ string View::showUsersList(vector<BaseUser*> users, Database* db) {
         response += to_string(user->getId()) + ", ";
         response += ((user->canCreatePlayList()) ? "user" : "artist");
         response += ", ";
-        response += user->getUsername() + ", ";
+        response += "<a href=\"/user?id=" + to_string(user->getId()) + "\" style=\"color: red;\">" + user->getUsername() + ", </a>";
         int count = this->getPlOrSongsCount(user, db);
         response += to_string(count);
         response += "\n";

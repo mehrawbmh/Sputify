@@ -13,7 +13,10 @@ void Sputify::mapRoutes(Server& server) {
     server.post("/signup", new SignupHandler(this->db));
     server.post("/login", new LoginHandler(this->db));
     server.get("/users", new UsersHandler(this->db));
+    server.get("/user", new UserDetailHandler(this->db));
     server.get("/logout", new LogoutHandler(this->db));
+    server.post("/follow", new FollowHandler(this->db));
+    server.post("/unfollow", new UnfollowHandler(this->db));
 }
 
 void Sputify::run(int argc, char* argv[]) {

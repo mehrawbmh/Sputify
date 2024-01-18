@@ -44,14 +44,16 @@ void UsersController::logout() {
 }
 
 Response* UsersController::getOneUser(int id) {
+    Response* response = new Response();
     try {
-        Response* response = new Response();
         BaseUser* user = this->model.getOneUser(id);
+        response->setHeader("Content-Type", "text/html");
         response->setBody(view.showUserDetail(user, this->db));
         return response;
     } catch(ClientException &exception) {
         Response* err = new Response(exception.getCode());
         err->setBody(exception.what());
+        err->setHeader("Content-Type", "application/json");
         return err;
     }
     
@@ -66,30 +68,44 @@ Response* UsersController::getAllUsers() {
         res->setHeader("Content-Type", "application/json");
         res->setStatus(exc.getCode());
         res->setBody(exc.what());
-        cout << "here:" << endl;
-        cout << exc.what() << endl;
     }
     return res;
 }
 
-void UsersController::follow(int userId) {
+Response* UsersController::follow(int userId) {
+    Response* res = new Response();
+    res->setHeader("Content-Type", "application/json");
     try {
         this->model.follow(userId);
-        cout << view.showSuccessResponse() << endl;
+        res->setBody("{'status': 200, 'message': 'user followed successfully!'}");
     } catch (UniqueException &uex) {
         cout << view.showResponse(STATUS_400_BAD_REQUEST) << endl;
+        res->setStatus(STATUS_400_BAD_REQUEST);
+        res->setBody(uex.what());
     } catch(ClientException &cex) {
+        res->setStatus(cex.getCode());
+        res->setBody(cex.what());
         cout << view.showResponse(cex.getCode()) << endl;
     }
+
+    return res;
 }
 
-void UsersController::unfollow(int userId) {
+Response* UsersController::unfollow(int userId) {
+    Response* res = new Response();
+    res->setHeader("Content-Type", "application/json");
     try {
         this->model.unfollow(userId);
-        cout << view.showSuccessResponse() << endl;
+        res->setBody("{'status': 200, 'message': 'user unfollowed successfully!'}");
     } catch (UniqueException &uex) {
         cout << view.showResponse(STATUS_400_BAD_REQUEST) << endl;
+        res->setStatus(STATUS_400_BAD_REQUEST);
+        res->setBody(uex.what());
     } catch(ClientException &cex) {
+        res->setStatus(cex.getCode());
+        res->setBody(cex.what());
         cout << view.showResponse(cex.getCode()) << endl;
     }
+
+    return res;
 }

@@ -29,9 +29,9 @@ public:
 
     Response* getAllUsers();
 
-    void follow(int userId);
+    Response* follow(int userId);
 
-    void unfollow(int userId);
+    Response* unfollow(int userId);
 };
 
 #endif
