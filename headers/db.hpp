@@ -22,6 +22,8 @@ private:
     vector<PlayList*> playlists;
 
 public:
+    void handleCurrentUserSession(string session);
+    
     int addNormalUser(User* user);
     
     int addArtist(Artist* artist);

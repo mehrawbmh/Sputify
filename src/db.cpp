@@ -17,6 +17,12 @@ int Database::addNormalUser(User *user) {
     return 200;
 }
 
+void Database::handleCurrentUserSession(string session) {
+    int userId = stoi(session);
+    BaseUser* user = findOneUserById(userId);
+    this->setCurrentUser(user);
+}
+
 void Database::setCurrentUser(BaseUser* user) {
     this->currentUser = user;
 }
