@@ -37,6 +37,11 @@ string View::showUserDetail(BaseUser *user, Database* db) {
     }
 
     string response;
+    response += "<!DOCTYPE html>";
+    response += "<html>";
+    response += "<body style=\"text-align: center;\">";
+    response += "<p style=\"font-family: 'Arial', sans-serif; font-size: 16px; color: #333; line-height: 1.5; text-align: center;\">";
+
     string mode = (user->canCreatePlayList()) ? "user" : "artist";
 
     response = response + "ID: " + to_string(user->getId()) + "\n";
@@ -53,7 +58,9 @@ string View::showUserDetail(BaseUser *user, Database* db) {
         response = response + "Songs: ";
         response = response + this->getSongsFormatted(user->getId(), db);
     }
-
+    response += "</p>";
+    response += "</body>";
+    response += "</html>";
 
     return response;
 }
@@ -123,8 +130,16 @@ string View::showUsersList(vector<BaseUser*> users, Database* db) {
     }
     sort(users.begin(), users.end(), sortUsersByUsername);
 
-    string response = "ID, Mode, Username, Playlists_number/Songs_number\n";
+    string response;
+    response += "<!DOCTYPE html>";
+    response += "<html>";
+    response += "<body style=\"text-align: center;\">";
+    response += " <a href=\"/\"> <img src=\"/home.png\" alt=\"Home Logo\" style=\"width:5%;\"><br> </a>";
+    response += "<h1> Sputify </h1>";
+    response += " <h2 style=\"color: red;\"> ID, Mode, Username, Playlists_number/Songs_number </h3> <br>";
+
     for (auto const &user: users) {
+        response += "<p style=\"font-family: 'Arial', sans-serif; font-size: 24px; color: blue; line-height: 1.5; text-align: center;\">";
         response += to_string(user->getId()) + ", ";
         response += ((user->canCreatePlayList()) ? "user" : "artist");
         response += ", ";
@@ -132,8 +147,10 @@ string View::showUsersList(vector<BaseUser*> users, Database* db) {
         int count = this->getPlOrSongsCount(user, db);
         response += to_string(count);
         response += "\n";
+        response += "</p>";
     }
-
+    response += "</body>";
+    response += "</html>";
     return response;
 }
 
@@ -232,3 +249,8 @@ string View::showRecommendedMusics(vector<Music*> songs) {
 
     return response;
 }
+
+Response* View::redirectResponse(const string &url) {
+    return Response::redirect(url);
+}
+
