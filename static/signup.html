@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+</head>
+
+<body>
+  <center style="border: 2px solid #ff0e0e; padding: 20px; max-width: 400px; margin: 0 auto;">
+    <a href="/">
+      <img src="/home.png" alt="Home Logo" style="width: 50px;">
+    </a>
+    <h1>Sputify</h1>
+    <h2>Sign Up to join us!</h2>
+    <form action="/signup" method="post">
+        <input name="username" type="text" placeholder="Username">
+        <input name="password" type="password" placeholder="Password">
+        <br>
+        <br>
+        <label style="padding: 10px; margin: 15px;" for="user-mode">Choose your role:</label>
+        <br>
+        <select id="user-mode" name="mode" style="padding: 2px; margin: 10px;">
+            <option value="user">User</option>
+            <option value="artist">Artist</option>
+        
+        </select>
+        <br>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+  </center>
+</body>
+
+</html>
