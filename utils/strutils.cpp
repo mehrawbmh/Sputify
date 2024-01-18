@@ -78,4 +78,15 @@ bool startsWith(const std::string& str, const std::string& s) {
            std::equal(s.begin(), s.end(), str.begin());
 }
 
+bool isNumeric(std::string str) {
+    std::stringstream ss(str);
+    double numericValue;
+    
+    if (ss >> numericValue) {
+        return ss.eof();
+    }
+    
+    return false;
+}
+
 } // namespace utils
