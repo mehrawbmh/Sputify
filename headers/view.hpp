@@ -10,6 +10,7 @@
 #include "play_list.hpp"
 #include "artist.hpp"
 #include "db.hpp"
+#include "../server/server.hpp"
 
 
 using namespace std;
@@ -60,6 +61,8 @@ public:
     string showPlaylistDetail(PlayList* playlist, Database* db);
 
     string showRecommendedMusics(vector<Music*> songs);
+
+    static Response* redirectResponse(const string &url);
 };
 
 #endif

@@ -2,10 +2,11 @@
 #include "../headers/unique_exception.hpp"
 #include "../headers/client_exception.hpp"
 
+#include <string>
 
 UsersController::UsersController(Database* db_): db(db_), model(UsersModel(db_)) {}
 
-void UsersController::signUp(const string &userName, const string &passWord, const string &mode) {
+Response* UsersController::signUp(const string &userName, const string &passWord, const string &mode) {
     int resultStatus;
     if (mode == MODE_NORMAL_USER) {
         resultStatus = model.addNewUser(userName, passWord);
@@ -15,29 +16,60 @@ void UsersController::signUp(const string &userName, const string &passWord, con
         resultStatus = STATUS_400_BAD_REQUEST;
     }
 
-    cout << view.showResponse(resultStatus) << endl;
+    if (resultStatus == STATUS_200_SUCCESS) {
+        Response* resp = View::redirectResponse("/");
+        resp->setSessionId(to_string(this->db->getCurrentUser()->getId())); //todo generate safe session and save
+        return resp;
+    }
+
+    throw Server::Exception("your mode is not valid!");
 }
 
-void UsersController::login(const string &username, const string &password) {
-    cout << view.showResponse(this->model.login(username, password)) << endl;
+Response* UsersController::login(const string &username, const string &password) {
+    int status = this->model.login(username, password);
+    if (status == STATUS_200_SUCCESS) {
+        Response* resp = View::redirectResponse("/");
+        resp->setSessionId(to_string(this->db->getCurrentUser()->getId())); //todo generate safe session and save
+        return resp;
+    } else {
+        Response* res = new Response(status);
+        res->setHeader("Content-Type", "application/json");
+        res->setBody(view.showResponse(status));
+        return res;
+    }
 }
 
 void UsersController::logout() {
     cout << view.showResponse(this->model.logoutUser()) << endl;
 }
 
-void UsersController::getOneUser(int id) {
+Response* UsersController::getOneUser(int id) {
     try {
+        Response* response = new Response();
         BaseUser* user = this->model.getOneUser(id);
-        cout << view.showUserDetail(user, this->db);
+        response->setBody(view.showUserDetail(user, this->db));
+        return response;
     } catch(ClientException &exception) {
-        cout << view.showResponse(exception.getCode()) << endl;
+        Response* err = new Response(exception.getCode());
+        err->setBody(exception.what());
+        return err;
     }
     
 }
 
-void UsersController::getAllUsers() {
-    cout << view.showUsersList(this->model.getAllUsers(), this->db);
+Response* UsersController::getAllUsers() {
+    Response* res = new Response;
+    try {
+        res->setHeader("Content-Type", "text/html");
+        res->setBody(view.showUsersList(this->model.getAllUsers(), this->db));
+    } catch (ClientException &exc) {
+        res->setHeader("Content-Type", "application/json");
+        res->setStatus(exc.getCode());
+        res->setBody(exc.what());
+        cout << "here:" << endl;
+        cout << exc.what() << endl;
+    }
+    return res;
 }
 
 void UsersController::follow(int userId) {

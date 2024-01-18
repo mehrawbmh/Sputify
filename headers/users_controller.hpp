@@ -6,6 +6,7 @@
 #include "users_model.hpp"
 #include "view.hpp"
 #include "client_exception.hpp"
+#include "../server/server.hpp"
 
 using namespace std;
 
@@ -18,15 +19,15 @@ private:
 public:
     UsersController(Database* db);
 
-    void signUp(const string &userName, const string &passWord, const string &mode);
+    Response* signUp(const string &userName, const string &passWord, const string &mode);
 
     void logout();
 
-    void login(const string &username, const string &password);
+    Response* login(const string &username, const string &password);
 
-    void getOneUser(int id);
+    Response* getOneUser(int id);
 
-    void getAllUsers();
+    Response* getAllUsers();
 
     void follow(int userId);
 
