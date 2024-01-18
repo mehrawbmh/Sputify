@@ -9,6 +9,7 @@ class ClientException: public exception {
 private:
     int status;
     string extraMessage;
+    string errMessage;
 
 public:
     ClientException(int statusCode, string message = "");
