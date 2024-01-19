@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add new Music</title>
+</head>
+
+<body style="text-align: center;">
+  <h1>Sputify</h1>
+  <center>
+    <a href="/">
+        <img src="/home.png" alt="Home Logo" style="width: 50px;">
+      </a>
+    <h1>Add new music</h1>
+    <form action="/add-music" method="post" enctype="multipart/form-data">
+        <h4>Music title</h4>
+        <input name="name" type="text" placeholder="Music name">
+        <h4>Album</h4>
+        <input name="album" type="text" placeholder="album">
+        <h4>Publish year</h4>
+        <input name="year" type="number" placeholder="publish year" value="2020" >
+        <h4>Music duration</h4>
+        <input name="duration" type="text" placeholder="duration" required pattern="[0-9]{2}:[0-9]{2}" value="00:00">
+        <h4>Please upload an m4a file!!</h4>
+        <input type="file" name="file">
+        <br> <br>
+        <input type="submit" value="Upload" accept=".m4a">
+    </form>
+  </center>
+
+<%
+  if (context["result"] == "true") {
+%>
+<div style="color: green; height: 10px;">
+  <br><br>
+  <%
+      cout << context["message"];
+  %>
+</div>
+<%
+  }
+%>
+
+<%
+  if (context["result"] == "false") {
+%>
+<br> <br>
+<div style="color: red; height: 10px;">
+  <%
+      cout << context["message"];
+  %>
+</div>
+<%
+  }
+%>
+
+</body>
+
+</html>
