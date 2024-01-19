@@ -1,9 +1,19 @@
 #include "../headers/handlers.hpp"
 #include "../headers/users_controller.hpp"
-
+#include "../headers/musics_controller.hpp"
 #include "../utils/strutils.hpp"
 
+#include <unistd.h>
+#include <filesystem>
+
 using namespace std;
+
+const string getCurrentDirectory() {
+    char cwd[256];
+    getcwd(cwd, 256);
+    string currentDir(cwd);
+    return currentDir;
+}
 
 SignupHandler::SignupHandler(Database* _db): db(_db) {}
 
@@ -90,4 +100,32 @@ Response* UserDetailHandler::callback(Request* req) {
         return error;
     }
     return control.getOneUser(stoi(userId));
+}
+
+UploadMusicHandler::UploadMusicHandler(string filePath, Database* _db) : TemplateHandler(filePath), db(_db) {}
+
+map<string, string> UploadMusicHandler::handle(Request* req) {
+    string currentDir = getCurrentDirectory();
+    MusicsController controller(db);
+    map<string, string> context;
+
+    string title = req->getBodyParam("name");
+    string path = "/static/" + title + DEFAULT_MUSIC_FORMAT;
+    string album = req->getBodyParam("album");
+    string duration = req->getBodyParam("duration");
+    string file = req->getBodyParam("file");
+    string year = req->getBodyParam("year");
+    int musicYear = utils::isNumeric(year) ? stoi(year) : DEFAULT_ALBUM_YEAR;
+    
+    std::pair result = controller.createMusic(title, path, album, stoi(year), duration, {});
+
+    if (result.first) {
+        utils::writeToFile(file, currentDir + path);
+        context["result"] = TRUE_STR;
+    } else {
+        context["result"] = FALSE_STR;
+    }
+    
+    context["message"] = result.second;
+    return context;
 }

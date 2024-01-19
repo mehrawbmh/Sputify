@@ -3,10 +3,16 @@
 
 #include "db.hpp"
 #include "musics_model.hpp"
+#include "utility"
 #include "view.hpp"
 #include "client_exception.hpp"
 
 using namespace std;
+
+#define DEFAULT_ALBUM_YEAR 2020
+#define DEFAULT_MUSIC_FORMAT ".m4a";
+#define TRUE_STR "true";
+#define FALSE_STR "false";
 
 class MusicsController {
 private:
@@ -17,7 +23,7 @@ private:
 public:
     MusicsController(Database* db);
 
-    void createMusic(string title, string path, string album, int year, string durationTime, vector<string> tags);
+    std::pair<bool, string> createMusic(string title, string path, string album, int year, string durationTime, vector<string> tags);
 
     void getOneMusic(int id);
 

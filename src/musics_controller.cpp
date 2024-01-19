@@ -4,7 +4,7 @@ using namespace std;
 
 MusicsController::MusicsController(Database *_db) : db(_db), model(MusicsModel(_db)) {}
 
-void MusicsController::createMusic(string title, string path, string album, int year, string durationTime, vector<string> tags) {
+std::pair<bool, string> MusicsController::createMusic(string title, string path, string album, int year, string durationTime, vector<string> tags) {
     int result = model.addNewMusic(
             std::move(title),
             std::move(path),
@@ -13,7 +13,8 @@ void MusicsController::createMusic(string title, string path, string album, int 
             std::move(durationTime),
             std::move(tags)
     );
-    cout << view.showResponse(result) << endl;
+    bool success = result == STATUS_200_SUCCESS;
+    return std::make_pair(success, view.showResponse(result));
 }
 
 void MusicsController::getOneMusic(int id) {

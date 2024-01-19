@@ -2,6 +2,7 @@
 #define SPUTIFY_HANDLERS_HPP
 
 #include <iostream>
+#include <string>
 
 #include "db.hpp"
 #include "../server/server.hpp"
@@ -61,5 +62,14 @@ public:
     UserDetailHandler(Database* db);
     Response* callback(Request*);
 };
+
+class UploadMusicHandler: public TemplateHandler {
+private:
+    Database* db;
+public:
+    UploadMusicHandler(string filePath, Database* _db);
+    std::map<string, string> handle(Request* req);
+};
+
 
 #endif // SPUTIFY_HANDLERS_HPP

@@ -17,13 +17,14 @@ void Sputify::mapRoutes(Server& server) {
     server.get("/logout", new LogoutHandler(this->db));
     server.post("/follow", new FollowHandler(this->db));
     server.post("/unfollow", new UnfollowHandler(this->db));
+    server.get("/add-music", new ShowPage("static/add_music.html"));
+    server.post("/add-music", new UploadMusicHandler("template/add_music.html", this->db));
 }
 
 void Sputify::run(int argc, char* argv[]) {
     int port = argc > 1 ? std::stoi(argv[1]) : DEFAULT_PORT;
     Server server(port);
     this->mapRoutes(server);
-    cout << "running..." << endl;
-    server.run();
     std::cout << "Server running on port: " << port << std::endl;
+    server.run();
 }
