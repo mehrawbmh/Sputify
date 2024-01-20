@@ -3,7 +3,7 @@
 
 class Entity {
 private:
-    bool deleted;
+    bool deleted = false;
 
 public:
     bool isDeleted() const;
