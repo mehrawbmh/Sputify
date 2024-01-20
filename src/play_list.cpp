@@ -1,4 +1,7 @@
 #include "../headers/play_list.hpp"
+#include "../headers/format_exception.hpp"
+
+using namespace std;
 
 PlayList::PlayList(string title_, int user): title(title_), userId(user) {}
 
@@ -25,7 +28,11 @@ void PlayList::addMusic(Music* music) {
 string PlayList::getPlaylistDuration() {
     int sum = 0;
     for (Music* music: this->musics) {
-        sum += music->getDurationInSeconds();
+        try {
+            sum += music->getDurationInSeconds();
+        } catch (FormatException &fex) {
+            cout << "ERROR: " << fex.what() << endl;
+        }
     }
 
     return Music::formatSecondsToTime(sum);
