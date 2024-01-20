@@ -142,6 +142,7 @@ HomeHandler::HomeHandler(string filePath, Database* _db): TemplateHandler(filePa
 map<string, string> HomeHandler::handle(Request* req) {
     this->db->handleCurrentUserBySession(req->getSessionId());
     map<string, string> context;
+    context["username"] = (this->db->getCurrentUser() == nullptr) ? "" : this->db->getCurrentUser()->getUsername(); 
     context["mode"] = (this->db->getCurrentUser() == nullptr) ? "anon" : (this->db->getCurrentUser()->canCreatePlayList()) ? "user" : "artist";
     return context;
 }
