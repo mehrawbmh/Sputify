@@ -8,11 +8,9 @@
 </head>
 
 <body style="text-align: center;">
+  <a href="/"> <img src="/home.png" alt="Home Logo" style="width:5%;"><br> </a>
   <h1>Sputify</h1>
   <center>
-    <a href="/">
-        <img src="/home.png" alt="Home Logo" style="width: 50px;">
-      </a>
     <h1>Add new music</h1>
     <form action="/add-music" method="post" enctype="multipart/form-data">
         <h4>Music title</h4>
@@ -22,11 +20,11 @@
         <h4>Publish year</h4>
         <input name="year" type="number" placeholder="publish year" value="2020" >
         <h4>Music duration</h4>
-        <input name="duration" type="text" placeholder="duration" required pattern="[0-9]{2}:[0-9]{2}" value="00:00">
-        <h4>Please upload an m4a file!!</h4>
-        <input type="file" name="file">
+        <input name="duration" type="text" placeholder="duration" required pattern="[0-9]{2}:[0-9]{2}" value="02:30">
+        <h4>Please upload your music here:</h4>
+        <input type="file" name="file" accept=".m4a" value="upload">
         <br> <br>
-        <input type="submit" value="Upload" accept=".m4a">
+        <input type="submit" value="Submit">
     </form>
   </center>
 
