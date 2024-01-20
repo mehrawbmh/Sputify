@@ -17,13 +17,16 @@ std::pair<bool, string> MusicsController::createMusic(string title, string path,
     return std::make_pair(success, view.showResponse(result));
 }
 
-void MusicsController::getOneMusic(int id) {
+Response* MusicsController::getOneMusic(int id) {
     if (this->db->getCurrentUser() == nullptr) {
         cout << view.showResponse(STATUS_403_FORBIDDEN) << endl;
-        return;
+        return new Response(STATUS_403_FORBIDDEN);
     }
 
-    cout << view.showMusicDetail(model.getOneMusic(id)) << endl;
+    Response* response = new Response();
+    response->setHeader("Content-Type", "text/html");
+    response->setBody(view.showMusicDetail(model.getOneMusic(id)));
+    return response;
 }
 
 void MusicsController::getAllMusics() {

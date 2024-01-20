@@ -18,7 +18,8 @@ void Sputify::mapRoutes(Server& server) {
     server.post("/follow", new FollowHandler(this->db));
     server.post("/unfollow", new UnfollowHandler(this->db));
     server.get("/add-music", new ShowPage("static/add_music.html"));
-    server.post("/add-music", new UploadMusicHandler("template/add_music.html", this->db));
+    server.post("/add-music", new UploadMusicHandler("template/add_music.html", this->db, &server));
+    server.get("/music", new MusicDetailHandler(this->db));
 }
 
 void Sputify::run(int argc, char* argv[]) {

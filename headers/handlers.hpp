@@ -63,11 +63,20 @@ public:
     Response* callback(Request*);
 };
 
-class UploadMusicHandler: public TemplateHandler {
+class MusicDetailHandler: public RequestHandler {
 private:
     Database* db;
 public:
-    UploadMusicHandler(string filePath, Database* _db);
+    MusicDetailHandler(Database* db);
+    Response* callback(Request*);
+};
+
+class UploadMusicHandler: public TemplateHandler {
+private:
+    Server* server;
+    Database* db;
+public:
+    UploadMusicHandler(string filePath, Database* _db, Server* _server);
     std::map<string, string> handle(Request* req);
 };
 

@@ -25,7 +25,7 @@ public:
 
     std::pair<bool, string> createMusic(string title, string path, string album, int year, string durationTime, vector<string> tags);
 
-    void getOneMusic(int id);
+    Response* getOneMusic(int id);
 
     void getAllMusics();
 

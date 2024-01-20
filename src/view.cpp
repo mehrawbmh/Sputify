@@ -10,6 +10,35 @@ bool sortUsersByUsername(BaseUser* u1, BaseUser* u2) {
     return u1->getUsername() < u2->getUsername();
 }
 
+string getMusicHtmlPage(string source, string detail) {
+    string res = "<html lang='en'>"
+        "<head>"
+        "    <meta charset='UTF-8'>"
+        "    <meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+        "    <title>Music Page</title>"
+        "</head>"
+        "<body>"
+        "<center>"
+        "    <script>"
+        "        var audio = new Audio('";
+        string second = "');"
+        "   function playAudio() {"
+        "            audio.play();"
+        "        }"
+        "        function pauseAudio() {"
+        "            audio.pause();"
+        "        }"
+        "    </script>"
+        "    <h1>Music detail</h1>"
+        "    <button onclick='playAudio()'>Play</button>"
+        "    <button onclick='pauseAudio()'>Pause</button> <br><br>";
+        string third = detail + "</center>"
+             "</body>"
+              "</html>";
+        
+        return res + source + second + third;
+}
+
 string View::showResponse(int statusCode) {
     switch (statusCode) {
     case STATUS_200_SUCCESS:
@@ -145,6 +174,7 @@ string View::showUsersList(vector<BaseUser*> users, Database* db) {
     response += "<!DOCTYPE html>";
     response += "<html>";
     response += "<body style=\"text-align: center;\">";
+    response += "<center>";
     response += " <a href=\"/\"> <img src=\"/home.png\" alt=\"Home Logo\" style=\"width:5%;\"><br> </a>";
     response += "<h1> Sputify </h1>";
     response += " <h2 style=\"color: red;\"> ID, Mode, Username, Playlists_number/Songs_number </h3> <br>";
@@ -160,6 +190,7 @@ string View::showUsersList(vector<BaseUser*> users, Database* db) {
         response += "\n";
         response += "</p>";
     }
+    response += "</center>";
     response += "</body>";
     response += "</html>";
     return response;
@@ -190,10 +221,9 @@ string View::showMusicDetail(Music* music) {
         return RESOPNSE_404_NOT_FOUND;
     }
 
-    string response = "ID, Name, Artist, Year, Album, Tags, Duration\n";
+    string response = "ID, Name, Artist, Year, Album, Tags, Duration <br><br>";
     response += this->getMusicDetail(music);
-
-    return response;
+    return getMusicHtmlPage(music->getPath(), response); 
 }
 
 string View::showMusicsList(const vector<Music*>& musics) {

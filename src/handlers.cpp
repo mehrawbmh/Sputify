@@ -12,7 +12,7 @@ const string getCurrentDirectory() {
     char cwd[256];
     getcwd(cwd, 256);
     string currentDir(cwd);
-    return currentDir;
+    return currentDir + "/";
 }
 
 SignupHandler::SignupHandler(Database* _db): db(_db) {}
@@ -102,15 +102,34 @@ Response* UserDetailHandler::callback(Request* req) {
     return control.getOneUser(stoi(userId));
 }
 
-UploadMusicHandler::UploadMusicHandler(string filePath, Database* _db) : TemplateHandler(filePath), db(_db) {}
+MusicDetailHandler::MusicDetailHandler(Database* _db): db(_db) {}
+
+Response* MusicDetailHandler::callback(Request* req) {
+    this->db->handleCurrentUserBySession(req->getSessionId());
+    MusicsController control(this->db);
+    string musicId = req->getQueryParam("id");
+
+    if (!utils::isNumeric(musicId)) {
+        Response* error = new Response(STATUS_400_BAD_REQUEST);
+        error->setHeader("Content-Type", "application/json");
+        error->setBody("{'status': 400, 'message': 'Music id should be int'}");
+        return error;
+    }
+    return control.getOneMusic(stoi(musicId));
+}
+
+UploadMusicHandler::UploadMusicHandler(string filePath, Database* _db, Server* _server) : TemplateHandler(filePath), db(_db), server(_server) {}
 
 map<string, string> UploadMusicHandler::handle(Request* req) {
+    this->db->handleCurrentUserBySession(req->getSessionId());
     string currentDir = getCurrentDirectory();
-    MusicsController controller(db);
+    MusicsController controller(this->db);
     map<string, string> context;
 
     string title = req->getBodyParam("name");
-    string path = "/static/" + title + DEFAULT_MUSIC_FORMAT;
+    string path = "static/" + title + DEFAULT_MUSIC_FORMAT;
+    string urlPath = "/";
+    urlPath += path;
     string album = req->getBodyParam("album");
     string duration = req->getBodyParam("duration");
     string file = req->getBodyParam("file");
@@ -121,6 +140,7 @@ map<string, string> UploadMusicHandler::handle(Request* req) {
 
     if (result.first) {
         utils::writeToFile(file, currentDir + path);
+        server->get(urlPath, new ShowFile(path, "audio/mp4"));
         context["result"] = TRUE_STR;
     } else {
         context["result"] = FALSE_STR;
