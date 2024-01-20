@@ -20,6 +20,7 @@ void Sputify::mapRoutes(Server& server) {
     server.get("/add-music", new ShowPage("static/add_music.html"));
     server.post("/add-music", new UploadMusicHandler("template/add_music.html", this->db, &server));
     server.get("/music", new MusicDetailHandler(this->db));
+    server.get("/my-musics", new ArtistMusicListHandler(this->db));
 }
 
 void Sputify::run(int argc, char* argv[]) {

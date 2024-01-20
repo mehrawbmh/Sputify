@@ -59,12 +59,18 @@ void MusicsController::deletePlaylist(const string &playlistName) {
     }
 }
 
-void MusicsController::getCurrentArtistMusics() {
+Response* MusicsController::getCurrentArtistMusics() {
+    Response* response = new Response();
     try {
-        cout << view.showMusicListDetailed(model.getCurrentArtistMusics());
+        response->setBody(view.showMusicListDetailed(model.getCurrentArtistMusics()));
+        response->setHeader("Content-Type", "text/html");
     } catch (ClientException &exc) {
-        cout << view.showResponse(exc.getCode()) << endl;
+        response->setStatus(exc.getCode());
+        string message(exc.what());
+        response->setBody("{message: " + message + "}");
+        response->setHeader("Content-Type", "applicatoin/json");
     }
+    return response;
 }
 
 void MusicsController::searchMusic(string name, string artist, string tag) {

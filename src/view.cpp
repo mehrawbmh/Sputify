@@ -29,6 +29,7 @@ string getMusicHtmlPage(string source, string detail) {
         "            audio.pause();"
         "        }"
         "    </script>"
+        " <a href=\"/\"> <img src=\"/home.png\" alt=\"Home Logo\" style=\"width:5%;\"><br> </a>"
         "    <h1>Music detail</h1>"
         "    <button onclick='playAudio()'>Play</button>"
         "    <button onclick='pauseAudio()'>Pause</button> <br><br>";
@@ -244,10 +245,22 @@ string View::showMusicListDetailed(const vector<Music*>& musics) {
         return RESOPNSE_201_NO_RESOPNSE + "\n";
     }
 
-    string response = "ID, Name, Artist, Year, Album, Tags, Duration\n";
+    string response;
+    response += "<!DOCTYPE html>";
+    response += "<html>";
+    response += "<body style=\"text-align: center;\">";
+    response += "<center>";
+    response += " <a href=\"/\"> <img src=\"/home.png\" alt=\"Home Logo\" style=\"width:5%;\"><br> </a>";
+    response += "<h1> Sputify </h1>";
+    response += " <h2 style=\"color: darkblue;\"> ID, Name, Artist, Year, Album, Tags, Duration </h3> <br>";
+
     for (Music* music: musics) {
-        response += this->getMusicDetail(music) + "\n";
+        response += "<h3>" + this->getMusicDetail(music) + "</p> <a href='/music?id=" + to_string(music->getId()) + "'> (See detail)</a> <br>";
     }
+
+    response += "</center>";
+    response += "</body>";
+    response += "</html>";
 
     return response;
 }

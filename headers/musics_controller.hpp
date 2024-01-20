@@ -37,7 +37,7 @@ public:
 
     void deletePlaylist(const string &playlistName);
 
-    void getCurrentArtistMusics();
+    Response* getCurrentArtistMusics();
 
     void searchMusic(string name, string artist, string tag);
 

@@ -122,6 +122,7 @@ UploadMusicHandler::UploadMusicHandler(string filePath, Database* _db, Server* _
 
 map<string, string> UploadMusicHandler::handle(Request* req) {
     this->db->handleCurrentUserBySession(req->getSessionId());
+
     string currentDir = getCurrentDirectory();
     MusicsController controller(this->db);
     map<string, string> context;
@@ -148,4 +149,12 @@ map<string, string> UploadMusicHandler::handle(Request* req) {
     
     context["message"] = result.second;
     return context;
+}
+
+ArtistMusicListHandler::ArtistMusicListHandler(Database* _db): db(_db) {}
+
+Response* ArtistMusicListHandler::callback(Request* req) {
+    this->db->handleCurrentUserBySession(req->getSessionId());
+    MusicsController control(this->db);
+    return control.getCurrentArtistMusics();
 }

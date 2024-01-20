@@ -80,5 +80,14 @@ public:
     std::map<string, string> handle(Request* req);
 };
 
+class ArtistMusicListHandler: public RequestHandler {
+private:
+    Database* db;
+
+public:
+    ArtistMusicListHandler(Database*);
+    Response* callback(Request*);
+};
+
 
 #endif // SPUTIFY_HANDLERS_HPP
