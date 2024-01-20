@@ -211,3 +211,18 @@ Response* AddMusicToPlaylistHandlder::callback(Request* req) {
 
     return control.addMusicToPlaylist(stoi(musicId), req->getQueryParam("playlistName"));
 }
+
+DeleteMusicHandler::DeleteMusicHandler(Database* _db): db(_db) {}
+
+Response* DeleteMusicHandler::callback(Request* req) {
+    this->db->handleCurrentUserBySession(req->getSessionId());
+    MusicsController control(this->db);
+    string songId = req->getQueryParam("id");
+    if (!utils::isNumeric(songId)) {
+        Response* error = new Response(STATUS_400_BAD_REQUEST);
+        error->setHeader("Content-Type", "application/json");
+        error->setBody("{'status': 400, 'message': 'Music id should be int'}");
+        return error;
+    }
+    return control.deleteMusic(stoi(songId));
+}

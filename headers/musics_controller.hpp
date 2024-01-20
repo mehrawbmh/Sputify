@@ -33,7 +33,7 @@ public:
 
     Response* addMusicToPlaylist(int songId, string playlistName);
 
-    void deleteMusic(const int &songId);
+    Response* deleteMusic(const int &songId);
 
     void deletePlaylist(const string &playlistName);
 

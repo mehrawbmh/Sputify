@@ -124,4 +124,13 @@ public:
     Response* callback(Request*);
 };
 
+class DeleteMusicHandler: public RequestHandler {
+private:
+    Database* db;
+
+public:
+    DeleteMusicHandler(Database*);
+    Response* callback(Request*);
+};
+
 #endif // SPUTIFY_HANDLERS_HPP

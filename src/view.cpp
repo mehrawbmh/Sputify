@@ -31,8 +31,8 @@ string getMusicHtmlPage(string source, string detail) {
         "    </script>"
         " <a href=\"/\"> <img src=\"/home.png\" alt=\"Home Logo\" style=\"width:5%;\"><br> </a>"
         "    <h1>Music detail</h1>"
-        "    <button onclick='playAudio()'>Play</button>"
-        "    <button onclick='pauseAudio()'>Pause</button> <br><br>";
+        "    <button style='display: block; width: 25%; padding: 10px; margin: 5px;' onclick='playAudio()'>Play</button> <br>"
+        "    <button style='display: block; width: 25%; padding: 10px; margin: 5px;' onclick='pauseAudio()'>Pause</button> <br><br>";
         string third = detail + "</center>"
              "</body>"
               "</html>";
@@ -222,8 +222,8 @@ string View::showMusicDetail(Music* music, Database* db) {
         return RESOPNSE_404_NOT_FOUND;
     }
 
-    string detail = "ID, Name, Artist, Year, Album, Tags, Duration <br><br>";
-    detail += "<p> " + this->getMusicDetail(music) + "</p>";
+    string detail = "<h3 style='color: pink'> ID, Name, Artist, Year, Album, Tags, Duration </h3> <br><br>";
+    detail += "<p style='color: blue'> " + this->getMusicDetail(music) + "</p>";
     
     auto user = db->getCurrentUser();
     if (user && user->canCreatePlayList()) {
@@ -241,6 +241,11 @@ string View::showMusicDetail(Music* music, Database* db) {
                         "style='display: block; width: 50%; padding: 10px;'> </form> <br> <br>";
             }
         }
+    }
+
+    if (user && user->getId() == music->getArtist()->getId()) {
+        detail += " <br> <form method='post' action='/delete-music?id=" + to_string(music->getId()) +"'> <input type='submit' value='delete' "
+                    "style='display: block; width: 10%; padding: 10px;'> </form> <br> <br>";
     }
     
     return getMusicHtmlPage(music->getPath(), detail); 

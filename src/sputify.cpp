@@ -26,6 +26,7 @@ void Sputify::mapRoutes(Server& server) {
     server.post("/add-to-playlist", new AddMusicToPlaylistHandlder(this->db));
     server.get("/my-playlists", new UserPlaylistsHandler(this->db));
     server.get("/playlist", new PlaylistDetailHandler(this->db));
+    server.post("/delete-music", new DeleteMusicHandler(this->db));
 }
 
 void Sputify::run(int argc, char* argv[]) {

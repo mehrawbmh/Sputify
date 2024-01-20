@@ -62,8 +62,19 @@ Response* MusicsController::addMusicToPlaylist(int songId, string playlistName) 
     return response;
 }
 
-void MusicsController::deleteMusic(const int &songId) {
-    cout << view.showResponse(model.deleteMusic(songId)) << endl;
+Response* MusicsController::deleteMusic(const int &songId) {
+    int result = model.deleteMusic(songId);
+    if (result == STATUS_200_SUCCESS) {
+        return Response::redirect("/");
+    }
+
+    Response* response = new Response(result);
+    string message = "[{message: " + view.showResponse(result) + " }";
+    message += "{code: " + to_string(result) + " }]";
+    response->setBody(message);
+
+    return response;
+
 }
 
 void MusicsController::deletePlaylist(const string &playlistName) {
