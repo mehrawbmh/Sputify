@@ -6,6 +6,9 @@
 #include <unistd.h>
 #include <filesystem>
 
+#define USERID_ERROR_MESSAGE "user id should be int"
+#define MUSICID_ERROR_MESSAGE "music id should be integer"
+
 using namespace std;
 
 const string getCurrentDirectory() {
@@ -58,7 +61,7 @@ Response* FollowHandler::callback(Request* req) {
     if (!utils::isNumeric(userId)) {
         Response* error = new Response(STATUS_400_BAD_REQUEST);
         error->setHeader("Content-Type", "application/json");
-        error->setBody("{'status': 400, 'message': 'user id should be int'}");
+        error->setBody("{'status': 400, 'message': ' " USERID_ERROR_MESSAGE "'}");
         return error;
     }
     return control.follow(stoi(userId));
@@ -73,7 +76,7 @@ Response* UnfollowHandler::callback(Request* req) {
     if (!utils::isNumeric(userId)) {
         Response* error = new Response(STATUS_400_BAD_REQUEST);
         error->setHeader("Content-Type", "application/json");
-        error->setBody("{'status': 400, 'message': 'user id should be int'}");
+        error->setBody("{'status': 400, 'message': ' " USERID_ERROR_MESSAGE "'}");
         return error;
     }
     return control.unfollow(stoi(userId));
@@ -96,7 +99,7 @@ Response* UserDetailHandler::callback(Request* req) {
     if (!utils::isNumeric(userId)) {
         Response* error = new Response(STATUS_400_BAD_REQUEST);
         error->setHeader("Content-Type", "application/json");
-        error->setBody("{'status': 400, 'message': 'user id should be int'}");
+        error->setBody("{'status': 400, 'message': ' " USERID_ERROR_MESSAGE "'}");
         return error;
     }
     return control.getOneUser(stoi(userId));
@@ -112,7 +115,7 @@ Response* MusicDetailHandler::callback(Request* req) {
     if (!utils::isNumeric(musicId)) {
         Response* error = new Response(STATUS_400_BAD_REQUEST);
         error->setHeader("Content-Type", "application/json");
-        error->setBody("{'status': 400, 'message': 'Music id should be int'}");
+        error->setBody("{'status': 400, 'message': ' " MUSICID_ERROR_MESSAGE "'}");
         return error;
     }
     return control.getOneMusic(stoi(musicId));
@@ -128,7 +131,7 @@ Response* PlaylistDetailHandler::callback(Request* req) {
     if (this->db->getCurrentUser() == nullptr) {
         Response* error = new Response(STATUS_403_FORBIDDEN);
         error->setHeader("Content-Type", "application/json");
-        error->setBody("{'status': 403, 'message': 'You have to login first!'}");
+        error->setBody("{'status': 403, 'message':'" + RESPONSE_403_FORBIDDEN + "'}");
         return error;
     }
     return control.getPlayList(this->db->getCurrentUser()->getId(), playlistName);
@@ -144,6 +147,7 @@ map<string, string> UploadMusicHandler::handle(Request* req) {
     map<string, string> context;
 
     string title = req->getBodyParam("name");
+    string tags = req->getBodyParam("tags");
     string path = "static/" + title + DEFAULT_MUSIC_FORMAT;
     string urlPath = "/";
     urlPath += path;
@@ -152,8 +156,15 @@ map<string, string> UploadMusicHandler::handle(Request* req) {
     string file = req->getBodyParam("file");
     string year = req->getBodyParam("year");
     int musicYear = utils::isNumeric(year) ? stoi(year) : DEFAULT_ALBUM_YEAR;
+
+    vector<string> tagsList;
+    string tag;
+    istringstream ss(tags);
+    while (getline(ss, tag, ';')) {
+        tagsList.push_back(tag);
+    }
     
-    std::pair result = controller.createMusic(title, path, album, stoi(year), duration, {});
+    std::pair result = controller.createMusic(title, path, album, stoi(year), duration, tagsList);
 
     if (result.first) {
         utils::writeToFile(file, currentDir + path);
@@ -205,7 +216,7 @@ Response* AddMusicToPlaylistHandlder::callback(Request* req) {
     if (!utils::isNumeric(musicId)) {
         Response* error = new Response(STATUS_400_BAD_REQUEST);
         error->setHeader("Content-Type", "application/json");
-        error->setBody("{'status': 400, 'message': 'Music id should be int'}");
+        error->setBody("{'status': 400, 'message': ' "  MUSICID_ERROR_MESSAGE "'}");
         return error;
     }
 
@@ -221,7 +232,7 @@ Response* DeleteMusicHandler::callback(Request* req) {
     if (!utils::isNumeric(songId)) {
         Response* error = new Response(STATUS_400_BAD_REQUEST);
         error->setHeader("Content-Type", "application/json");
-        error->setBody("{'status': 400, 'message': 'Music id should be int'}");
+        error->setBody("{'status': 400, 'message': ' " MUSICID_ERROR_MESSAGE "'}");
         return error;
     }
     return control.deleteMusic(stoi(songId));
