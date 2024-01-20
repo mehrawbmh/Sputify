@@ -133,4 +133,13 @@ public:
     Response* callback(Request*);
 };
 
+class DeletePlaylistHandler: public RequestHandler {
+private:
+    Database* db;
+
+public:
+    DeletePlaylistHandler(Database*);
+    Response* callback(Request*);
+};
+
 #endif // SPUTIFY_HANDLERS_HPP

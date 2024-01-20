@@ -35,7 +35,7 @@ public:
 
     Response* deleteMusic(const int &songId);
 
-    void deletePlaylist(const string &playlistName);
+    Response* deletePlaylist(const string &playlistName);
 
     Response* getCurrentArtistMusics();
 

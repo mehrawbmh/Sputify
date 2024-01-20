@@ -52,7 +52,7 @@ public:
 
     string showMusicDetail(Music* music, Database* db);
 
-    string showMusicsList(const vector<Music*>& musics);
+    string showMusicsList(const vector<Music*>& musics, bool isOwner = false, string playlistName = "");
 
     string showMusicListDetailed(const vector<Music*>& musics);
 

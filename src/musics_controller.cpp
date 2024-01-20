@@ -35,7 +35,7 @@ void MusicsController::getAllMusics() {
         return;
     }
 
-    cout << view.showMusicsList(model.getAllMusics());
+    cout << view.showMusicsList(model.getAllMusics(), false, "");
 }
 
 Response* MusicsController::createPlaylist(string name) {
@@ -69,20 +69,23 @@ Response* MusicsController::deleteMusic(const int &songId) {
     }
 
     Response* response = new Response(result);
-    string message = "[{message: " + view.showResponse(result) + " }";
+    string message = "[{message: " + view.showResponse(result) + " },";
     message += "{code: " + to_string(result) + " }]";
     response->setBody(message);
 
     return response;
-
 }
 
-void MusicsController::deletePlaylist(const string &playlistName) {
+Response* MusicsController::deletePlaylist(const string &playlistName) {
     try {
         model.deletePlaylist(playlistName);
-        cout << view.showSuccessResponse() << endl;
+        return Response::redirect("/");
     } catch (ClientException &exception) {
-        cout << view.showResponse(exception.getCode()) << endl;
+        Response* response = new Response(exception.getCode());
+        string message(exception.what());
+        response->setBody("{message: " + message + "}");
+        response->setHeader("Content-Type", "application/json");
+        return response;
     }
 }
 
@@ -102,7 +105,7 @@ Response* MusicsController::getCurrentArtistMusics() {
 
 void MusicsController::searchMusic(string name, string artist, string tag) {
     try {
-        cout << view.showMusicsList(model.searchMusic(name, artist, tag));
+        cout << view.showMusicsList(model.searchMusic(name, artist, tag), false, "");
     } catch (ClientException &exc) {
         cout << view.showResponse(exc.getCode()) << endl;
     }
@@ -124,7 +127,7 @@ Response* MusicsController::getUserPlaylists(int userId) {
 
 void MusicsController::getLikedMusics() {
     try {
-        cout << view.showMusicsList(model.getFavoriteMusics());
+        cout << view.showMusicsList(model.getFavoriteMusics(), false, "");
     } catch (ClientException &exception) {
         cout << view.showResponse(exception.getCode()) << endl;
     }

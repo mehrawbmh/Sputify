@@ -222,7 +222,7 @@ string View::showMusicDetail(Music* music, Database* db) {
         return RESOPNSE_404_NOT_FOUND;
     }
 
-    string detail = "<h3 style='color: pink'> ID, Name, Artist, Year, Album, Tags, Duration </h3> <br><br>";
+    string detail = "<h3 style='color: darkred'> ID, Name, Artist, Year, Album, Tags, Duration </h3> <br><br>";
     detail += "<p style='color: blue'> " + this->getMusicDetail(music) + "</p>";
     
     auto user = db->getCurrentUser();
@@ -251,7 +251,7 @@ string View::showMusicDetail(Music* music, Database* db) {
     return getMusicHtmlPage(music->getPath(), detail); 
 }
 
-string View::showMusicsList(const vector<Music*>& musics) {
+string View::showMusicsList(const vector<Music*>& musics, bool isOwner, string playlistName) {
     if (musics.empty()) {
         return RESOPNSE_201_NO_RESOPNSE + "\n";
     }
@@ -267,6 +267,11 @@ string View::showMusicsList(const vector<Music*>& musics) {
 
     for (Music* music: musics) {
         response += "<h3>" + to_string(music->getId()) + ", " + music->getName() + ", " + music->getArtist()->getUsername() + "</h3>" + "<br>";
+    }
+
+    if (isOwner) {
+        response += " <br> <form method='post' action='/delete-playlist?name=" + playlistName +"'> <input type='submit' value='delete' "
+                    "style='display: block; width: 10%; padding: 10px;'> </form> <br> <br>";
     }
 
     response += "</center>";
@@ -336,7 +341,8 @@ string View::showPlaylists(vector<PlayList*> playlists) {
 }
 
 string View::showPlaylistDetail(PlayList* playlist, Database* db) {
-    return showMusicsList(playlist->getSongs());
+    bool isOwner = (db->getCurrentUser() == nullptr) ? false : (db->getCurrentUser()->getId() == playlist->getUserId());
+    return showMusicsList(playlist->getSongs(), isOwner, playlist->getTitle());
 }
 
 string View::showRecommendedMusics(vector<Music*> songs) {
