@@ -68,7 +68,7 @@ Response* MusicsController::getCurrentArtistMusics() {
         response->setStatus(exc.getCode());
         string message(exc.what());
         response->setBody("{message: " + message + "}");
-        response->setHeader("Content-Type", "applicatoin/json");
+        response->setHeader("Content-Type", "application/json");
     }
     return response;
 }

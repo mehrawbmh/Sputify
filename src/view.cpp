@@ -255,7 +255,7 @@ string View::showMusicListDetailed(const vector<Music*>& musics) {
     response += " <h2 style=\"color: darkblue;\"> ID, Name, Artist, Year, Album, Tags, Duration </h3> <br>";
 
     for (Music* music: musics) {
-        response += "<h3>" + this->getMusicDetail(music) + "</p> <a href='/music?id=" + to_string(music->getId()) + "'> (See detail)</a> <br>";
+        response += "<h3 style='color: brown;'>" + this->getMusicDetail(music) + "</p> <a href='/music?id=" + to_string(music->getId()) + "'> (See detail)</a> <br>";
     }
 
     response += "</center>";
