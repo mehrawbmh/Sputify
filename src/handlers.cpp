@@ -118,6 +118,22 @@ Response* MusicDetailHandler::callback(Request* req) {
     return control.getOneMusic(stoi(musicId));
 }
 
+PlaylistDetailHandler::PlaylistDetailHandler(Database* _db): db(_db) {}
+
+Response* PlaylistDetailHandler::callback(Request* req) {
+    this->db->handleCurrentUserBySession(req->getSessionId());
+    MusicsController control(this->db);
+    string playlistName = req->getQueryParam("name");
+
+    if (this->db->getCurrentUser() == nullptr) {
+        Response* error = new Response(STATUS_403_FORBIDDEN);
+        error->setHeader("Content-Type", "application/json");
+        error->setBody("{'status': 403, 'message': 'You have to login first!'}");
+        return error;
+    }
+    return control.getPlayList(this->db->getCurrentUser()->getId(), playlistName);
+}
+
 UploadMusicHandler::UploadMusicHandler(string filePath, Database* _db, Server* _server) : TemplateHandler(filePath), db(_db), server(_server) {}
 
 map<string, string> UploadMusicHandler::handle(Request* req) {
@@ -166,7 +182,7 @@ Response* UserPlaylistsHandler::callback(Request* req) {
     if (this->db->getCurrentUser() == nullptr) {
         return new Response(404);
     }
-    
+
     MusicsController control(this->db);
     return control.getUserPlaylists(db->getCurrentUser()->getId());
 }

@@ -136,10 +136,16 @@ void MusicsController::likeMusic(const int &songId) {
     }
 }
 
-void MusicsController::getPlayList(const int &id, const string &name) {
+Response* MusicsController::getPlayList(const int &id, const string &name) {
+    Response* response = new Response();
     try {
-        cout << view.showPlaylistDetail(model.getPlayList(id, name), this->db);
-    } catch (ClientException &exception) {
-        cout << view.showResponse(exception.getCode()) << endl;
+        response->setBody(view.showPlaylistDetail(model.getPlayList(id, name), this->db));
+        response->setHeader("Content-Type", "text/html");
+    } catch (ClientException &exc) {
+        response->setStatus(exc.getCode());
+        string message(exc.what());
+        response->setBody("{message: " + message + "}");
+        response->setHeader("Content-Type", "application/json");
     }
+    return response;
 }

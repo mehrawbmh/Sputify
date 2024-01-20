@@ -71,6 +71,14 @@ public:
     Response* callback(Request*);
 };
 
+class PlaylistDetailHandler: public RequestHandler {
+private:
+    Database* db;
+public:
+    PlaylistDetailHandler(Database* db);
+    Response* callback(Request*);
+};
+
 class UploadMusicHandler: public TemplateHandler {
 private:
     Server* server;
