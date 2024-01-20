@@ -228,7 +228,14 @@ string View::showMusicDetail(Music* music, Database* db) {
     auto user = db->getCurrentUser();
     if (user && user->canCreatePlayList()) {
         for (PlayList* pl: db->getUserPlayList(user->getId())) {
-            if (std::find(pl->getSongs().begin(), pl->getSongs().end(), music) == pl->getSongs().end()) {
+            bool found = false;
+            for (Music* mus: pl->getSongs()) {
+                if (mus->getId() == music->getId()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
                 detail += "<form method='post' action='/add-to-playlist?musicId=" + to_string(music->getId()) + "&playlistName=" + pl->getTitle() +
                         "'> <input type='submit' value='add to " + pl->getTitle() + " playlist '"
                         "style='display: block; width: 50%; padding: 10px;'> </form> <br> <br>";
@@ -267,7 +274,7 @@ string View::showMusicListDetailed(const vector<Music*>& musics) {
     response += " <h2 style=\"color: darkblue;\"> ID, Name, Artist, Year, Album, Tags, Duration </h3> <br>";
 
     for (Music* music: musics) {
-        response += "<h3 style='color: brown;'>" + this->getMusicDetail(music) + "</p> <a href='/music?id=" + to_string(music->getId()) + "'> (See detail)</a> <br>";
+        response += "<h3 style='color: brown;'>" + this->getMusicDetail(music) + "</h3> <a href='/music?id=" + to_string(music->getId()) + "'> (See detail)</a> <br>";
     }
 
     response += "</center>";
@@ -283,15 +290,30 @@ string View::showPlaylists(vector<PlayList*> playlists) {
     }
 
     sort(playlists.begin(), playlists.end(), sortPlaylistsWithName);
-    string response = "Playlist_ID, Playlist_name, Songs_number, Duration\n";
+
+    string response;
+    response += "<!DOCTYPE html>";
+    response += "<html>";
+    response += "<body style=\"text-align: center;\">";
+    response += "<center>";
+    response += " <a href=\"/\"> <img src=\"/home.png\" alt=\"Home Logo\" style=\"width:5%;\"><br> </a>";
+    response += "<h1> Sputify </h1>";
+    response += " <h2 style=\"color: darkblue;\"> Playlist_ID, Playlist_name, Songs_number, Duration </h3> <br>";
 
     for (PlayList* playlist: playlists) {
+        response += "<h3 style='color: orange;'>";
         response += to_string(playlist->getId()) + ", ";
         response += playlist->getTitle() + ", ";
         response += to_string(playlist->getSongsCount()) + ", ";
         response += playlist->getPlaylistDuration();
-        response += "\n";
+        response += "</h3>";
+        response += "<a href='playlist?id=" + to_string(playlist->getId()) + "'> (See details) </a>";
+        response += "<br>";
     }
+
+    response += "</center>";
+    response += "</body>";
+    response += "</html>";
 
     return response;
 }

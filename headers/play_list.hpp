@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "entity.hpp"
 #include "music.hpp"

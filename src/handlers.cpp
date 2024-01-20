@@ -159,6 +159,18 @@ Response* ArtistMusicListHandler::callback(Request* req) {
     return control.getCurrentArtistMusics();
 }
 
+UserPlaylistsHandler::UserPlaylistsHandler(Database* _db): db(_db) {}
+
+Response* UserPlaylistsHandler::callback(Request* req) {
+    this->db->handleCurrentUserBySession(req->getSessionId());
+    if (this->db->getCurrentUser() == nullptr) {
+        return new Response(404);
+    }
+    
+    MusicsController control(this->db);
+    return control.getUserPlaylists(db->getCurrentUser()->getId());
+}
+
 AddPlaylistHandler::AddPlaylistHandler(Database* _db): db(_db) {}
 
 Response* AddPlaylistHandler::callback(Request* req) {

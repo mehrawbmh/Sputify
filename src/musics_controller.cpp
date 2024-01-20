@@ -97,12 +97,18 @@ void MusicsController::searchMusic(string name, string artist, string tag) {
     }
 }
 
-void MusicsController::getUserPlaylists(int id) {
+Response* MusicsController::getUserPlaylists(int userId) {
+    Response* response = new Response();
     try {
-        cout << view.showPlaylists(model.getUserPlaylists(id));
-    } catch (ClientException &exception) {
-        cout << view.showResponse(exception.getCode()) << endl;
+        response->setBody(view.showPlaylists(model.getUserPlaylists(userId)));
+        response->setHeader("Content-Type", "text/html");
+    } catch (ClientException &exc) {
+        response->setStatus(exc.getCode());
+        string message(exc.what());
+        response->setBody("{message: " + message + "}");
+        response->setHeader("Content-Type", "application/json");
     }
+    return response;
 }
 
 void MusicsController::getLikedMusics() {

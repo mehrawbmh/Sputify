@@ -41,7 +41,7 @@ public:
 
     void searchMusic(string name, string artist, string tag);
 
-    void getUserPlaylists(int id);
+    Response* getUserPlaylists(int id);
 
     void getLikedMusics();
 

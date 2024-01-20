@@ -89,6 +89,14 @@ public:
     Response* callback(Request*);
 };
 
+class UserPlaylistsHandler: public RequestHandler {
+private:
+    Database* db;
+
+public:
+    UserPlaylistsHandler(Database*);
+    Response* callback(Request*);
+};
 
 class AddPlaylistHandler: public RequestHandler {
 private:
