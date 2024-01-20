@@ -90,4 +90,13 @@ public:
 };
 
 
+class AddPlaylistHandler: public RequestHandler {
+private:
+    Database* db;
+
+public:
+    AddPlaylistHandler(Database*);
+    Response* callback(Request*);
+};
+
 #endif // SPUTIFY_HANDLERS_HPP

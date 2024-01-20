@@ -38,8 +38,16 @@ void MusicsController::getAllMusics() {
     cout << view.showMusicsList(model.getAllMusics());
 }
 
-void MusicsController::createPlaylist(string name) {
-    cout << view.showResponse(model.createPlaylist(name)) << endl;
+Response* MusicsController::createPlaylist(string name) {
+    int status = model.createPlaylist(name);
+    Response* response = new Response(status);
+    response->setHeader("Content-Type", "application/json");
+    
+    string message = "[{message: " + view.showResponse(status) + " }";
+    message += "{status: " + to_string(status) + " }]";
+    
+    response->setBody(message);
+    return response;
 }
 
 void MusicsController::addMusicToPlaylist(int songId, string playlistName) {

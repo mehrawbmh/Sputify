@@ -29,7 +29,7 @@ public:
 
     void getAllMusics();
 
-    void createPlaylist(string name);
+    Response* createPlaylist(string name);
 
     void addMusicToPlaylist(int songId, string playlistName);
 

@@ -40,7 +40,7 @@ vector<Music*> MusicsModel::getAllMusics() {
 }
 
 int MusicsModel::createPlaylist(string title) {
-    if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList()) {
+    if (this->db->getCurrentUser() == nullptr || !this->db->getCurrentUser()->canCreatePlayList() || title.empty()) {
         return STATUS_403_FORBIDDEN;
     }
 

@@ -158,3 +158,11 @@ Response* ArtistMusicListHandler::callback(Request* req) {
     MusicsController control(this->db);
     return control.getCurrentArtistMusics();
 }
+
+AddPlaylistHandler::AddPlaylistHandler(Database* _db): db(_db) {}
+
+Response* AddPlaylistHandler::callback(Request* req) {
+    this->db->handleCurrentUserBySession(req->getSessionId());
+    MusicsController control(this->db);
+    return control.createPlaylist(req->getBodyParam("name"));
+}
