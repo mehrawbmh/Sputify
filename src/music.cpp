@@ -39,6 +39,10 @@ string Music::getDuration() {
     return this->timeDuration;
 }
 
+string Music::getPath() {
+    return this->path;
+}
+
 int Music::getYear() const {
     return this->year;
 }

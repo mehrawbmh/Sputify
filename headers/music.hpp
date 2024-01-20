@@ -35,6 +35,7 @@ public:
     string getName();
     string getAlbum();
     string getDuration();
+    string getPath();
     int getYear() const;
     Artist* getArtist();
     int getDurationInSeconds();
