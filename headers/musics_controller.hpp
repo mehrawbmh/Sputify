@@ -27,7 +27,7 @@ public:
 
     Response* getOneMusic(int id);
 
-    void getAllMusics();
+    Response* getAllMusics();
 
     Response* createPlaylist(string name);
 

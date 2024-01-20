@@ -2,6 +2,9 @@
 
 using namespace std;
 
+#define APPLICATION_JSON_CONTENT "application/json"
+#define HTML_TEXT_CONTENT "text/html"
+
 MusicsController::MusicsController(Database *_db) : db(_db), model(MusicsModel(_db)) {}
 
 std::pair<bool, string> MusicsController::createMusic(string title, string path, string album, int year, string durationTime, vector<string> tags) {
@@ -24,24 +27,26 @@ Response* MusicsController::getOneMusic(int id) {
     }
 
     Response* response = new Response();
-    response->setHeader("Content-Type", "text/html");
+    response->setHeader("Content-Type", HTML_TEXT_CONTENT);
     response->setBody(view.showMusicDetail(model.getOneMusic(id), this->db));
     return response;
 }
 
-void MusicsController::getAllMusics() {
+Response* MusicsController::getAllMusics() {
     if (this->db->getCurrentUser() == nullptr) {
-        cout << view.showResponse(STATUS_403_FORBIDDEN) << endl;
-        return;
+        return new Response(STATUS_403_FORBIDDEN);
     }
 
-    cout << view.showMusicsList(model.getAllMusics(), false, "");
+    Response* response = new Response();
+    response->setHeader("Content-Type", HTML_TEXT_CONTENT);
+    response->setBody(view.showMusicsList(model.getAllMusics(), false, ""));
+    return response;
 }
 
 Response* MusicsController::createPlaylist(string name) {
     int status = model.createPlaylist(name);
     Response* response = new Response(status);
-    response->setHeader("Content-Type", "application/json");
+    response->setHeader("Content-Type", APPLICATION_JSON_CONTENT);
     
     string message = "[{message: " + view.showResponse(status) + " }";
     message += "{status: " + to_string(status) + " }]";
@@ -53,7 +58,7 @@ Response* MusicsController::createPlaylist(string name) {
 Response* MusicsController::addMusicToPlaylist(int songId, string playlistName) {
     int status = model.addMusicToPlaylist(songId, playlistName);
     Response* response = new Response(status);
-    response->setHeader("Content-Type", "application/json");
+    response->setHeader("Content-Type", APPLICATION_JSON_CONTENT);
     
     string message = "[{message: " + view.showResponse(status) + " }";
     message += "{status: " + to_string(status) + " }]";
@@ -84,7 +89,7 @@ Response* MusicsController::deletePlaylist(const string &playlistName) {
         Response* response = new Response(exception.getCode());
         string message(exception.what());
         response->setBody("{message: " + message + "}");
-        response->setHeader("Content-Type", "application/json");
+        response->setHeader("Content-Type", APPLICATION_JSON_CONTENT);
         return response;
     }
 }
@@ -93,12 +98,12 @@ Response* MusicsController::getCurrentArtistMusics() {
     Response* response = new Response();
     try {
         response->setBody(view.showMusicListDetailed(model.getCurrentArtistMusics()));
-        response->setHeader("Content-Type", "text/html");
+        response->setHeader("Content-Type", HTML_TEXT_CONTENT);
     } catch (ClientException &exc) {
         response->setStatus(exc.getCode());
         string message(exc.what());
         response->setBody("{message: " + message + "}");
-        response->setHeader("Content-Type", "application/json");
+        response->setHeader("Content-Type", APPLICATION_JSON_CONTENT);
     }
     return response;
 }
@@ -115,12 +120,12 @@ Response* MusicsController::getUserPlaylists(int userId) {
     Response* response = new Response();
     try {
         response->setBody(view.showPlaylists(model.getUserPlaylists(userId)));
-        response->setHeader("Content-Type", "text/html");
+        response->setHeader("Content-Type", HTML_TEXT_CONTENT);
     } catch (ClientException &exc) {
         response->setStatus(exc.getCode());
         string message(exc.what());
         response->setBody("{message: " + message + "}");
-        response->setHeader("Content-Type", "application/json");
+        response->setHeader("Content-Type", APPLICATION_JSON_CONTENT);
     }
     return response;
 }
@@ -154,12 +159,12 @@ Response* MusicsController::getPlayList(const int &id, const string &name) {
     Response* response = new Response();
     try {
         response->setBody(view.showPlaylistDetail(model.getPlayList(id, name), this->db));
-        response->setHeader("Content-Type", "text/html");
+        response->setHeader("Content-Type", HTML_TEXT_CONTENT);
     } catch (ClientException &exc) {
         response->setStatus(exc.getCode());
         string message(exc.what());
         response->setBody("{message: " + message + "}");
-        response->setHeader("Content-Type", "application/json");
+        response->setHeader("Content-Type", APPLICATION_JSON_CONTENT);
     }
     return response;
 }

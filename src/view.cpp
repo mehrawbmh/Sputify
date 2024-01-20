@@ -253,7 +253,7 @@ string View::showMusicDetail(Music* music, Database* db) {
 
 string View::showMusicsList(const vector<Music*>& musics, bool isOwner, string playlistName) {
     if (musics.empty()) {
-        return RESOPNSE_201_NO_RESOPNSE + "\n";
+        return RESOPNSE_201_NO_RESOPNSE + "<br>";
     }
 
     string response;

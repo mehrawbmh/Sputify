@@ -246,3 +246,11 @@ Response* DeletePlaylistHandler::callback(Request* req) {
     string name = req->getQueryParam("name");
     return control.deletePlaylist(name);
 }
+
+MusicListHandler::MusicListHandler(Database* _db): db(_db) {}
+
+Response* MusicListHandler::callback(Request* req) {
+    this->db->handleCurrentUserBySession(req->getSessionId());
+    MusicsController control(this->db);
+    return control.getAllMusics();
+}

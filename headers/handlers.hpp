@@ -142,4 +142,13 @@ public:
     Response* callback(Request*);
 };
 
+class MusicListHandler: public RequestHandler {
+private:
+    Database* db;
+
+public:
+    MusicListHandler(Database*);
+    Response* callback(Request*);
+};
+
 #endif // SPUTIFY_HANDLERS_HPP
