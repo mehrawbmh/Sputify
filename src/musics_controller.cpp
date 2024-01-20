@@ -25,7 +25,7 @@ Response* MusicsController::getOneMusic(int id) {
 
     Response* response = new Response();
     response->setHeader("Content-Type", "text/html");
-    response->setBody(view.showMusicDetail(model.getOneMusic(id)));
+    response->setBody(view.showMusicDetail(model.getOneMusic(id), this->db));
     return response;
 }
 
@@ -50,8 +50,16 @@ Response* MusicsController::createPlaylist(string name) {
     return response;
 }
 
-void MusicsController::addMusicToPlaylist(int songId, string playlistName) {
-    cout << view.showResponse(model.addMusicToPlaylist(songId, playlistName)) << endl;
+Response* MusicsController::addMusicToPlaylist(int songId, string playlistName) {
+    int status = model.addMusicToPlaylist(songId, playlistName);
+    Response* response = new Response(status);
+    response->setHeader("Content-Type", "application/json");
+    
+    string message = "[{message: " + view.showResponse(status) + " }";
+    message += "{status: " + to_string(status) + " }]";
+    
+    response->setBody(message);
+    return response;
 }
 
 void MusicsController::deleteMusic(const int &songId) {

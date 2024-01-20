@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 #include "../headers/client_exception.hpp"
+#include "../headers/unique_exception.hpp"
 #include "../headers/view.hpp"
 
 using namespace std;
@@ -47,6 +48,9 @@ int MusicsModel::createPlaylist(string title) {
     try {
         this->db->addPlaylist(new PlayList(title, this->db->getCurrentUser()->getId()));
     } catch (logic_error &err) {
+        return STATUS_400_BAD_REQUEST;
+    } catch (UniqueException &uex) {
+        cout << uex.what() << endl;
         return STATUS_400_BAD_REQUEST;
     }
 

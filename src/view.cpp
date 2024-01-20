@@ -217,14 +217,26 @@ string View::getMusicDetail(Music* music) {
     return response;
 }
 
-string View::showMusicDetail(Music* music) {
+string View::showMusicDetail(Music* music, Database* db) {
     if (music == nullptr) {
         return RESOPNSE_404_NOT_FOUND;
     }
 
-    string response = "ID, Name, Artist, Year, Album, Tags, Duration <br><br>";
-    response += this->getMusicDetail(music);
-    return getMusicHtmlPage(music->getPath(), response); 
+    string detail = "ID, Name, Artist, Year, Album, Tags, Duration <br><br>";
+    detail += "<p> " + this->getMusicDetail(music) + "</p>";
+    
+    auto user = db->getCurrentUser();
+    if (user && user->canCreatePlayList()) {
+        for (PlayList* pl: db->getUserPlayList(user->getId())) {
+            if (std::find(pl->getSongs().begin(), pl->getSongs().end(), music) == pl->getSongs().end()) {
+                detail += "<form method='post' action='/add-to-playlist?musicId=" + to_string(music->getId()) + "&playlistName=" + pl->getTitle() +
+                        "'> <input type='submit' value='add to " + pl->getTitle() + " playlist '"
+                        "style='display: block; width: 50%; padding: 10px;'> </form> <br> <br>";
+            }
+        }
+    }
+    
+    return getMusicHtmlPage(music->getPath(), detail); 
 }
 
 string View::showMusicsList(const vector<Music*>& musics) {

@@ -31,7 +31,7 @@ public:
 
     Response* createPlaylist(string name);
 
-    void addMusicToPlaylist(int songId, string playlistName);
+    Response* addMusicToPlaylist(int songId, string playlistName);
 
     void deleteMusic(const int &songId);
 

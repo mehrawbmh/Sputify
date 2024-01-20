@@ -50,7 +50,7 @@ public:
 
     string showUsersList(vector<BaseUser*> users, Database* db);
 
-    string showMusicDetail(Music* music);
+    string showMusicDetail(Music* music, Database* db);
 
     string showMusicsList(const vector<Music*>& musics);
 

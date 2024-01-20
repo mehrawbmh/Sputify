@@ -99,4 +99,13 @@ public:
     Response* callback(Request*);
 };
 
+class AddMusicToPlaylistHandlder: public RequestHandler {
+private:
+    Database* db;
+
+public:
+    AddMusicToPlaylistHandlder(Database*);
+    Response* callback(Request*);
+};
+
 #endif // SPUTIFY_HANDLERS_HPP
