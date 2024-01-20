@@ -10,6 +10,7 @@
 *.txt
 *.list
 
+static/*.m4a
 APHTTP/
 .template/
 .idea/
