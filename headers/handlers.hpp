@@ -88,6 +88,15 @@ public:
     std::map<string, string> handle(Request* req);
 };
 
+class HomeHandler: public TemplateHandler {
+private:
+    Database* db;
+
+public:
+    HomeHandler(string filePath, Database* db);
+    std::map<string, string> handle(Request* req);
+};
+
 class ArtistMusicListHandler: public RequestHandler {
 private:
     Database* db;

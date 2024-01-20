@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AP HTTP</title>
+</head>
+
+<body style="text-align: center;">
+  <h1>Sputify</h1>
+  <div style="position: relative; height: 0;">
+    <a href="/">
+      <img src="/home.png" alt="Home Logo" style="position: sticky; top: 0; width: 50px; left: 0; right: auto; margin-right: 10px">
+    </a>
+    <a href="/logout">
+      <img src="/quit.png" alt="Logout" style="position: sticky; top: 0; width: 50px; right: 0; left: auto; margin-right: 10px;">
+    </a>
+  </div>
+
+  <div style="margin: 30px; padding: 40px;">
+    <p> Welcome to the sputify. here are short links to start exploring:</p>
+
+    <%
+        if (context["mode"] == "anon") {
+    %>
+    <a style='font-size: larger; margin: auto; color: blueviolet;' href="/signup">Go to signup page</a> <br>
+    <a style='font-size: larger; margin: auto; color: blueviolet;' href="/login">Go to login page</a> <br>
+    <%
+        }
+    %>
+
+    <%
+        if (context["mode"] == "artist") {
+    %>    
+    <a style='font-size: larger; margin: auto; color: blueviolet;' href="/my-musics">View your musics list</a> <br>
+    <a style='font-size: larger; margin: auto; color: blueviolet;' href="/add-music">Add new music</a> <br>
+    <%
+        }
+    %>
+
+    <%
+        if (context["mode"] == "user") {
+    %>    
+    <a style='font-size: larger; margin: auto; color: blueviolet;' href="add-playlist">Add new playlist</a> <br>
+    <a style='font-size: larger; margin: auto; color: blueviolet;' href="my-playlists">View your playlists</a> <br>
+    <%
+        }
+    %>
+
+    <%
+        if (context["mode"] == "user" || context["mode"] == "artist") {
+    %>    
+    <a style='font-size: larger; margin: auto; color: blueviolet;' href="musics">Explore musics</a> <br>
+    <a style='font-size: larger; margin: auto; color: blueviolet;' href="/users"> See All users</a> <br>
+    <%
+        }
+    %>
+  
+</div>
+</body>
+
+</html>

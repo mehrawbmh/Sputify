@@ -4,7 +4,7 @@ Sputify::Sputify(Database* database): db(database) {}
 
 void Sputify::mapRoutes(Server& server) {
     server.setNotFoundErrPage("static/404.html");
-    server.get("/", new ShowPage("static/home.html"));
+    server.get("/", new HomeHandler("template/home.html", this->db));
     server.get("/home.png", new ShowImage("static/sputify.png"));
     server.get("/user.jpg", new ShowImage("static/user.jpg"));
     server.get("/quit.png", new ShowImage("static/quit.png"));

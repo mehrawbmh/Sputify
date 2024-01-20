@@ -137,6 +137,15 @@ Response* PlaylistDetailHandler::callback(Request* req) {
     return control.getPlayList(this->db->getCurrentUser()->getId(), playlistName);
 }
 
+HomeHandler::HomeHandler(string filePath, Database* _db): TemplateHandler(filePath), db(_db) {}
+
+map<string, string> HomeHandler::handle(Request* req) {
+    this->db->handleCurrentUserBySession(req->getSessionId());
+    map<string, string> context;
+    context["mode"] = (this->db->getCurrentUser() == nullptr) ? "anon" : (this->db->getCurrentUser()->canCreatePlayList()) ? "user" : "artist";
+    return context;
+}
+
 UploadMusicHandler::UploadMusicHandler(string filePath, Database* _db, Server* _server) : TemplateHandler(filePath), db(_db), server(_server) {}
 
 map<string, string> UploadMusicHandler::handle(Request* req) {
